@@ -1,0 +1,1 @@
+curl https://installama.sh | sh
