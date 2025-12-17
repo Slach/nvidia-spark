@@ -1,5 +1,5 @@
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-mkdir -p ~/src/github.com/ggml-org/llama.cpp
+mkdir -p ~/src/github.com/vllm-project/vllm
 git clone git@github.com:vllm-project/vllm.git ~/src/github.com/vllm-project/vllm
 # export VLLM_RELEASE=$(curl -sL -H "Accept: application/json" https://github.com/vllm-project/vllm/releases/latest | jq -c -r .tag_name)
 # wait when 0.13.x released

@@ -1,0 +1,11 @@
+services:
+  llama.cpp:
+    image: "llama.cpp:spark-full"
+    volumes:
+      - ~/.cache:/root/.cache
+      - ./llama.cpp.models.ini:/etc/llama.cpp/config.ini
+    command: 
+      - --server
+      - --models-max 1
+      - --models-preset 
+      - /etc/llama.cpp/config.ini
