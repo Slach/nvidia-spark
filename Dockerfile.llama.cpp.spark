@@ -38,6 +38,8 @@ RUN mkdir -p /app/full \
 ## Base image
 FROM ${BASE_CUDA_RUN_CONTAINER} AS base
 
+ENV LD_LIBRARY_PATH=/usr/local/cuda-13/compat
+
 RUN apt-get update \
     && apt-get install -y libgomp1 curl\
     && apt autoremove -y \

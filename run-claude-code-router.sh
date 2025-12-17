@@ -1,10 +1,11 @@
 #!/bin/bash
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-if [[ command -v bun ]]; then 
+if command -v bun >/dev/null 2>&1; then
     bun upgrade
 else 
     curl -fsSL https://bun.sh/install | bash
+    sudo ln -sf $(which bun) /usr/local/bin/node
 fi 
 
 source "${CUR_DIR}/.env"
@@ -19,7 +20,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "name": "llama.cpp",
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
       "api_key": "llama.cpp",
-      "models": ["nortex/MiniMax-M2",""]
+      "models": ["noctrex/MiniMax-M2-139B","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
     },
     {
       "name": "openrouter",
@@ -33,6 +34,7 @@ cat <<EOT > ~/.claude-code-router/config.json
         "qwen/qwen3-coder:exacto",
         "moonshotai/kimi-k2-0905:exacto",
         "deepseek/deepseek-v3.2-speciale",
+        "perplexity/sonar",
       ],
       "transformer": {
         "use": ["openrouter"]
@@ -52,12 +54,16 @@ cat <<EOT > ~/.claude-code-router/config.json
     }
   ],
   "Router": {
-    "default": "llama.cpp,deepseek-chat",
-    "background": "ollama,qwen2.5-coder:latest",
-    "think": "deepseek,deepseek-reasoner",
-    "longContext": "openrouter,google/gemini-2.5-pro-preview",
-    "longContextThreshold": 60000,
-    "webSearch": "gemini,gemini-2.5-flash"
+    "default": "llama.cpp,noctrex/MiniMax-M2-139B",
+    "background": "llama.cpp,noctrex/MiniMax-M2-139B",
+    "think": "openrouter,x-ai/grok-4.1-fast",
+    "longContext": "openrouter,x-ai/grok-4.1-fast",
+    "longContextThreshold": 98304,
+    "webSearch": "openrouter,perplexity/sonar"
   }
 }
 EOT
+
+bun install -g @anthropic-ai/claude-code
+bun install -g @musistudio/claude-code-router
+ccr "${@}"
