@@ -1,12 +1,7 @@
 #!/bin/bash
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-if command -v bun >/dev/null 2>&1; then
-    bun upgrade
-else 
-    curl -fsSL https://bun.sh/install | bash
-    sudo ln -sf $(which bun) /usr/local/bin/node
-fi 
+bash "$CUR_DIR/install-bun.sh"
 
 source "${CUR_DIR}/.env"
 mkdir -p ~/.claude-code-router
@@ -54,8 +49,8 @@ cat <<EOT > ~/.claude-code-router/config.json
     }
   ],
   "Router": {
-    "default": "llama.cpp,noctrex/MiniMax-M2-139B",
-    "background": "llama.cpp,noctrex/MiniMax-M2-139B",
+    "default": "llama.cpp,noctrex/Qwen3-Next-80B",
+    "background": "llama.cpp,noctrex/Qwen3-Next-80B",
     "think": "openrouter,x-ai/grok-4.1-fast",
     "longContext": "openrouter,x-ai/grok-4.1-fast",
     "longContextThreshold": 98304,
