@@ -60,8 +60,9 @@ cat <<EOT > ~/.claude-code-router/config.json
 }
 EOT
 
-bun install -g @anthropic-ai/claude-code
-bun install -g @musistudio/claude-code-router
+bun install -g @qwen-code/qwen-code@latest
+bun install -g @anthropic-ai/claude-code@latest
+bun install -g @musistudio/claude-code-router@latest
 
 if screen -list | grep -q "ccr-server"; then
   ccr stop
