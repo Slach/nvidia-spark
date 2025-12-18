@@ -56,8 +56,8 @@ cat <<EOT > ~/.local/share/vibe-kanban/config.json
   "github": {
     "pat": null,
     "oauth_token": null,
-    "username": "${}",
-    "primary_email": "bloodjazman@gmail.com",
+    "username": "${GITHUB_USER}",
+    "primary_email": "${GITHUB_EMAIL}",
     "default_pr_base": "main"
   },
   "analytics_enabled": true,
@@ -82,7 +82,5 @@ if screen -list | grep -q "vibe-kanban"; then
   screen -S vibe-kanban -X quit
 fi
 
-screen -L -Logfile /tmp/vibe-kanban.log -dmS bash -c "PORT=8888 bunx vibe-kanban@latest"
+screen -L -Logfile /tmp/vibe-kanban.log -dmS vibe-kanban bash -c "PORT=8888 bunx vibe-kanban@latest"
 screen -list
-
-
