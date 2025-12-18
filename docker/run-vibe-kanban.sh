@@ -3,8 +3,8 @@
 set -e
 
 # Source environment variables if available
-if [ -f /root/.env ]; then
-  source /root/.env
+if [ -f /root/src/github.com/Slach/nvidia-spark/.env ]; then
+  source /root/src/github.com/Slach/nvidia-spark/.env
 fi
 
 # Wait for llama.cpp service to be available
@@ -26,13 +26,46 @@ cat <<EOT > /root/.claude-code-router/config.json
       "api_base_url": "http://llama.cpp:8090/v1/chat/completions",
       "api_key": "llama.cpp",
       "models": ["noctrex/MiniMax-M2-139B","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
+    },
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+      "api_key": "${OPENROUTER_API_KEY}",
+      "models": [
+        "google/gemini-3-pro-preview",
+        "anthropic/claude-sonnet-4.5",
+        "x-ai/grok-4.1-fast",
+        "qwen/qwen-plus-2025-07-28",
+        "qwen/qwen3-coder:exacto",
+        "moonshotai/kimi-k2-0905:exacto",
+        "deepseek/deepseek-v3.2-speciale",
+        "perplexity/sonar",
+      ],
+      "transformer": {
+        "use": ["openrouter"]
+      }
+    },
+    {
+      "name": "deepseek",
+      "api_base_url": "https://api.deepseek.com/chat/completions",
+      "api_key": "${DEEPSEEK_API_KEY}",
+      "models": ["deepseek-chat", "deepseek-reasoner"],
+      "transformer": {
+        "use": ["deepseek"],
+        "deepseek-chat": {
+          "use": ["tooluse"]
+        }
+      }
     }
   ],
   "Router": {
     "default": "llama.cpp,noctrex/Qwen3-Next-80B",
-    "background": "llama.cpp,noctrex/Qwen3-Next-80B"
+    "background": "llama.cpp,noctrex/Qwen3-Next-80B",
+    "think": "openrouter,x-ai/grok-4.1-fast",
+    "longContext": "openrouter,x-ai/grok-4.1-fast",
+    "longContextThreshold": 98304,
+    "webSearch": "openrouter,perplexity/sonar"
   }
-}
 EOT
 
 # Create Vibe Kanban config
