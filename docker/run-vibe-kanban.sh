@@ -163,5 +163,5 @@ screen -L -Logfile /tmp/vibe-kanban.log -dmS vibe-kanban bash -c "PORT=8888 bunx
 # Show active screens
 screen -list
 
-# Keep container running
-tail -f /dev/null
+# Keep container running and monitor logs
+tail -f /tmp/ccr-server.log /tmp/vibe-kanban.log
