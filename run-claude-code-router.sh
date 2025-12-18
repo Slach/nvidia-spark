@@ -2,14 +2,15 @@
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 bash "$CUR_DIR/install-bun.sh"
+docker compose -f "$CUR_DIR/docker-compose.yaml" up -d llama.cpp
 
 source "${CUR_DIR}/.env"
 mkdir -p ~/.claude-code-router
 cat <<EOT > ~/.claude-code-router/config.json 
 {
-  "LOG": true,
+  "LOG": false,
   "API_TIMEOUT_MS": 600000,
-  "NON_INTERACTIVE_MODE": true,
+  "NON_INTERACTIVE_MODE": false,
   "Providers": [
     {
       "name": "llama.cpp",
@@ -61,4 +62,12 @@ EOT
 
 bun install -g @anthropic-ai/claude-code
 bun install -g @musistudio/claude-code-router
-ccr "${@}"
+
+if screen -list | grep -q "ccr-server"; then
+  ccr stop
+  sleep 2
+  screen -S ccr-server -X quit
+fi
+
+screen -L -Logfile /tmp/ccr-server.log -dmS ccr-server ccr start
+screen -list

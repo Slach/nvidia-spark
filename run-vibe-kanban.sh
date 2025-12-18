@@ -2,4 +2,87 @@
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 docker compose -f "${CUR_DIR}/docker-compose.yaml" up -d llama.cpp
 bash "$CUR_DIR/install-bun.sh"
-npx vibe-kanban@latest
+source "$CUR_DIR/.env"
+
+cat <<EOT > ~/.local/share/vibe-kanban/profiles.json
+{
+  "executors": {
+    "CLAUDE_CODE": {
+      "DEFAULT": {
+        "CLAUDE_CODE": {
+          "append_prompt": null,
+          "claude_code_router": true,
+          "plan": false,
+          "approvals": true,
+          "dangerously_skip_permissions": true,
+          "disable_api_key": true,
+          "base_command_override": "bunx --bun @musistudio/claude-code-router@latest code"
+        }
+      }
+    },
+    "QWEN_CODE": {
+      "DEFAULT": {
+        "QWEN_CODE": {
+          "append_prompt": null,
+          "yolo": true,
+          "base_command_override": "bunx @qwen-code/qwen-code@latest"
+        }
+      }
+    }
+  }
+}
+EOT
+
+cat <<EOT > ~/.local/share/vibe-kanban/config.json
+{
+  "config_version": "v8",
+  "theme": "DARK",
+  "executor_profile": {
+    "executor": "CLAUDE_CODE"
+  },
+  "disclaimer_acknowledged": true,
+  "onboarding_acknowledged": true,
+  "notifications": {
+    "sound_enabled": true,
+    "push_enabled": true,
+    "sound_file": "COW_MOOING"
+  },
+  "editor": {
+    "editor_type": "VS_CODE",
+    "custom_command": null,
+    "remote_ssh_host": null,
+    "remote_ssh_user": null
+  },
+  "github": {
+    "pat": null,
+    "oauth_token": null,
+    "username": "${}",
+    "primary_email": "bloodjazman@gmail.com",
+    "default_pr_base": "main"
+  },
+  "analytics_enabled": true,
+  "workspace_dir": null,
+  "last_app_version": "0.0.137",
+  "show_release_notes": false,
+  "language": "BROWSER",
+  "git_branch_prefix": "vk",
+  "showcases": {
+    "seen_features": [
+      "task-panel-onboarding"
+    ]
+  },
+  "pr_auto_description_enabled": true,
+  "pr_auto_description_prompt": null
+}
+EOT
+
+if screen -list | grep -q "vibe-kanban"; then
+  ccr stop
+  sleep 2
+  screen -S vibe-kanban -X quit
+fi
+
+screen -L -Logfile /tmp/vibe-kanban.log -dmS bash -c "PORT=8888 bunx vibe-kanban@latest"
+screen -list
+
+
