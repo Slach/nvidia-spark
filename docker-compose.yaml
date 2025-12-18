@@ -30,10 +30,10 @@ services:
       - spark-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 10s
 
   vibe-kanban:
     build:
@@ -53,10 +53,10 @@ services:
       - HOME=/root
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 10s
 
 networks:
   spark-network:
