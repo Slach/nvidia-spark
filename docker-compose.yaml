@@ -1,5 +1,8 @@
 services:
   llama.cpp:
+    build:
+      context: .
+      dockerfile: Dockerfile.llama.cpp.spark
     image: "llama.cpp:spark-full"
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface:ro
@@ -23,4 +26,27 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
+    networks:
+      - spark-network
+
+  vibe-kanban:
+    build:
+      context: .
+      dockerfile: Dockerfile.vibe-kanban
+    image: vibe-kanban:spark
+    depends_on:
+      - llama.cpp
+    volumes:
+      - ${HOME}:/root/
+    ports:
+      - "8888:8888"
+    networks:
+      - spark-network
+    environment:
+      - DISPLAY=${DISPLAY}
+      - HOME=/root
+
+networks:
+  spark-network:
+    driver: bridge
     

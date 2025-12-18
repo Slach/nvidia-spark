@@ -1,0 +1,27 @@
+FROM docker.io/oven/bun:latest
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    screen \
+    curl \
+    git \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create necessary directories
+RUN mkdir -p /root/.claude-code-router \
+    /root/.local/share/vibe-kanban \
+    && mkdir -p /app
+
+WORKDIR /app
+
+# Install bun packages globally
+RUN bun install -g @anthropic-ai/claude-code @musistudio/claude-code-router vibe-kanban@latest
+
+# Copy startup script
+COPY docker/run-vibe-kanban.sh /startup.sh
+RUN chmod +x /startup.sh
+
+EXPOSE 8888
+
+CMD ["/startup.sh"]
