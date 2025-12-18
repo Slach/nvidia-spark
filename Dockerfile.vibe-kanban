@@ -1,0 +1,162 @@
+FROM docker.io/oven/bun:latest
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    screen \
+    curl \
+    git \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create necessary directories
+RUN mkdir -p /root/.claude-code-router \
+    /root/.local/share/vibe-kanban \
+    && mkdir -p /app
+
+WORKDIR /app
+
+# Install bun packages globally
+RUN bun install -g @anthropic-ai/claude-code @musistudio/claude-code-router vibe-kanban@latest
+
+# Create startup script
+RUN echo '#!/bin/bash\n\
+\n\
+set -e\n\
+\n\
+# Source environment variables if available\n\
+if [ -f /root/.env ]; then\n\
+  source /root/.env\n\
+fi\n\
+\n\
+# Wait for llama.cpp service to be available\n\
+echo "Waiting for llama.cpp service..." \\\n\
+while ! nc -z llama.cpp 8090; do\n\
+  sleep 1\n\
+done\n\
+echo "llama.cpp service is available"\n\
+\n\
+# Create Claude Code Router config\n\
+cat <<EOT > /root/.claude-code-router/config.json\n\
+{\n\
+  "LOG": false,\n\
+  "API_TIMEOUT_MS": 600000,\n\
+  "NON_INTERACTIVE_MODE": false,\n\
+  "Providers": [\n\
+    {\n\
+      "name": "llama.cpp",\n\
+      "api_base_url": "http://llama.cpp:8090/v1/chat/completions",\n\
+      "api_key": "llama.cpp",\n\
+      "models": ["noctrex/MiniMax-M2-139B","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]\n\
+    }\n\
+  ],\n\
+  "Router": {\n\
+    "default": "llama.cpp,noctrex/Qwen3-Next-80B",\n\
+    "background": "llama.cpp,noctrex/Qwen3-Next-80B"\n\
+  }\n\
+}\n\
+EOT\n\
+\n\
+# Create Vibe Kanban config\n\
+cat <<EOT > /root/.local/share/vibe-kanban/profiles.json\n\
+{\n\
+  "executors": {\n\
+    "CLAUDE_CODE": {\n\
+      "DEFAULT": {\n\
+        "CLAUDE_CODE": {\n\
+          "append_prompt": null,\n\
+          "claude_code_router": true,\n\
+          "plan": false,\n\
+          "approvals": true,\n\
+          "dangerously_skip_permissions": true,\n\
+          "disable_api_key": true,\n\
+          "base_command_override": "bunx --bun @musistudio/claude-code-router@latest code"\n\
+        }\n\
+      }\n\
+    },\n\
+    "QWEN_CODE": {\n\
+      "DEFAULT": {\n\
+        "QWEN_CODE": {\n\
+          "append_prompt": null,\n\
+          "yolo": true,\n\
+          "base_command_override": "bunx @qwen-code/qwen-code@latest"\n\
+        }\n\
+      }\n\
+    }\n\
+  }\n\
+}\n\
+EOT\n\
+\n\
+cat <<EOT > /root/.local/share/vibe-kanban/config.json\n\
+{\n\
+  "config_version": "v8",\n\
+  "theme": "DARK",\n\
+  "executor_profile": {\n\
+    "executor": "CLAUDE_CODE"\n\
+  },\n\
+  "disclaimer_acknowledged": true,\n\
+  "onboarding_acknowledged": true,\n\
+  "notifications": {\n\
+    "sound_enabled": true,\n\
+    "push_enabled": true,\n\
+    "sound_file": "COW_MOOING"\n\
+  },\n\
+  "editor": {\n\
+    "editor_type": "VS_CODE",\n\
+    "custom_command": null,\n\
+    "remote_ssh_host": null,\n\
+    "remote_ssh_user": null\n\
+  },\n\
+  "github": {\n\
+    "pat": null,\n\
+    "oauth_token": null,\n\
+    "username": "${GITHUB_USER:-}",\n\
+    "primary_email": "${GITHUB_EMAIL:-}",\n\
+    "default_pr_base": "main"\n\
+  },\n\
+  "analytics_enabled": true,\n\
+  "workspace_dir": null,\n\
+  "last_app_version": "0.0.137",\n\
+  "show_release_notes": false,\n\
+  "language": "BROWSER",\n\
+  "git_branch_prefix": "vk",\n\
+  "showcases": {\n\
+    "seen_features": [\n\
+      "task-panel-onboarding"\n\
+    ]\n\
+  },\n\
+  "pr_auto_description_enabled": true,\n\
+  "pr_auto_description_prompt": null\n\
+}\n\
+EOT\n\
+\n\
+# Kill existing screens if they exist\n\
+if screen -list | grep -q "ccr-server"; then\n\
+  ccr stop 2>/dev/null || true\n\
+  sleep 2\n\
+  screen -S ccr-server -X quit 2>/dev/null || true\n\
+fi\n\
+\n\
+if screen -list | grep -q "vibe-kanban"; then\n\
+  ccr stop 2>/dev/null || true\n\
+  sleep 2\n\
+  screen -S vibe-kanban -X quit 2>/dev/null || true\n\
+fi\n\
+\n\
+# Start Claude Code Router in screen\n\
+screen -L -Logfile /tmp/ccr-server.log -dmS ccr-server ccr start\n\
+\n\
+# Start Vibe Kanban in screen on port 8888\n\
+screen -L -Logfile /tmp/vibe-kanban.log -dmS vibe-kanban bash -c "PORT=8888 bunx vibe-kanban@latest"\n\
+\n\
+# Show active screens\n\
+screen -list\n\
+\n\
+# Keep container running\n\
+tail -f /dev/null\n\
+' > /startup.sh
+
+RUN chmod +x /startup.sh
+
+EXPOSE 8888
+
+CMD ["/startup.sh"]

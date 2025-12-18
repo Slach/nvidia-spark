@@ -23,4 +23,25 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
+
+  vibe-kanban:
+    build:
+      context: .
+      dockerfile: Dockerfile.vibe-kanban
+    image: vibe-kanban:spark
+    depends_on:
+      - llama.cpp
+    volumes:
+      - ${HOME}:/root/
+    ports:
+      - "8888:8888"
+    networks:
+      - spark-network
+    environment:
+      - DISPLAY=${DISPLAY}
+      - HOME=/root
+
+networks:
+  spark-network:
+    driver: bridge
     
