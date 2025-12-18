@@ -1,5 +1,8 @@
 services:
   llama.cpp:
+    build:
+      context: .
+      dockerfile: Dockerfile.llama.cpp.spark
     image: "llama.cpp:spark-full"
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface:ro
