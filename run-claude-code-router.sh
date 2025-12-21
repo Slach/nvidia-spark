@@ -1,10 +1,10 @@
 #!/bin/bash
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+source "${CUR_DIR}/.env"
 
 bash "$CUR_DIR/install-bun.sh"
-docker compose -f "$CUR_DIR/docker-compose.yaml" up -d llama.cpp
+docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
 
-source "${CUR_DIR}/.env"
 mkdir -p ~/.claude-code-router
 cat <<EOT > ~/.claude-code-router/config.json 
 {
