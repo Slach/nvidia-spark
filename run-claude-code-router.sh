@@ -6,12 +6,18 @@ bash "$CUR_DIR/install-bun.sh"
 docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
 
 mkdir -p ~/.claude-code-router
-cat <<EOT > ~/.claude-code-router/config.json 
+cat <<EOT > ~/.claude-code-router/config.json
 {
   "LOG": false,
   "API_TIMEOUT_MS": 600000,
   "NON_INTERACTIVE_MODE": false,
   "Providers": [
+    {
+      "name": "max-inference",
+      "api_base_url": "http://127.0.0.1:8100/v1/chat/completions",
+      "api_key": "EMPTY",
+      "models": ["noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"]
+    },
     {
       "name": "llama.cpp",
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
@@ -50,8 +56,8 @@ cat <<EOT > ~/.claude-code-router/config.json
     }
   ],
   "Router": {
-    "default": "llama.cpp,noctrex/Qwen3-Next-80B",
-    "background": "llama.cpp,noctrex/Qwen3-Next-80B",
+    "default": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}",
+    "background": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_BACKGROUND_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}}",
     "think": "openrouter,x-ai/grok-4.1-fast",
     "longContext": "openrouter,x-ai/grok-4.1-fast",
     "longContextThreshold": 98304,

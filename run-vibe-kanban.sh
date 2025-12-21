@@ -60,7 +60,7 @@ cat <<EOT > ~/.local/share/vibe-kanban/config.json
     "primary_email": "${GITHUB_EMAIL}",
     "default_pr_base": "main"
   },
-  "analytics_enabled": true,
+  "analytics_enabled": false,
   "workspace_dir": null,
   "last_app_version": "0.0.137",
   "show_release_notes": false,

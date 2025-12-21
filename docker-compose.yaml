@@ -75,6 +75,7 @@ services:
     image: vibe-kanban:spark
     volumes:
       - ${HOME}:/root/
+      - /tmp:/tmp
     ports:
       - "8888:8888"
     networks:

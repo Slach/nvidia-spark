@@ -2,9 +2,6 @@
 
 set -e
 
-# Set default model values
-DEFAULT_MODEL="noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"
-
 # Source environment variables if available
 if [ -f /root/src/github.com/Slach/nvidia-spark/.env ]; then
   source /root/src/github.com/Slach/nvidia-spark/.env
@@ -33,9 +30,9 @@ cat <<EOT > /root/.claude-code-router/config.json
   "Providers": [
     {
       "name": "max-inference",
-      "api_base_url": "${AGENT_HTTP_ENDPOINT:-http://max-inference:8100/v1/chat/completions}",
+      "api_base_url": "http://max-inference:8100/v1/chat/completions",
       "api_key": "EMPTY",
-      "models": ["${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
+      "models": ["noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"]
     },
     {
       "name": "llama.cpp",
@@ -76,7 +73,7 @@ cat <<EOT > /root/.claude-code-router/config.json
   ],
   "Router": {
     "default": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}",
-    "background": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_BACKGROUND_MODEL:-${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}}",
+    "background": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_BACKGROUND_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}}",
     "think": "openrouter,x-ai/grok-4.1-fast",
     "longContext": "openrouter,x-ai/grok-4.1-fast",
     "longContextThreshold": 98304,
@@ -99,7 +96,18 @@ cat <<EOT > /root/.local/share/vibe-kanban/profiles.json
           "disable_api_key": true,
           "base_command_override": "bunx --bun @musistudio/claude-code-router@latest code"
         }
-      }
+      },
+      "PLAN": {
+        "CLAUDE_CODE": {
+          "append_prompt": null,
+          "claude_code_router": true,
+          "plan": true,
+          "approvals": true,
+          "dangerously_skip_permissions": true,
+          "disable_api_key": true,
+          "base_command_override": "bunx --bun @musistudio/claude-code-router@latest code"
+        }
+      },
     },
     "QWEN_CODE": {
       "DEFAULT": {
@@ -141,9 +149,8 @@ cat <<EOT > /root/.local/share/vibe-kanban/config.json
     "primary_email": "${GITHUB_EMAIL:-}",
     "default_pr_base": "main"
   },
-  "analytics_enabled": true,
+  "analytics_enabled": false,
   "workspace_dir": null,
-  "last_app_version": "0.0.137",
   "show_release_notes": false,
   "language": "BROWSER",
   "git_branch_prefix": "vk",
