@@ -1,5 +1,5 @@
 FROM docker.io/oven/bun:latest
-п
+
 # Install system dependencies
 # @todo think about how to pass credentials, currently need local run `gh auth login --web --git-protocol` and $HOME:/root/:ro mounts
 RUN mkdir -p -m 755 /etc/apt/keyrings && \
