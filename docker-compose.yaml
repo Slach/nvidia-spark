@@ -1,4 +1,37 @@
 services:
+  max-inference:
+    image: modular/max-nvidia-full:latest
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface:ro
+    command:
+      - max
+      - serve
+      - --model
+      - noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8100"
+    ports:
+      - "127.0.0.1:8100:8100"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    networks:
+      - spark-network
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
   llama.cpp:
     build:
       context: .
@@ -40,8 +73,6 @@ services:
       context: .
       dockerfile: Dockerfile.vibe-kanban
     image: vibe-kanban:spark
-    depends_on:
-      - llama.cpp
     volumes:
       - ${HOME}:/root/
     ports:
@@ -51,6 +82,8 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
       - HOME=/root
+      - AGENT_MAIN_MODEL=noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
+      - AGENT_INFERENCE_SERVER=max-inference
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
       interval: 60s

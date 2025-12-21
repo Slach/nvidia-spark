@@ -2,17 +2,27 @@
 
 set -e
 
+# Set default model values
+DEFAULT_MODEL="noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"
+
 # Source environment variables if available
 if [ -f /root/src/github.com/Slach/nvidia-spark/.env ]; then
   source /root/src/github.com/Slach/nvidia-spark/.env
 fi
 
-# Wait for llama.cpp service to be available
-echo "Waiting for llama.cpp service... "
-while ! nc -z llama.cpp 8090; do
+# Wait for the selected inference service to be available
+SERVICE_HOST="${AGENT_INFERENCE_SERVER:-max-inference}"
+SERVICE_PORT="8100"
+
+if [ "$SERVICE_HOST" = "llama.cpp" ]; then
+  SERVICE_PORT="8090"
+fi
+
+echo "Waiting for $SERVICE_HOST service... "
+while ! nc -z "$SERVICE_HOST" "$SERVICE_PORT"; do
   sleep 1
 done
-echo "llama.cpp service is available"
+echo "$SERVICE_HOST service is available"
 
 # Create Claude Code Router config
 cat <<EOT > /root/.claude-code-router/config.json
@@ -21,6 +31,12 @@ cat <<EOT > /root/.claude-code-router/config.json
   "API_TIMEOUT_MS": 600000,
   "NON_INTERACTIVE_MODE": false,
   "Providers": [
+    {
+      "name": "max-inference",
+      "api_base_url": "${AGENT_HTTP_ENDPOINT:-http://max-inference:8100/v1/chat/completions}",
+      "api_key": "EMPTY",
+      "models": ["${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
+    },
     {
       "name": "llama.cpp",
       "api_base_url": "http://llama.cpp:8090/v1/chat/completions",
@@ -59,8 +75,8 @@ cat <<EOT > /root/.claude-code-router/config.json
     }
   ],
   "Router": {
-    "default": "llama.cpp,noctrex/Qwen3-Next-80B",
-    "background": "llama.cpp,noctrex/Qwen3-Next-80B",
+    "default": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}",
+    "background": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_BACKGROUND_MODEL:-${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}}",
     "think": "openrouter,x-ai/grok-4.1-fast",
     "longContext": "openrouter,x-ai/grok-4.1-fast",
     "longContextThreshold": 98304,
