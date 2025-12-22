@@ -2,16 +2,14 @@ services:
   max-inference:
     image: modular/max-nvidia-full:latest
     volumes:
-      - ${HOME}/.cache/huggingface:/root/.cache/huggingface:ro
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface:rw
+      - ${HOME}/.cache/max_cache:/opt/venv/share/max/.max_cache:rw
     command:
-      - max
-      - serve
-      - --model
-      - noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
-      - --host
-      - 0.0.0.0
       - --port
       - "8100"
+      - --model
+      - Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8
+      - --trust-remote-code
     ports:
       - "127.0.0.1:8100:8100"
     deploy:

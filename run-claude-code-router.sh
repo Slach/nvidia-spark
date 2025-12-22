@@ -3,6 +3,10 @@ CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 source "${CUR_DIR}/.env"
 
 bash "$CUR_DIR/install-bun.sh"
+if [[ "max-inference" == "${AGENT_INFERENCE_SERVER}" ]]; then
+  mkdir -p ~/.cache/max_cache
+fi
+
 docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
 
 mkdir -p ~/.claude-code-router
