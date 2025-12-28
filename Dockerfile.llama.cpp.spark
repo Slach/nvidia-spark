@@ -20,7 +20,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN cmake -B build -DGGML_CUDA=ON -DLLAMA_CURL=ON -DCMAKE_CUDA_ARCHITECTURES=${CUDA_DOCKER_ARCH} && \
+RUN cmake -B build -DGGML_CUDA=ON -DLLAMA_CURL=ON -DCMAKE_CUDA_ARCHITECTURES="${CUDA_DOCKER_ARCH}" && \
     cmake --build build --config Release -j$(nproc)
 
 

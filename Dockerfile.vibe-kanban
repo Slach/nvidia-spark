@@ -24,6 +24,14 @@ WORKDIR /app
 # Install bun packages globally
 RUN bun install -g @anthropic-ai/claude-code @musistudio/claude-code-router vibe-kanban@latest
 
+RUN claude mcp add --scope user --transport http gitmcp  https://gitmcp.io/docs/
+RUN claude mcp add --scope user vibe_kanban -e PORT="${VIBE_KANBAN_PORT:-8888}"  -- bunx --bun vibe-kanban@latest --mcp
+RUN claude mcp list
+
+RUN qwen mcp add --scope user --transport http gitmcp https://gitmcp.io/docs/
+RUN qwen mcp add --scope user vibe_kanban bunx --bun vibe-kanban@latest --mcp -e PORT="${VIBE_KANBAN_PORT:-8888}"
+RUN qwen mcp list
+
 # Copy startup script
 COPY docker/run-vibe-kanban.sh /startup.sh
 RUN chmod +x /startup.sh

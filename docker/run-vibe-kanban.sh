@@ -172,8 +172,6 @@ if screen -list | grep -q "ccr-server"; then
 fi
 
 if screen -list | grep -q "vibe-kanban"; then
-  ccr stop 2>/dev/null || true
-  sleep 2
   screen -S vibe-kanban -X quit 2>/dev/null || true
 fi
 

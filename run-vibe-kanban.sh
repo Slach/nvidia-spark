@@ -13,7 +13,18 @@ cat <<EOT > ~/.local/share/vibe-kanban/profiles.json
           "append_prompt": null,
           "claude_code_router": true,
           "plan": false,
-          "approvals": true,
+          "approvals": false,
+          "dangerously_skip_permissions": true,
+          "disable_api_key": true,
+          "base_command_override": "bunx --bun @musistudio/claude-code-router@latest code"
+        }
+      },
+      "PLAN": {
+        "CLAUDE_CODE": {
+          "append_prompt": null,
+          "claude_code_router": true,
+          "plan": true,
+          "approvals": false,
           "dangerously_skip_permissions": true,
           "disable_api_key": true,
           "base_command_override": "bunx --bun @musistudio/claude-code-router@latest code"
@@ -77,8 +88,6 @@ cat <<EOT > ~/.local/share/vibe-kanban/config.json
 EOT
 
 if screen -list | grep -q "vibe-kanban"; then
-  ccr stop
-  sleep 2
   screen -S vibe-kanban -X quit
 fi
 

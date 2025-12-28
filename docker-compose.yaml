@@ -75,7 +75,7 @@ services:
       - ${HOME}:/root/
       - /tmp:/tmp
     ports:
-      - "8888:8888"
+      - "${VIBE_KANBAN_PORT:-8888}:${VIBE_KANBAN_PORT:-8888}"
     networks:
       - spark-network
     environment:

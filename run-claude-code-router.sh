@@ -74,6 +74,14 @@ bun install -g @qwen-code/qwen-code@latest
 bun install -g @anthropic-ai/claude-code@latest
 bun install -g @musistudio/claude-code-router@latest
 
+claude mcp add --scope user --transport http gitmcp  https://gitmcp.io/docs/
+claude mcp add --scope user vibe_kanban -e PORT="${VIBE_KANBAN_PORT:-8888}"  -- bunx --bun vibe-kanban@latest --mcp
+claude mcp list
+
+qwen mcp add --scope user --transport http gitmcp https://gitmcp.io/docs/
+qwen mcp add --scope user vibe_kanban bunx --bun vibe-kanban@latest --mcp -e PORT="${VIBE_KANBAN_PORT:-8888}"
+qwen mcp list
+
 if screen -list | grep -q "ccr-server"; then
   ccr stop
   sleep 2
