@@ -1,9 +1,10 @@
 # CODING MODELS
 ## for llama.cpp GGUF
+hf download --max-workers=$(nproc) cturan/IQuest-Coder-V1-40B-Instruct-GGUF --include "*Q4_K_M*"
 hf download --max-workers=$(nproc) noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/Qwen3-Next-80B-A3B-Instruct-1M-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/GLM-4.6V-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) unsloth/Devstral-2-123B-Instruct-2512-GGUF --include "*Q4_K_XL*"
+# hf download --max-workers=$(nproc) unsloth/Devstral-2-123B-Instruct-2512-GGUF --include "*Q4_K_XL*"
 hf download --max-workers=$(nproc) mradermacher/GLM-4.6-REAP-218B-A32B-Derestricted-i1-GGUF --include "*IQ2_M*"
 hf download --max-workers=$(nproc) bartowski/zai-org_GLM-4.7-GGUF --include "*IQ1_M*"
 hf download --max-workers=$(nproc) AaryanK/MiniMax-M2.1-GGUF --include="*q2_k*"
@@ -23,12 +24,13 @@ hf download --max-workers=$(nproc) ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int
 ## single GGUF can be used with vLLM + llama.cpp
 hf download --max-workers=$(nproc) noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
-
+hf download --max-workers=$(nproc) bartowski/Nanbeige_Nanbeige4-3B-Thinking-2511-GGUF --include "*Q8_0*"
 ## embedding models
 hf download --max-workers=$(nproc) endyjasmi/Qwen3-Embedding-8B-Q4_K_M-GGUF
+hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 
 ## image models ComfyUI
-hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Edit_ComfyUI --include "*2511*" --include "*2509*"
+hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Edit_ComfyUI --include "*2511_fp8*" --include "*loras*"
 hf download --max-workers=$(nproc) unsloth/Qwen-Image-Edit-2511-GGUF --include="*Q4_K_M*"
 hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Layered_ComfyUI
 hf download --max-workers=$(nproc) Comfy-Org/flux2-dev --exclude "*bf16*"

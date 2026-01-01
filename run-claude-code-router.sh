@@ -19,7 +19,7 @@ cat <<EOT > ~/.claude-code-router/config.json
     {
       "name": "max-inference",
       "api_base_url": "http://127.0.0.1:8100/v1/chat/completions",
-      "api_key": "EMPTY",
+      "api_key": "max-inference",
       "models": ["noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"]
     },
     {
