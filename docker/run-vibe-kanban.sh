@@ -45,6 +45,7 @@ cat <<EOT > /root/.claude-code-router/config.json
       "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
       "api_key": "${OPENROUTER_API_KEY}",
       "models": [
+        "google/gemini-3-flash-preview",
         "google/gemini-3-pro-preview",
         "anthropic/claude-sonnet-4.5",
         "x-ai/grok-4.1-fast",

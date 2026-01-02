@@ -7,7 +7,9 @@ if [[ "max-inference" == "${AGENT_INFERENCE_SERVER}" ]]; then
   mkdir -p ~/.cache/max_cache
 fi
 
-docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
+if [[ "openrouter" != "${AGENT_INFERENCE_SERVER}" ]]; then
+  docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
+fi 
 
 mkdir -p ~/.claude-code-router
 cat <<EOT > ~/.claude-code-router/config.json
@@ -33,6 +35,9 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
       "api_key": "${OPENROUTER_API_KEY}",
       "models": [
+        "mistralai/devstral-2512:free",
+        "xiaomi/mimo-v2-flash:free",
+        "google/gemini-3-flash-preview",
         "google/gemini-3-pro-preview",
         "anthropic/claude-sonnet-4.5",
         "x-ai/grok-4.1-fast",
@@ -60,11 +65,11 @@ cat <<EOT > ~/.claude-code-router/config.json
     }
   ],
   "Router": {
-    "default": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}",
-    "background": "${AGENT_INFERENCE_SERVER:-max-inference},${AGENT_BACKGROUND_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}}",
-    "think": "openrouter,x-ai/grok-4.1-fast",
-    "longContext": "openrouter,x-ai/grok-4.1-fast",
-    "longContextThreshold": 98304,
+    "default": "${AGENT_INFERENCE_SERVER},${AGENT_MAIN_MODEL}",
+    "background": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}}",
+    "think": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
+    "longContext": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
+    "longContextThreshold": 131072,
     "webSearch": "openrouter,perplexity/sonar"
   }
 }
