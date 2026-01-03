@@ -79,19 +79,57 @@ bun install -g @qwen-code/qwen-code@latest
 bun install -g @anthropic-ai/claude-code@latest
 bun install -g @musistudio/claude-code-router@latest
 
-claude mcp add --scope user --transport http gitmcp  https://gitmcp.io/docs/
-claude mcp add --scope user vibe_kanban -e PORT="${VIBE_KANBAN_PORT:-8888}"  -- bunx --bun vibe-kanban@latest --mcp
+
+# All MCP via NCP
+sudo mkdir -p /opt/npm-global/{bin,lib/node_modules}
+sudo chgrp users -R /opt/npm-global
+sudo chmod -R 775 /opt/npm-global
+
+npm config set prefix ~/.npm-global
+npm install -g @portel/ncp@latest
+grep -q 'npm-global' ~/.bashrc || echo 'export PATH="~/.npm-global/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+echo $PATH
+# todo wait when fix https://github.com/portel-dev/ncp/issues/11
+# bun install -g @portel/ncp
+# npm install -g @portel/ncp@latest
+
+echo "${GITHUB_TOKEN}" | gh auth login --with-token --git-protocol https
+
+
+
+# ncp add -y --token=${GITHUB_TOKEN} github
+ncp add -y gitmcp https://gitmcp.io/docs/
+ncp add -y context7 -- npx -y @upstash/context7-mcp@latest
+ncp add --env PORT="${VIBE_KANBAN_PORT:-8888}" -y vibe_kanban -- npx -y vibe-kanban@latest --mcp
+ncp list 
+
+claude mcp add --scope user ncp ncp || true
 claude mcp list
 
-qwen mcp add --scope user --transport http gitmcp https://gitmcp.io/docs/
-qwen mcp add --scope user vibe_kanban bunx --bun vibe-kanban@latest --mcp -e PORT="${VIBE_KANBAN_PORT:-8888}"
+qwen mcp add --scope user ncp ncp || true
 qwen mcp list
 
-if screen -list | grep -q "ccr-server"; then
-  ccr stop
-  sleep 2
-  screen -S ccr-server -X quit
-fi
+# ass LSP to claude code
+grep -q 'ENABLE_LSP_TOOL' ~/.bashrc || echo 'export ENABLE_LSP_TOOL=1' >> ~/.bashrc
+source ~/.bashrc
+
+
+
+uv tool install pyright@latest
+go install golang.org/x/tools/gopls@latest
+rustup component add rust-analyzer
+sudo apt install -y clangd
+bun install -g vscode-langservers-extracted
+
+claude plugin install gopls@claude-code-lsps || true
+claude plugin install vtsls@claude-code-lsps || true
+claude plugin install pyright@claude-code-lsps || true
+claude plugin install clangd@claude-code-lsps || true
+claude plugin install rust-analyzer@claude-code-lsps || true
+claude plugin install vscode-html-css@claude-code-lsps || true
+
+ccr stop || true
 
 screen -L -Logfile /tmp/ccr-server.log -dmS ccr-server ccr start
 screen -list
