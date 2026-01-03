@@ -21,7 +21,8 @@ hf download --max-workers=$(nproc) unsloth/Qwen3-Next-80B-A3B-Instruct-bnb-4bit
 hf download --max-workers=$(nproc) ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4
 hf download --max-workers=$(nproc) nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8
 hf download --max-workers=$(nproc) EssentialAI/rnj-1-instruct
-hf download --max-workers=$(nproc) ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
+# hf download --max-workers=$(nproc) ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
+hf cache rm -f ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
 
 ## single GGUF can be used with vLLM + llama.cpp
 hf download --max-workers=$(nproc) noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGUF
@@ -33,10 +34,10 @@ hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual
 
 ## image models ComfyUI
 hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Edit_ComfyUI --include "*2511_fp8*" --include "*loras*"
-hf download --max-workers=$(nproc) unsloth/Qwen-Image-Edit-2511-GGUF --include="*Q4_K_M*"
 hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Layered_ComfyUI
 hf download --max-workers=$(nproc) Comfy-Org/flux2-dev --exclude "*bf16*"
-hf download --max-workers=$(nproc) lightx2v/Qwen-Image-Edit-2511-Lightning
+hf download --max-workers=$(nproc) lightx2v/Qwen-Image-Edit-2511-Lightning --exclude "*bf16*"
+hf download --max-workers=$(nproc) unsloth/Qwen-Image-Edit-2511-GGUF --include="*Q4_K_M*"
 
 ## video+image models ComfyUI + diffusers custom nodes
 hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-I2V-Pro-distilled-5s-Diffusers
@@ -52,6 +53,7 @@ hf download --max-workers=$(nproc) lightx2v/Wan2.2-Lightning
 hf download --max-workers=$(nproc) geoffmunn/Qwen3Guard-Stream-8B --include="*Q4_K_M*"
 
 #VLM
+# long horizon text
 hf download --max-workers=$(nproc) noctrex/Jan-v2-VL-max-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/Qwen3-VL-30B-A3B-Thinking-1M-MXFP4_MOE-GGUF
 
@@ -62,7 +64,8 @@ hf download --max-workers=$(nproc) onnx-community/chatterbox-multilingual-ONNX
 hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR
 
 # small LLMs
-hf download --max-workers=$(nproc) LiquidAI/LFM2-2.6B-Exp-GGUF --include="*Q8_0*"
+hf download --max-workers=$(nproc) LiquidAI/LFM2-2.6B-Exp-GGUF --include="*Q8_0*" #edge-devices 
+hf download --max-workers=$(nproc) noctrex/rnj-1-instruct-GGUF --include="*Q8_0*" #coding
 
 # to have the same /models in all configs
 sudo mkdir -p /models

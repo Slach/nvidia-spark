@@ -11,8 +11,8 @@ This repository contains scripts and Docker configurations to help you create a 
 - Docker-based deployments for consistent environments
 - Support for various AI frameworks and models
 - Pre-configured scripts for common AI tasks
-- Optimized for NVIDIA GPU acceleration
-- Integrated Claude Code Router for AI-powered code assistance
+- Optimized for NVIDIA GB10 DGX Spark
+- Integrated Claude Code Router and qwen-code for AI-powered code assistance
 - Vibe Kanban for AI-enhanced project management
 - Docker Compose setup with health checks
 - Multiple LLM model support via llama.cpp
@@ -29,20 +29,29 @@ This repository contains scripts and Docker configurations to help you create a 
 - Support for multiple large language models including Qwen3-Next-80B, MiniMax-M2-139B, and others
 
 ## Quick Start
+### Make sure you have .env file with your API keys (see Environment Variables below)
 
 ### For Claude Code Router and Vibe Kanban setup:
 
 ```bash
-# Make sure you have .env file with your API keys (see Environment Variables below)
 ./run-claude-code-router.sh
 ```
 
 This will:
 - Install Bun (if not already installed)
 - Start the llama.cpp service via Docker Compose
-- Install Claude Code Router, Claude Code, and Vibe Kanban
+- Install Claude Code Router, Claude Code, and Qwen Code
 - Configure Claude Code Router with local and remote model providers
-- Start the Claude Code Router server
+- Start the Claude Code Router server via `screen`
+
+```bash
+./run-vibe-kanban.sh
+```
+
+This will:
+- Install Bun (if not already installed)
+- Configure Vibe Kanban to use Claude Code Router and Qwen Code
+- Start the Vibe Kanban via `screen`
 
 ### For standalone Docker Compose setup:
 
@@ -84,7 +93,7 @@ The Claude Code Router is configured with:
 
 ## Requirements
 
-- NVIDIA-compatible GPU with CUDA support
+- NVIDIA DGX Spark GB10 GPU with CUDA support
 - Docker and Docker Compose
 - NVIDIA Container Toolkit
 - Bun JavaScript runtime
