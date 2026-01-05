@@ -28,6 +28,8 @@ hf cache rm -f ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
 hf download --max-workers=$(nproc) noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
 hf download --max-workers=$(nproc) bartowski/Nanbeige_Nanbeige4-3B-Thinking-2511-GGUF --include "*Q8_0*"
+hf download --max-workers=$(nproc) mradermacher/MiroThinker-v1.5-30B-GGUF --include "*Q4_K*"
+
 ## embedding models
 hf download --max-workers=$(nproc) endyjasmi/Qwen3-Embedding-8B-Q4_K_M-GGUF
 hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2

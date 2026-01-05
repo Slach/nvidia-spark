@@ -1,9 +1,7 @@
 #!/bin/bash
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 source "$CUR_DIR/.env"
-docker compose -f "${CUR_DIR}/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER:-llama.cpp}
-bash "$CUR_DIR/install-bun.sh"
-
+bash "$CUR_DIR/run-claude-code-router.sh"
 cat <<EOT > ~/.local/share/vibe-kanban/profiles.json
 {
   "executors": {
