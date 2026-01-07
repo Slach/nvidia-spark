@@ -68,6 +68,7 @@ hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR
 # small LLMs
 hf download --max-workers=$(nproc) LiquidAI/LFM2-2.6B-Exp-GGUF --include="*Q8_0*" #edge-devices 
 hf download --max-workers=$(nproc) noctrex/rnj-1-instruct-GGUF --include="*Q8_0*" #coding
+hf download --max-workers=$(nproc) tiiuae/Falcon-H1R-7B-GGUF --include="*Q8_0*" #coding + reasoning
 
 # to have the same /models in all configs
 sudo mkdir -p /models
