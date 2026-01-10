@@ -90,7 +90,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-
+  seer-marketing:
+    image: ghcr.io/mx-seer/seer:latest
+    volumes:
+      - ./docker/seer-config.yml:/app/config.yaml
+    ports:
+      - "${SEER_PORT:-8889}:${SEER_PORT:-8889}"
 networks:
   spark-network:
     driver: bridge

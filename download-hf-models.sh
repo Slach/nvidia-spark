@@ -32,6 +32,7 @@ hf download --max-workers=$(nproc) mradermacher/MiroThinker-v1.5-30B-GGUF --incl
 
 ## embedding models
 hf download --max-workers=$(nproc) endyjasmi/Qwen3-Embedding-8B-Q4_K_M-GGUF
+hf download --max-workers=$(nproc) aiteza/Qwen3-VL-Embedding-8B-GGUF
 hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 
 ## image models ComfyUI
