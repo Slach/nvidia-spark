@@ -24,7 +24,7 @@ services:
     environment:
       - HF_TOKEN=${HF_TOKEN:-}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8100/health" ]
       interval: 60s
       timeout: 10s
       retries: 3
@@ -61,7 +61,7 @@ services:
     networks:
       - spark-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/health" ]
       interval: 60s
       timeout: 10s
       retries: 3
@@ -85,18 +85,22 @@ services:
       - AGENT_MAIN_MODEL=${AGENT_MAIN_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}
       - AGENT_BACKGROUND_MODEL=${AGENT_BACKGROUND_MODEL:-noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/health" ]
       interval: 60s
       timeout: 10s
       retries: 3
       start_period: 10s
+
   seer-marketing:
     image: ghcr.io/mx-seer/seer:latest
     volumes:
       - ./docker/seer-config.yml:/app/config.yaml
     ports:
       - "${SEER_PORT:-8889}:${SEER_PORT:-8889}"
+    networks:
+      - spark-network
+
+# docker network create spark-network
 networks:
   spark-network:
-    driver: bridge
-    
+    external: true
