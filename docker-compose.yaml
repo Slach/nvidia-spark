@@ -76,7 +76,7 @@ services:
       - ${HOME}:/root/
       - /tmp:/tmp
     ports:
-      - "${VIBE_KANBAN_PORT:-8888}:${VIBE_KANBAN_PORT:-8888}"
+      - "127.0.0.1:${VIBE_KANBAN_PORT:-8888}:${VIBE_KANBAN_PORT:-8888}"
     networks:
       - spark-network
     environment:
@@ -96,9 +96,17 @@ services:
     volumes:
       - ./docker/seer-config.yml:/app/config.yaml
     ports:
-      - "${SEER_PORT:-8889}:${SEER_PORT:-8889}"
+      - "127.0.0.1:${SEER_PORT:-8889}:${SEER_PORT:-8889}"
     networks:
       - spark-network
+  
+  aider-desk:
+    image: ghcr.io/hotovo/aider-desk:latest
+    ports:
+    - "127.0.0.1:${AIDER_DESK_PORT:-24337}:${AIDER_DESK_PORT:-24337}"
+    volumes:
+    - ${HOME}/src:/app/data 
+    - ${HOME}/.aider-desk:/root/.aider-desk
 
 # docker network create spark-network
 networks:
