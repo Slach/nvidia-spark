@@ -66,7 +66,7 @@ cat <<EOT > ~/.claude-code-router/config.json
   ],
   "Router": {
     "default": "${AGENT_INFERENCE_SERVER},${AGENT_MAIN_MODEL}",
-    "background": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}}",
+    "background": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
     "think": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
     "longContext": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
     "longContextThreshold": 131072,
