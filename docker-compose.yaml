@@ -105,8 +105,10 @@ services:
     ports:
     - "127.0.0.1:${AIDER_DESK_PORT:-24337}:${AIDER_DESK_PORT:-24337}"
     volumes:
-    - ${HOME}/src:/app/data 
-    - ${HOME}/.aider-desk:/root/.aider-desk
+    - ${HOME}/src/:/root/src/ 
+    - ${HOME}/.aider-desk/:/root/.aider-desk/
+    networks:
+      - spark-network
 
 # docker network create spark-network
 networks:
