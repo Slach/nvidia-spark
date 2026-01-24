@@ -30,6 +30,52 @@ services:
       retries: 3
       start_period: 10s
 
+  sglang:
+    image: lmsysorg/sglang:dev-cu13
+    volumes:
+      - ${HOME}/.cache/huggingface:/models/huggingface:ro
+    shm_size: '32gb' 
+    networks:
+      - spark-network
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    ports:
+      - "127.0.0.1:30000:30000"
+    command:
+      python3 -m sglang.launch_server --model-path unsloth/GLM-4.7-Flash-GGUF --port 30000 --host 0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+  vllm:
+    # look build-vllm-cude13-docker.sh
+    image: vllm:spark-full
+    volumes:
+      - ${HOME}/.cache/huggingface:/models/huggingface:ro
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    ports:
+      - "127.0.0.1:30000:30000"
+    networks:
+      - spark-network
+    command: |
+      vllm serve cyankiwi/GLM-4.7-Flash-AWQ-8bit \
+      --tool-call-parser glm47 \
+      --reasoning-parser glm45 \
+      --enable-auto-tool-choice \
+      --served-model-name glm-4.7-flash
+      
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
   llama.cpp:
     build:
       context: .
