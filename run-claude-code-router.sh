@@ -8,7 +8,7 @@ if [[ "max-inference" == "${AGENT_INFERENCE_SERVER}" ]]; then
 fi
 
 if [[ "openrouter" != "${AGENT_INFERENCE_SERVER}" ]]; then
-  docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
+  docker compose -f "$CUR_DIR/docker-compose.yaml" up --force-recreate -d ${AGENT_INFERENCE_SERVER}
 fi 
 
 mkdir -p ~/.claude-code-router
