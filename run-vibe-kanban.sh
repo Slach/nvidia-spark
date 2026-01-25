@@ -34,8 +34,15 @@ cat <<EOT > ~/.local/share/vibe-kanban/profiles.json
         "QWEN_CODE": {
           "append_prompt": null,
           "yolo": true,
-          "base_command_override": "bunx @qwen-code/qwen-code@latest"
+          "base_command_override": "bunx --bun @qwen-code/qwen-code@latest"
         }
+      }
+    },
+    "OPENCODE": {
+      "Z.AI": {
+        "OPENCODE": {
+         "base_command_override":"bunx --bun opencode-ai@latest"
+        } 
       }
     }
   }

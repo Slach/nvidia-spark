@@ -31,6 +31,16 @@ cat <<EOT > ~/.claude-code-router/config.json
       "models": ["noctrex/MiniMax-M2-139B","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
     },
     {
+      "name":"z.ai",
+      "api_base_url": "https://api.z.ai/api/paas/v4/completions",
+      "api_key": "${ZAI_API_KEY}",
+      "models": [
+          "glm-4.7", 
+          "glm-4.7-flash", 
+          "glm-4.7-flashx"
+      ]
+    },
+    {
       "name": "openrouter",
       "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
       "api_key": "${OPENROUTER_API_KEY}",
@@ -76,6 +86,7 @@ cat <<EOT > ~/.claude-code-router/config.json
 EOT
 
 bun install -g @qwen-code/qwen-code@latest
+bun install -g opencode-ai@latest
 bun install -g @anthropic-ai/claude-code@latest
 bun install -g @musistudio/claude-code-router@latest
 
@@ -115,19 +126,41 @@ grep -q 'ENABLE_LSP_TOOL' ~/.bashrc || echo 'export ENABLE_LSP_TOOL=1' >> ~/.bas
 source ~/.bashrc
 
 
+sudo apt install -y clangd llvm make cmake ninja-build rustup
 
 uv tool install pyright@latest
 go install golang.org/x/tools/gopls@latest
 rustup component add rust-analyzer
 sudo apt install -y clangd
 bun install -g vscode-langservers-extracted
+bun install -g typescript-language-server typescript
 
-claude plugin install gopls@claude-code-lsps || true
-claude plugin install vtsls@claude-code-lsps || true
-claude plugin install pyright@claude-code-lsps || true
-claude plugin install clangd@claude-code-lsps || true
-claude plugin install rust-analyzer@claude-code-lsps || true
-claude plugin install vscode-html-css@claude-code-lsps || true
+# official LSP & plugins
+claude plugin marketplace add anthropics/claude-plugins-official || true
+claude plugin install clangd-lsp@claude-plugins-official || true
+claude plugin install gopls-lsp@claude-plugins-official || true
+claude plugin install php-lsp@claude-plugins-official || true
+claude plugin install pyright-lsp@claude-plugins-official || true
+claude plugin install typescript-lsp@claude-plugins-official || true
+claude plugin install rust-analyzer-lsp@claude-plugins-official || true
+# code simplifier
+claude plugin install code-simplifier@claude-plugins-official || true
+
+# HTML & CSS LSP
+claude plugin marketplace add Piebald-AI/claude-code-lsps || true
+claude plugin install vscode-langservers@claude-code-lsps || true
+
+# TODO 1C - https://github.com/Piebald-AI/claude-code-lsps/tree/main/bsl-lsp
+
+# other marketplaces
+claude plugin marketplace add wshobson/agents || true
+claude plugin marketplace add obra/superpowers-marketplace || true
+claude plugin marketplace add K-Dense-AI/claude-scientific-skills || true
+claude plugin marketplace add EveryInc/every-marketplace || true
+claude plugin marketplace add sawyerhood/dev-browser || true
+claude plugin marketplace add zscole/adversarial-spec || true
+uv tool install superclaude
+superclaude install
 
 ccr stop || true
 
