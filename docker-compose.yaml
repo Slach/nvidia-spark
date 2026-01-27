@@ -151,7 +151,8 @@ services:
     ports:
     - "127.0.0.1:${AIDER_DESK_PORT:-24337}:${AIDER_DESK_PORT:-24337}"
     volumes:
-    - ${HOME}/src/:/root/src/ 
+    - aider-desk-data:/app/data/
+    - ${HOME}/src/:/src/ 
     - ${HOME}/.aider-desk/:/root/.aider-desk/
     networks:
       - spark-network
@@ -160,3 +161,6 @@ services:
 networks:
   spark-network:
     external: true
+
+volumes:
+  aider-desk-data:

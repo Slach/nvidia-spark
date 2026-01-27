@@ -35,7 +35,7 @@ hf download --max-workers=$(nproc) noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGU
 hf download --max-workers=$(nproc) noctrex/MiroThinker-v1.5-30B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/HyperNova-60B-MXFP4_MOE-GGUF
 # hf download --max-workers=$(nproc) juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
-hf caceh rm -y model/juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
+hf cache rm -y model/juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
 hf download --max-workers=$(nproc) bartowski/Nanbeige_Nanbeige4-3B-Thinking-2511-GGUF --include "*Q8_0*"
 
 ## embedding models
@@ -72,7 +72,9 @@ hf download --max-workers=$(nproc) noctrex/Qwen3-VL-30B-A3B-Thinking-1M-MXFP4_MO
 hf download --max-workers=$(nproc) onnx-community/chatterbox-multilingual-ONNX
 
 # OCR
-hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR
+# hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR
+hf cache rm -y model/deepseek-ai/DeepSeek-OCR
+hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR-2
 
 # small LLMs
 hf download --max-workers=$(nproc) LiquidAI/LFM2-2.6B-Exp-GGUF --include="*Q8_0*" #edge-devices 
