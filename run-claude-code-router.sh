@@ -14,7 +14,8 @@ fi
 mkdir -p ~/.claude-code-router
 cat <<EOT > ~/.claude-code-router/config.json
 {
-  "LOG": false,
+  "LOG": true,
+  "LOG_LEVEL": "error",
   "API_TIMEOUT_MS": 600000,
   "NON_INTERACTIVE_MODE": false,
   "Providers": [
@@ -28,7 +29,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "name": "llama.cpp",
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
       "api_key": "llama.cpp",
-      "models": ["noctrex/MiniMax-M2-139B","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
+      "models": ["Qwen/Qwen3-Coder-Next-80B-Q8","unsloth/GLM-4.7-Flash-30B","rushyrush/MiniMax-M2.1-139B","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
     },
     {
       "name":"z.ai",
