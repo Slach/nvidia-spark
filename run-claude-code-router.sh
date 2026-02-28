@@ -29,7 +29,13 @@ cat <<EOT > ~/.claude-code-router/config.json
       "name": "llama.cpp",
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
       "api_key": "llama.cpp",
-      "models": ["Qwen/Qwen3-Coder-Next-80B-Q8","unsloth/GLM-4.7-Flash-30B","rushyrush/MiniMax-M2.1-139B","noctrex/Qwen3-Next-80B","noctrex/Nemotron-3-Nano-30B"]
+      "models": [
+        "unsloth/Qwen3.5-120B",
+        "unsloth/GLM-4.7-Flash-30B",
+        "Qwen/Qwen3-Coder-Next-80B-Q8",
+        "rushyrush/MiniMax-M2.1-139B",
+        "noctrex/Qwen3-Next-80B"
+      ]
     },
     {
       "name":"z.ai",

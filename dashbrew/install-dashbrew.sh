@@ -1,0 +1,1 @@
+go install github.com/rasjonell/dashbrew/cmd/dashbrew@latest
