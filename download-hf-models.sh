@@ -2,6 +2,7 @@
 ## for llama.cpp GGUF
 hf download --max-workers=$(nproc) noctrex/MiniMax-M2.5-REAP-139B-A10B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-122B-A10B-GGUF --include="*MXFP4*"
+hf download --max-workers=$(nproc) unsloth/Qwen3.5-27B-GGUF --include="*Q8_K_XL*"
 hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q8_0*"
 hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q4_K_M*"
 
@@ -15,7 +16,9 @@ hf download --max-workers=$(nproc) mradermacher/Strand-Rust-Coder-14B-v1-GGUF --
 
 # hf download --max-workers=$(nproc) noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
 hf cache rm -y model/noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) rushyrush/MiniMax-M2.1-REAP-139B-A10B-GGUF
+# hf download --max-workers=$(nproc) rushyrush/MiniMax-M2.1-REAP-139B-A10B-GGUF
+hf cache rm -y model/rushyrush/MiniMax-M2.1-REAP-139B-A10B-GGUF
+
 hf download --max-workers=$(nproc) noctrex/Qwen3-Next-80B-A3B-Instruct-1M-MXFP4_MOE-GGUF
 
 
@@ -27,8 +30,10 @@ hf cache rm -y model/unsloth/Devstral-2-123B-Instruct-2512-GGUF
 # hf download --max-workers=$(nproc) mradermacher/GLM-4.6-REAP-218B-A32B-Derestricted-i1-GGUF --include "*IQ2_M*"
 hf cache rm -y model/mradermacher/GLM-4.6-REAP-218B-A32B-Derestricted-i1-GGUF
 
-hf download --max-workers=$(nproc) bartowski/zai-org_GLM-4.7-GGUF --include "*IQ1_M*"
-hf download --max-workers=$(nproc) AaryanK/MiniMax-M2.1-GGUF --include="*q2_k*"
+# hf download --max-workers=$(nproc) bartowski/zai-org_GLM-4.7-GGUF --include "*IQ1_M*"
+hf cache rm -y model/bartowski/zai-org_GLM-4.7-GGUF
+# hf download --max-workers=$(nproc) AaryanK/MiniMax-M2.1-GGUF --include="*q2_k*"
+hf cache rm -y model/AaryanK/MiniMax-M2.1-GGUF
 
 # just for fun, Russian Chat models
 hf download --max-workers=$(nproc) ai-sage/GigaChat3-10B-A1.8B-GGUF --include="%q8%"
@@ -62,21 +67,21 @@ hf download --max-workers=$(nproc) aiteza/Qwen3-VL-Embedding-8B-GGUF
 hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 
 ## image models ComfyUI
-hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Edit_ComfyUI --include "*2511_fp8*" --include "*loras*"
-hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Layered_ComfyUI
-hf download --max-workers=$(nproc) Comfy-Org/flux2-dev --exclude "*bf16*"
-hf download --max-workers=$(nproc) lightx2v/Qwen-Image-Edit-2511-Lightning --exclude "*bf16*"
-hf download --max-workers=$(nproc) unsloth/Qwen-Image-Edit-2511-GGUF --include="*Q4_K_M*"
+# hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Edit_ComfyUI --include "*2511_fp8*" --include "*loras*"
+# hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Layered_ComfyUI
+# hf download --max-workers=$(nproc) Comfy-Org/flux2-dev --exclude "*bf16*"
+# hf download --max-workers=$(nproc) lightx2v/Qwen-Image-Edit-2511-Lightning --exclude "*bf16*"
+# hf download --max-workers=$(nproc) unsloth/Qwen-Image-Edit-2511-GGUF --include="*Q4_K_M*"
 
 ## video+image models ComfyUI + diffusers custom nodes
-hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-I2V-Pro-distilled-5s-Diffusers
-hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-T2V-Pro-distilled-5s-Diffusers
-hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-I2I-Lite-sft-Diffusers
-hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-T2I-Lite-sft-Diffusers
+# hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-I2V-Pro-distilled-5s-Diffusers
+# hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-T2V-Pro-distilled-5s-Diffusers
+# hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-I2I-Lite-sft-Diffusers
+# hf download --max-workers=$(nproc) kandinskylab/Kandinsky-5.0-T2I-Lite-sft-Diffusers
 
 # animation + video
-hf download --max-workers=$(nproc) Wan-AI/Wan2.2-Animate-14B
-hf download --max-workers=$(nproc) lightx2v/Wan2.2-Lightning
+# hf download --max-workers=$(nproc) Wan-AI/Wan2.2-Animate-14B
+# hf download --max-workers=$(nproc) lightx2v/Wan2.2-Lightning
 
 # guard models to avoid inference attacks
 hf download --max-workers=$(nproc) geoffmunn/Qwen3Guard-Stream-8B --include="*Q4_K_M*"

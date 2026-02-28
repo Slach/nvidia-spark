@@ -31,9 +31,10 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_key": "llama.cpp",
       "models": [
         "unsloth/Qwen3.5-120B",
+        "unsloth/Qwen3.5-27B",
         "unsloth/GLM-4.7-Flash-30B",
         "Qwen/Qwen3-Coder-Next-80B-Q8",
-        "rushyrush/MiniMax-M2.1-139B",
+        "noctrex/MiniMax-M2.5-139B",
         "noctrex/Qwen3-Next-80B"
       ]
     },
