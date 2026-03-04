@@ -31,18 +31,27 @@ services:
       start_period: 10s
 
   sglang:
-    image: lmsysorg/sglang:dev-cu13
+    image: lmsysorg/sglang:dev-arm64-cu13
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface:ro
+      # better for coding generation 
+      - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     shm_size: '32gb' 
     networks:
       - spark-network
     environment:
+      - HF_HOME=/models/huggingface
+      - HF_HUB_OFFLINE=1
       - HF_TOKEN=${HF_TOKEN:-}
     ports:
       - "127.0.0.1:30000:30000"
-    command:
-      python3 -m sglang.launch_server --model-path unsloth/GLM-4.7-Flash-GGUF --port 30000 --host 0.0.0.0
+    command: >
+      python3 -m sglang.launch_server 
+      --port 30000 
+      --host 0.0.0.0
+      --model-path AxionML/Qwen3.5-35B-A3B-NVFP4 
+      --context-length 261375
+      --kv-cache-dtype int8 
     deploy:
       resources:
         reservations:
@@ -52,21 +61,30 @@ services:
               capabilities: [ gpu ]
   vllm:
     # look build-vllm-cude13-docker.sh
-    image: vllm:spark-full
+    # image: vllm:spark-full
+    image: vllm/vllm-openai:cu130-nightly-aarch64
     volumes:
-      - ${HOME}/.cache/huggingface:/models/huggingface:ro
+      - ${HOME}/.cache/huggingface:/models/huggingface
+      - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     environment:
+      - HF_HOME=/models/huggingface
+      - HF_HUB_OFFLINE=1
       - HF_TOKEN=${HF_TOKEN:-}
     ports:
-      - "127.0.0.1:30000:30000"
+      - "127.0.0.1:30001:30001"
     networks:
       - spark-network
     command: |
-      vllm serve cyankiwi/GLM-4.7-Flash-AWQ-8bit \
-      --tool-call-parser glm47 \
-      --reasoning-parser glm45 \
-      --enable-auto-tool-choice \
-      --served-model-name glm-4.7-flash
+      ${VLLM_MODEL:-AxionML/Qwen3.5-35B-A3B-NVFP4}
+      --host 0.0.0.0
+      --port 30001      
+      --max-model-len 261375
+      --max-num-batched-tokens 8196
+      --max-num-seqs 2
+      --kv-cache-memory-bytes 17179869184
+      --kv-cache-dtype fp8
+      --calculate-kv-scales
+      --trust-remote-code
       
     deploy:
       resources:

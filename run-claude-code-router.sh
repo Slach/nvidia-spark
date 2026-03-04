@@ -16,7 +16,7 @@ cat <<EOT > ~/.claude-code-router/config.json
 {
   "LOG": true,
   "LOG_LEVEL": "error",
-  "API_TIMEOUT_MS": 600000,
+  "API_TIMEOUT_MS": 3600000,
   "NON_INTERACTIVE_MODE": false,
   "Providers": [
     {
@@ -24,6 +24,14 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_base_url": "http://127.0.0.1:8100/v1/chat/completions",
       "api_key": "max-inference",
       "models": ["noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"]
+    },
+    {
+      "name": "vllm",
+      "api_base_url": "http://127.0.0.1:30001/v1/chat/completions",
+      "api_key": "vllm",
+      "models": [
+        "${VLLM_MODEL}"
+      ]
     },
     {
       "name": "llama.cpp",
@@ -34,7 +42,7 @@ cat <<EOT > ~/.claude-code-router/config.json
         "unsloth/Qwen3.5-27B",
         "unsloth/GLM-4.7-Flash-30B",
         "Qwen/Qwen3-Coder-Next-80B-Q8",
-        "noctrex/MiniMax-M2.5-139B",
+        "noctrex/Qwen3.5-35B",
         "noctrex/Qwen3-Next-80B"
       ]
     },
@@ -55,13 +63,13 @@ cat <<EOT > ~/.claude-code-router/config.json
       "models": [
         "mistralai/devstral-2512:free",
         "xiaomi/mimo-v2-flash:free",
-        "google/gemini-3-flash-preview",
-        "google/gemini-3-pro-preview",
-        "anthropic/claude-sonnet-4.5",
+        "google/gemini-3.1-flash-lite-preview",
+        "google/gemini-3.1-pro-preview-customtools",
+        "minimax/minimax-m2.5",
         "x-ai/grok-4.1-fast",
-        "qwen/qwen-plus-2025-07-28",
-        "qwen/qwen3-coder:exacto",
-        "moonshotai/kimi-k2-0905:exacto",
+        "z-ai/glm-5",
+        "qwen/qwen3.5-flash-02-23",
+        "moonshotai/kimi-k2.5",
         "deepseek/deepseek-v3.2-speciale",
         "perplexity/sonar",
       ],
@@ -153,6 +161,10 @@ claude plugin install typescript-lsp@claude-plugins-official || true
 claude plugin install rust-analyzer-lsp@claude-plugins-official || true
 # code simplifier
 claude plugin install code-simplifier@claude-plugins-official || true
+
+# compact context for big outputs
+claude plugin marketplace add mksglu/claude-context-mode || true
+claude plugin install context-mode@claude-context-mode || true
 
 # HTML & CSS LSP
 claude plugin marketplace add Piebald-AI/claude-code-lsps || true

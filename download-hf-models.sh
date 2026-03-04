@@ -1,10 +1,20 @@
 # CODING MODELS
 ## for llama.cpp GGUF
-hf download --max-workers=$(nproc) noctrex/MiniMax-M2.5-REAP-139B-A10B-MXFP4_MOE-GGUF
+
+hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF
+hf download --max-workers=$(nproc) noctrex/LFM2-24B-A2B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-122B-A10B-GGUF --include="*MXFP4*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-27B-GGUF --include="*Q8_K_XL*"
+
 hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q8_0*"
 hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q4_K_M*"
+
+hf download --max-workers=$(nproc) mradermacher/Strand-Rust-Coder-14B-v1-GGUF --include "*Q8_0*"
+
+# hf download --max-workers=$(nproc) dinerburger/Qwen3.5-27B-GGUF
+hf cache rm -y model/dinerburger/Qwen3.5-27B-GGUF
+# hf download --max-workers=$(nproc) lmstudio-community/Qwen3.5-27B-GGUF --include "*Q6_K*"
+hf cache rm -y model/lmstudio-community/Qwen3.5-27B-GGUF
 
 # hf download --max-workers=$(nproc) unsloth/GLM-4.7-Flash-GGUF --include "*Q8_0*"
 # hf cache rm -y model/unsloth/GLM-4.7-Flash-GGUF
@@ -12,7 +22,6 @@ hf download --max-workers=$(nproc) DavidAU/GLM-4.7-Flash-Uncensored-Heretic-NEO-
 # hf download --max-workers=$(nproc) cturan/IQuest-Coder-V1-40B-Instruct-GGUF --include "*Q4_K_M*"
 hf cache rm -y model/cturan/IQuest-Coder-V1-40B-Instruct-GGUF
 
-hf download --max-workers=$(nproc) mradermacher/Strand-Rust-Coder-14B-v1-GGUF --include "*Q8_0*"
 
 # hf download --max-workers=$(nproc) noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
 hf cache rm -y model/noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
@@ -40,26 +49,40 @@ hf download --max-workers=$(nproc) ai-sage/GigaChat3-10B-A1.8B-GGUF --include="%
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
 
 ## for vllm & sglang safetensors
-hf download --max-workers=$(nproc) cyankiwi/GLM-4.7-Flash-AWQ-8bit
+hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
+hf download --max-workers=$(nproc) ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4
+
+# hf download --max-workers=$(nproc) cyankiwi/GLM-4.7-Flash-AWQ-8bit
+hf cache rm -y model/cyankiwi/GLM-4.7-Flash-AWQ-8bit
+
 # hf download --max-workers=$(nproc) unsloth/Qwen3-Next-80B-A3B-Instruct-bnb-4bit
 hf cache rm -y model/unsloth/Qwen3-Next-80B-A3B-Instruct-bnb-4bit
-hf download --max-workers=$(nproc) ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4
 # hf download --max-workers=$(nproc) nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8
 hf cache rm -y model/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8
 hf download --max-workers=$(nproc) EssentialAI/rnj-1-instruct
 
 # hf download --max-workers=$(nproc) ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
 hf cache rm -y model/ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
+
 # hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8
 hf cache rm -y model/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8
 
 ## single GGUF can be used with vLLM + llama.cpp
-hf download --max-workers=$(nproc) noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) noctrex/MiroThinker-v1.5-30B-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) noctrex/HyperNova-60B-MXFP4_MOE-GGUF
+
+# hf download --max-workers=$(nproc) noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGUF
+
+# hf download --max-workers=$(nproc) noctrex/MiroThinker-v1.5-30B-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/MiroThinker-v1.5-30B-MXFP4_MOE-GGUF
+
+# hf download --max-workers=$(nproc) noctrex/HyperNova-60B-MXFP4_MOE-GGUF
+hf cache rm -y model noctrex/HyperNova-60B-MXFP4_MOE-GGUF
+
 # hf download --max-workers=$(nproc) juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
 hf cache rm -y model/juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
-hf download --max-workers=$(nproc) bartowski/Nanbeige_Nanbeige4-3B-Thinking-2511-GGUF --include "*Q8_0*"
+
+# hf download --max-workers=$(nproc) bartowski/Nanbeige_Nanbeige4-3B-Thinking-2511-GGUF --include "*Q8_0*"
+hf cache rm -y model/bartowski/Nanbeige_Nanbeige4-3B-Thinking-2511-GGUF
 
 ## embedding models
 hf download --max-workers=$(nproc) endyjasmi/Qwen3-Embedding-8B-Q4_K_M-GGUF
@@ -98,13 +121,14 @@ hf download --max-workers=$(nproc) onnx-community/chatterbox-multilingual-ONNX
 # hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR
 hf cache rm -y model/deepseek-ai/DeepSeek-OCR
 hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR-2
+hf download --max-workers=$(nproc) PaddlePaddle/PaddleOCR-VL-1.5
 
-# small LLMs
+# small interesting LLMs
 hf download --max-workers=$(nproc) LiquidAI/LFM2-2.6B-Exp-GGUF --include="*Q8_0*" #edge-devices 
 hf download --max-workers=$(nproc) noctrex/rnj-1-instruct-GGUF --include="*Q8_0*" #coding
-hf download --max-workers=$(nproc) tiiuae/Falcon-H1R-7B-GGUF --include="*Q8_0*" #coding + reasoning
-# hw download --max-wordkers$(nproc) mradermacher/MiroThinker-v1.5-30B-GGUF --include "*Q4_K*"
-hf cache rm -y model/mradermacher/MiroThinker-v1.5-30B-GGUF
+# hf download --max-workers=$(nproc) tiiuae/Falcon-H1R-7B-GGUF --include="*Q8_0*" #coding + reasoning
+hf cache rm -y model/tiiuae/Falcon-H1R-7B-GGUF
+
 
 # to have the same /models in all configs outside docker and inside docker
 sudo mkdir -p /models
