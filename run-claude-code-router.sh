@@ -96,7 +96,7 @@ cat <<EOT > ~/.claude-code-router/config.json
     "think": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
     "longContext": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
     "longContextThreshold": 131072,
-    "webSearch": "openrouter,perplexity/sonar"
+    "webSearch": "${AGENT_INFERENCE_SERVER},${AGENT_MAIN_MODEL}"
   }
 }
 EOT
@@ -129,6 +129,7 @@ echo "${GITHUB_TOKEN}" | gh auth login --with-token --git-protocol https
 ncp add -y gitmcp https://gitmcp.io/docs/
 ncp add -y context7 -- npx -y @upstash/context7-mcp@latest
 ncp add --env PORT="${VIBE_KANBAN_PORT:-8888}" -y vibe_kanban -- npx -y vibe-kanban@latest --mcp
+ncp add -y duckduckgo -- npx -y duckduckgo-mcp-server@latest
 ncp list 
 
 claude mcp add --scope user ncp ncp || true
@@ -164,7 +165,7 @@ claude plugin install code-simplifier@claude-plugins-official || true
 
 # compact context for big outputs
 claude plugin marketplace add mksglu/claude-context-mode || true
-claude plugin install context-mode@claude-context-mode || true
+claude plugin uninstall context-mode@claude-context-mode || true
 
 # HTML & CSS LSP
 claude plugin marketplace add Piebald-AI/claude-code-lsps || true

@@ -49,9 +49,11 @@ hf download --max-workers=$(nproc) ai-sage/GigaChat3-10B-A1.8B-GGUF --include="%
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
 
 ## for vllm & sglang safetensors
-hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
+hf download --max-workers=$(nproc) Qwen/Qwen3.5-35B-A3B-FP8
+hf download --max-workers=$(nproc) Kbenkhaled/Qwen3.5-35B-A3B-NVFP4
 hf download --max-workers=$(nproc) ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4
-
+# hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
+hf cache rm -y model/AxionML/Qwen3.5-35B-A3B-NVFP4
 # hf download --max-workers=$(nproc) cyankiwi/GLM-4.7-Flash-AWQ-8bit
 hf cache rm -y model/cyankiwi/GLM-4.7-Flash-AWQ-8bit
 

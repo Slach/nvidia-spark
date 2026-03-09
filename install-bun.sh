@@ -1,8 +1,7 @@
 # if bun installed upgrade all global packages
 if command -v bun >/dev/null 2>&1; then
     bun upgrade
-    cd ~/.bun/install/global/
-    bun update
+    bun update -g
 else 
     curl -fsSL https://bun.sh/install | bash
     sudo ln -sf $(which bun) /usr/local/bin/node
