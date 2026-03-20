@@ -33,6 +33,14 @@ cat <<EOT > ~/.claude-code-router/config.json
         "${VLLM_MODEL}"
       ]
     },
+   {
+      "name": "sglang",
+      "api_base_url": "http://127.0.0.1:30000/v1/chat/completions",
+      "api_key": "sglang",
+      "models": [
+        "${SGLANG_MODEL}"
+      ]
+    },
     {
       "name": "llama.cpp",
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
@@ -182,6 +190,8 @@ claude plugin marketplace add sawyerhood/dev-browser || true
 claude plugin marketplace add zscole/adversarial-spec || true
 uv tool install superclaude
 superclaude install
+
+bunx get-shit-done-cc --all --global
 
 ccr stop || true
 

@@ -1,0 +1,2279 @@
+{
+  "entries": [
+    {
+      "id": "dd6bab21-4774-4640-9220-e77d4bba5a83",
+      "status": "complete",
+      "tests": [
+        "dns",
+        "domains",
+        "tcp"
+      ],
+      "start_time": "2026-03-15T04:22:13.897672965Z",
+      "end_time": "2026-03-15T04:23:12.119887253Z",
+      "dns_result": {
+        "status": "DNS_SPOOFING",
+        "doh_server": "Google (IP)",
+        "udp_server": "8.8.8.8",
+        "doh_blocked": false,
+        "udp_blocked": false,
+        "stub_ips": [
+          "78.29.1.40"
+        ],
+        "domains": [
+          {
+            "domain": "rutor.info",
+            "doh_ip": "193.46.255.29",
+            "udp_ip": "78.29.1.40",
+            "status": "DNS_SPOOFING",
+            "is_stub_ip": true
+          },
+          {
+            "domain": "ej.ru",
+            "doh_ip": "213.166.70.101",
+            "udp_ip": "78.29.1.40",
+            "status": "DNS_SPOOFING",
+            "is_stub_ip": true
+          },
+          {
+            "domain": "flibusta.is",
+            "doh_ip": "179.43.150.83",
+            "udp_ip": "78.29.1.40",
+            "status": "DNS_SPOOFING",
+            "is_stub_ip": true
+          },
+          {
+            "domain": "clubtone.do.am",
+            "doh_ip": "193.106.232.62",
+            "udp_ip": "78.29.1.40",
+            "status": "DNS_SPOOFING",
+            "is_stub_ip": true
+          },
+          {
+            "domain": "rezka.ag",
+            "doh_ip": "82.221.104.145",
+            "udp_ip": "78.29.1.40",
+            "status": "DNS_SPOOFING",
+            "is_stub_ip": true
+          },
+          {
+            "domain": "shikimori.one",
+            "doh_ip": "186.2.163.41",
+            "udp_ip": "78.29.1.40",
+            "status": "DNS_SPOOFING",
+            "is_stub_ip": true
+          }
+        ],
+        "summary": "0/6 OK, 6 spoofed, 0 intercepted, 1 stub IPs detected",
+        "spoof_count": 6,
+        "intercept_count": 0,
+        "ok_count": 0
+      },
+      "domains_result": {
+        "domains": [
+          {
+            "domain": "www.instagram.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.facebook.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "x.com",
+            "ip": "172.66.0.227",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://x.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "www.linkedin.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "discord.com",
+            "ip": "162.159.128.233",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://discord.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "gateway.discord.gg",
+            "ip": "162.159.135.234",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://gateway.discord.gg/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "media.discordapp.net",
+            "ip": "162.159.130.232",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 401",
+              "status_code": 401
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "www.youtube.com",
+            "ip": "74.125.205.198",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://www.youtube.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "soundcloud.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "meduza.io",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.dw.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.svoboda.org",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "holod.media",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.euronews.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.torproject.org",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "proton.me",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "protonvpn.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "roskomsvoboda.org",
+            "ip": "8.47.69.0",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://roskomsvoboda.org/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "amnezia.org",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "rutracker.org",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "nnmclub.to",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "rezka.ag",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "hub.docker.com",
+            "ip": "172.64.144.69",
+            "tls13": {
+              "status": "OK",
+              "detail": "TLS 1.3 connection successful",
+              "latency_ms": 104
+            },
+            "tls12": {
+              "status": "OK",
+              "detail": "TLS 1.2 connection successful",
+              "latency_ms": 149
+            },
+            "http": {
+              "status": "ISP_PAGE",
+              "detail": "Cross-domain redirect to: https://hub.docker.com:443/",
+              "status_code": 301,
+              "redirect_to": "https://hub.docker.com:443/"
+            },
+            "overall": "ISP_PAGE"
+          },
+          {
+            "domain": "www.intel.com",
+            "ip": "23.210.254.130",
+            "tls13": {
+              "status": "OK",
+              "detail": "TLS 1.3 connection successful",
+              "latency_ms": 98
+            },
+            "tls12": {
+              "status": "OK",
+              "detail": "TLS 1.2 connection successful",
+              "latency_ms": 171
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 403",
+              "status_code": 403
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "www.canva.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.coursera.org",
+            "ip": "3.174.113.59",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "aws.amazon.com",
+            "ip": "18.165.140.109",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.apkmirror.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.currenttime.tv",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.messenger.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.themoscowtimes.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.linuxserver.io",
+            "ip": "178.62.84.203",
+            "tls13": {
+              "status": "OK",
+              "detail": "TLS 1.3 connection successful",
+              "latency_ms": 168
+            },
+            "tls12": {
+              "status": "OK",
+              "detail": "TLS 1.2 connection successful",
+              "latency_ms": 229
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://www.linuxserver.io/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "danbooru.donmai.us",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "gelbooru.com",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "www.browserleaks.com",
+            "ip": "104.236.69.55",
+            "tls13": {
+              "status": "OK",
+              "detail": "TLS 1.3 connection successful",
+              "latency_ms": 314
+            },
+            "tls12": {
+              "status": "OK",
+              "detail": "TLS 1.2 connection successful",
+              "latency_ms": 428
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://browserleaks.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "www.cdn77.com",
+            "ip": "37.19.202.44",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://www.cdn77.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "shikimori.one",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "jut.su",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          },
+          {
+            "domain": "mos-gorsud.co",
+            "ip": "172.67.178.139",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "kinopub.online",
+            "ip": "216.150.1.65",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "kino.pub",
+            "ip": "78.29.1.40",
+            "tls13": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "DNS_FAKE",
+              "detail": "Resolved to stub IP"
+            },
+            "is_fake_ip": true,
+            "overall": "DNS_FAKE"
+          }
+        ],
+        "blocked_count": 27,
+        "ok_count": 10,
+        "dpi_count": 0,
+        "summary": "10/41 accessible, 27 blocked (0 via DPI)"
+      },
+      "tcp_result": {
+        "targets": [
+          {
+            "target": {
+              "id": "HE-01",
+              "ip": "91.98.156.82",
+              "port": 443,
+              "asn": "24940",
+              "provider": "Hetzner"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 212.914,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-02",
+              "ip": "46.62.154.37",
+              "port": 443,
+              "asn": "24940",
+              "provider": "Hetzner"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 249.172144,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-03",
+              "ip": "5.161.249.234",
+              "port": 443,
+              "asn": "213230",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 1092.311781,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-04",
+              "ip": "178.156.198.203",
+              "port": 443,
+              "asn": "213230",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 826.267216,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-05",
+              "ip": "5.78.155.139",
+              "port": 443,
+              "asn": "212317",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 659.635819,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-06",
+              "ip": "5.78.82.109",
+              "port": 443,
+              "asn": "212317",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 668.790924,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-07",
+              "ip": "5.223.45.178",
+              "port": 443,
+              "asn": "215859",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 1000.671268,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-08",
+              "ip": "5.223.68.131",
+              "port": 443,
+              "asn": "215859",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 1002.010214,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "HE-09",
+              "ip": "185.189.229.124",
+              "port": 80,
+              "asn": "24940",
+              "provider": "Hetzner HTTP"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 156.296638,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CF-01",
+              "ip": "172.67.70.222",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 164.743688,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CF-02",
+              "ip": "172.67.181.54",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 160.911887,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CF-03",
+              "ip": "104.18.63.125",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 160.462388,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CF-04",
+              "ip": "104.19.153.39",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 199.941234,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CF-05",
+              "ip": "104.18.46.6",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 149.559122,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CF-06",
+              "ip": "104.16.59.56",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 158.059132,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CDN-01",
+              "ip": "79.127.240.1",
+              "port": 443,
+              "asn": "60068",
+              "provider": "CDN77"
+            },
+            "status": "ERROR",
+            "alive": false,
+            "detail": "TCP FIN"
+          },
+          {
+            "target": {
+              "id": "CDN-02",
+              "ip": "89.187.169.9",
+              "port": 443,
+              "asn": "60068",
+              "provider": "CDN77"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 266.997945,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CDN-03",
+              "ip": "169.150.239.5",
+              "port": 443,
+              "asn": "60068",
+              "provider": "CDN77"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 282.652251,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CDN-04",
+              "ip": "84.17.50.100",
+              "port": 80,
+              "asn": "60068",
+              "provider": "CDN77 HTTP"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 151.181378,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CDN-05",
+              "ip": "82.27.130.121",
+              "port": 443,
+              "asn": "212238",
+              "provider": "CDN77"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 223.275063,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CDN-06",
+              "ip": "194.32.146.68",
+              "port": 443,
+              "asn": "212238",
+              "provider": "CDN77"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 217.419858,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CDN-07",
+              "ip": "173.211.70.143",
+              "port": 443,
+              "asn": "212238",
+              "provider": "CDN77"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 622.083624,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-01",
+              "ip": "23.222.76.4",
+              "port": 443,
+              "asn": "20940",
+              "provider": "Akamai"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 630.140438,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-02",
+              "ip": "23.46.144.6",
+              "port": 443,
+              "asn": "20940",
+              "provider": "Akamai"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 603.866287,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-03",
+              "ip": "72.246.41.5",
+              "port": 80,
+              "asn": "20940",
+              "provider": "Akamai HTTP"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 398.462452,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-04",
+              "ip": "95.100.240.7",
+              "port": 443,
+              "asn": "20940",
+              "provider": "Akamai"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 978.159736,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-05",
+              "ip": "23.1.64.4",
+              "port": 443,
+              "asn": "16625",
+              "provider": "Akamai"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 265.107853,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-06",
+              "ip": "184.31.208.5",
+              "port": 443,
+              "asn": "16625",
+              "provider": "Akamai"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 402.326652,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-07",
+              "ip": "23.62.225.111",
+              "port": 443,
+              "asn": "12222",
+              "provider": "Akamai"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 931.81483,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-08",
+              "ip": "88.221.209.114",
+              "port": 443,
+              "asn": "12222",
+              "provider": "Akamai"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 337.439473,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-09",
+              "ip": "23.11.41.163",
+              "port": 443,
+              "asn": "33905",
+              "provider": "Akamai",
+              "sni": "media.miele.com"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 483.845027,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-10",
+              "ip": "172.236.2.30",
+              "port": 443,
+              "asn": "63949",
+              "provider": "Akamai Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 337.256114,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-11",
+              "ip": "212.71.233.10",
+              "port": 443,
+              "asn": "63949",
+              "provider": "Akamai Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 227.647002,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-01",
+              "ip": "16.15.219.241",
+              "port": 443,
+              "asn": "16509",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 505.913843,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-02",
+              "ip": "76.223.67.41",
+              "port": 443,
+              "asn": "16509",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 219.384526,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-03",
+              "ip": "168.100.27.4",
+              "port": 443,
+              "asn": "16509",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 423.988034,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-04",
+              "ip": "54.196.100.238",
+              "port": 443,
+              "asn": "14618",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 618.862249,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-05",
+              "ip": "148.5.72.176",
+              "port": 443,
+              "asn": "14618",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 626.759369,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-06",
+              "ip": "198.22.163.54",
+              "port": 443,
+              "asn": "8987",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 552.850039,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-07",
+              "ip": "108.175.48.27",
+              "port": 443,
+              "asn": "8987",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 659.368334,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CNT-01",
+              "ip": "173.249.28.198",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 313.173847,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CNT-02",
+              "ip": "62.171.173.1",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 230.610236,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CNT-03",
+              "ip": "185.211.6.51",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 265.824855,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CNT-04",
+              "ip": "5.189.159.58",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 214.565439,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CNT-05",
+              "ip": "217.217.252.183",
+              "port": 443,
+              "asn": "141995",
+              "provider": "Contabo"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 660.282436,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CNT-06",
+              "ip": "147.93.153.44",
+              "port": 443,
+              "asn": "141995",
+              "provider": "Contabo"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 572.759916,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CNT-07",
+              "ip": "94.136.190.9",
+              "port": 443,
+              "asn": "141995",
+              "provider": "Contabo"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 585.395211,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "FST-01",
+              "ip": "151.101.66.245",
+              "port": 443,
+              "asn": "54113",
+              "provider": "Fastly",
+              "sni": "www.jetblue.com"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 208.587004,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "FST-02",
+              "ip": "151.101.194.114",
+              "port": 443,
+              "asn": "54113",
+              "provider": "Fastly",
+              "sni": "ssl.p.jwpcdn.com"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 194.495386,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GC-01",
+              "ip": "147.189.239.240",
+              "port": 443,
+              "asn": "396982",
+              "provider": "Google Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 159.393487,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GC-02",
+              "ip": "35.227.66.60",
+              "port": 443,
+              "asn": "396982",
+              "provider": "Google Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 495.948872,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GCR-01",
+              "ip": "213.156.152.155",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 306.943909,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GCR-02",
+              "ip": "92.223.13.10",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 456.855412,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GCR-03",
+              "ip": "185.145.113.133",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 281.948035,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GCR-04",
+              "ip": "82.117.228.93",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 224.504074,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GCR-05",
+              "ip": "213.156.150.25",
+              "port": 443,
+              "asn": "202422",
+              "provider": "Gcore"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 1423.915294,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GCR-06",
+              "ip": "5.188.190.167",
+              "port": 443,
+              "asn": "202422",
+              "provider": "Gcore"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 555.483803,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-01",
+              "ip": "152.67.64.161",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 229.562966,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-02",
+              "ip": "67.222.57.149",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 612.980548,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-03",
+              "ip": "132.145.253.77",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 223.287174,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-04",
+              "ip": "158.180.238.77",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 258.332978,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-05",
+              "ip": "79.72.37.28",
+              "port": 80,
+              "asn": "54253",
+              "provider": "Oracle HTTP"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 376.384565,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-06",
+              "ip": "158.178.160.240",
+              "port": 443,
+              "asn": "54253",
+              "provider": "Oracle"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 284.74815,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-07",
+              "ip": "217.142.192.157",
+              "port": 443,
+              "asn": "54253",
+              "provider": "Oracle"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 588.250926,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-09",
+              "ip": "156.151.59.19",
+              "port": 443,
+              "asn": "1219",
+              "provider": "Oracle"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 777.749978,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-10",
+              "ip": "139.87.83.30",
+              "port": 443,
+              "asn": "6142",
+              "provider": "Oracle"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 464.534901,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-11",
+              "ip": "139.87.117.158",
+              "port": 443,
+              "asn": "6142",
+              "provider": "Oracle"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 803.491156,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-12",
+              "ip": "207.127.85.89",
+              "port": 443,
+              "asn": "14544",
+              "provider": "Oracle"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 392.139636,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OR-13",
+              "ip": "155.248.72.27",
+              "port": 443,
+              "asn": "20054",
+              "provider": "Oracle"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 629.762186,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OVH-01",
+              "ip": "199.168.193.103",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 216.779128,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OVH-02",
+              "ip": "141.95.228.164",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 219.210399,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OVH-03",
+              "ip": "46.105.222.91",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 228.687439,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OVH-04",
+              "ip": "40.160.45.210",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 467.499703,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "OVH-05",
+              "ip": "185.155.218.223",
+              "port": 80,
+              "asn": "16276",
+              "provider": "OVH HTTP"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 299.0717,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SW-01",
+              "ip": "62.4.10.75",
+              "port": 443,
+              "asn": "12876",
+              "provider": "Scaleway"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 243.29433,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SW-02",
+              "ip": "51.158.153.203",
+              "port": 443,
+              "asn": "12876",
+              "provider": "Scaleway"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 221.827109,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SW-03",
+              "ip": "212.83.152.108",
+              "port": 443,
+              "asn": "12876",
+              "provider": "Scaleway"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 227.533962,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SW-04",
+              "ip": "163.172.223.99",
+              "port": 80,
+              "asn": "12876",
+              "provider": "Scaleway HTTP"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 153.479658,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SW-05",
+              "ip": "81.56.227.171",
+              "port": 443,
+              "asn": "29447",
+              "provider": "Scaleway"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 362.312994,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SW-06",
+              "ip": "83.158.240.200",
+              "port": 443,
+              "asn": "29447",
+              "provider": "Scaleway"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 325.232459,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SW-07",
+              "ip": "81.56.11.201",
+              "port": 443,
+              "asn": "29447",
+              "provider": "Scaleway"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 278.316199,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-01",
+              "ip": "157.230.91.62",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 453.035945,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-02",
+              "ip": "138.68.63.162",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 631.431622,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-03",
+              "ip": "159.203.180.157",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 466.155316,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-04",
+              "ip": "147.182.168.41",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 768.358375,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-05",
+              "ip": "45.55.107.70",
+              "port": 80,
+              "asn": "14061",
+              "provider": "DigitalOcean HTTP"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 574.951396,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-06",
+              "ip": "141.0.173.188",
+              "port": 443,
+              "asn": "46652",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 317.864166,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-07",
+              "ip": "69.55.57.11",
+              "port": 443,
+              "asn": "46652",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 283.432195,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "VLT-01",
+              "ip": "209.250.243.50",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 225.195171,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "VLT-02",
+              "ip": "64.176.188.124",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 253.195637,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "VLT-03",
+              "ip": "108.61.167.59",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 230.276639,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "VLT-04",
+              "ip": "173.199.115.182",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 800.530786,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "VLT-05",
+              "ip": "108.61.197.203",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "MBC-01",
+              "ip": "193.35.224.194",
+              "port": 443,
+              "asn": "8849",
+              "provider": "Melbicom"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 647.336485,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "MBC-03",
+              "ip": "185.6.14.1",
+              "port": 443,
+              "asn": "56630",
+              "provider": "Melbicom"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 397.522829,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "FT-01",
+              "ip": "104.244.74.134",
+              "port": 443,
+              "asn": "53667",
+              "provider": "FranTech"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 342.695849,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "FT-02",
+              "ip": "198.251.88.98",
+              "port": 443,
+              "asn": "53667",
+              "provider": "FranTech"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 247.827597,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CV-01",
+              "ip": "130.185.249.20",
+              "port": 443,
+              "asn": "62240",
+              "provider": "Clouvider"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 234.298694,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CV-02",
+              "ip": "194.127.178.154",
+              "port": 443,
+              "asn": "62240",
+              "provider": "Clouvider"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 225.806652,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "ME-01",
+              "ip": "146.70.158.22",
+              "port": 443,
+              "asn": "9009",
+              "provider": "M247 Europe"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 381.900572,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "IM-01",
+              "ip": "213.175.200.210",
+              "port": 443,
+              "asn": "20860",
+              "provider": "IOMART"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 238.4063,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "IM-02",
+              "ip": "185.224.199.82",
+              "port": 443,
+              "asn": "21130",
+              "provider": "IOMART"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 358.31433,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "ZL-01",
+              "ip": "193.118.45.137",
+              "port": 443,
+              "asn": "21859",
+              "provider": "Zenlayer"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 259.50719,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "CN-01",
+              "ip": "185.212.149.82",
+              "port": 443,
+              "asn": "51765",
+              "provider": "CreaNova"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 233.869675,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "SCA-01",
+              "ip": "5.61.55.146",
+              "port": 443,
+              "asn": "58061",
+              "provider": "Scalaxy"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 260.38387,
+            "detail": "All 16 iterations OK"
+          }
+        ],
+        "detected_count": 0,
+        "ok_count": 103,
+        "summary": "103/105 OK, 0 TSPU drops detected"
+      }
+    }
+  ]
+}

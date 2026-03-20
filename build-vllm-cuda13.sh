@@ -6,7 +6,7 @@ cd ~/src/github.com/vllm-project/vllm/
 git checkout .
 git checkout main 
 git pull
-# git checkout $(curl -sL -H "Accept: application/json" https://github.com/vllm-project/vllm/releases/latest | jq -c -r .tag_name)
+git checkout $(curl -sL -H "Accept: application/json" https://github.com/vllm-project/vllm/releases/latest | jq -c -r .tag_name)
 uv venv --allow-existing
 source ./.venv/bin/activate
 uv pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu130

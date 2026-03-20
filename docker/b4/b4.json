@@ -1,0 +1,202 @@
+{
+  "version": 26,
+  "queue": {
+    "start_num": 537,
+    "threads": 4,
+    "mark": 32768,
+    "ipv4": true,
+    "ipv6": false,
+    "tcp_conn_bytes_limit": 19,
+    "udp_conn_bytes_limit": 8,
+    "interfaces": [],
+    "devices": {
+      "enabled": false,
+      "vendor_lookup": false,
+      "wisb": false,
+      "mac": [],
+      "mss_clamps": []
+    },
+    "mss_clamp": {
+      "enabled": false,
+      "size": 88
+    }
+  },
+  "system": {
+    "tables": {
+      "monitor_interval": 10,
+      "skip_setup": false,
+      "masquerade": false,
+      "masquerade_interface": ""
+    },
+    "logging": {
+      "level": 1,
+      "instaflush": true,
+      "syslog": false,
+      "error_file": "/var/log/b4/errors.log"
+    },
+    "web_server": {
+      "port": 7000,
+      "bind_address": "0.0.0.0",
+      "tls_cert": "",
+      "tls_key": "",
+      "username": "",
+      "password": "",
+      "language": "en"
+    },
+    "socks5": {
+      "enabled": false,
+      "port": 1080,
+      "bind_address": "0.0.0.0",
+      "username": "",
+      "password": "",
+      "udp_timeout": 300,
+      "udp_read_timeout": 5
+    },
+    "checker": {
+      "discovery_timeout": 5,
+      "config_propagate_ms": 1500,
+      "reference_domain": "yandex.ru",
+      "reference_dns": [
+        "9.9.9.9",
+        "1.1.1.1",
+        "8.8.8.8",
+        "9.9.1.1",
+        "8.8.4.4"
+      ],
+      "validation_tries": 1
+    },
+    "geo": {
+      "sitedat_path": "",
+      "ipdat_path": "",
+      "sitedat_url": "",
+      "ipdat_url": ""
+    },
+    "api": {
+      "ipinfo_token": ""
+    }
+  },
+  "sets": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "telegram",
+      "tcp": {
+        "conn_bytes_limit": 19,
+        "seg2delay": 0,
+        "seg2delay_max": 0,
+        "syn_fake": false,
+        "syn_fake_len": 0,
+        "syn_ttl": 7,
+        "drop_sack": false,
+        "dport_filter": "",
+        "incoming": {
+          "mode": "off",
+          "min": 14,
+          "max": 14,
+          "fake_ttl": 7,
+          "fake_count": 3,
+          "strategy": "badsum"
+        },
+        "desync": {
+          "mode": "off",
+          "ttl": 7,
+          "count": 3,
+          "post_desync": false
+        },
+        "win": {
+          "mode": "off",
+          "values": [
+            0,
+            1460,
+            8192,
+            65535
+          ]
+        },
+        "duplicate": {
+          "enabled": false,
+          "count": 3
+        }
+      },
+      "udp": {
+        "mode": "fake",
+        "fake_seq_length": 6,
+        "fake_len": 64,
+        "faking_strategy": "none",
+        "dport_filter": "",
+        "filter_quic": "disabled",
+        "filter_stun": true,
+        "conn_bytes_limit": 8,
+        "seg2delay": 0,
+        "seg2delay_max": 0
+      },
+      "fragmentation": {
+        "strategy": "tcp",
+        "reverse_order": true,
+        "tlsrec_pos": 0,
+        "middle_sni": true,
+        "sni_position": 1,
+        "oob_position": 0,
+        "oob_char": 120,
+        "seq_overlap_pattern": [],
+        "combo": {
+          "first_byte_split": true,
+          "extension_split": true,
+          "shuffle_mode": "full",
+          "first_delay_ms": 30,
+          "jitter_max_us": 1000,
+          "decoy_enabled": false,
+          "fake_per_segment": false,
+          "fake_per_seg_count": 0
+        },
+        "disorder": {
+          "shuffle_mode": "full",
+          "min_jitter_us": 1000,
+          "max_jitter_us": 3000,
+          "fake_per_segment": false,
+          "fake_per_seg_count": 0
+        }
+      },
+      "faking": {
+        "sni": true,
+        "ttl": 7,
+        "strategy": "pastseq",
+        "seq_offset": 10000,
+        "sni_seq_length": 1,
+        "sni_type": 2,
+        "custom_payload": "",
+        "payload_file": "",
+        "tls_mod": [],
+        "timestamp_decrease": 600000,
+        "sni_mutation": {
+          "mode": "off",
+          "grease_count": 3,
+          "padding_size": 2048,
+          "fake_ext_count": 5,
+          "fake_snis": [
+            "ya.ru",
+            "vk.com",
+            "max.ru"
+          ]
+        },
+        "tcp_md5": false
+      },
+      "targets": {
+        "sni_domains": [
+          "api.telegram.org",
+          "telegram.org",
+          "t.me"
+        ],
+        "ip": [],
+        "geosite_categories": [],
+        "geoip_categories": [],
+        "source_devices": [],
+        "tls": ""
+      },
+      "enabled": true,
+      "dns": {
+        "enabled": true,
+        "target_dns": "95.85.95.85",
+        "fragment_query": false
+      }
+    }
+  ]
+}
