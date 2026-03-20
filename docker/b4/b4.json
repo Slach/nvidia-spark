@@ -1,5 +1,5 @@
 {
-  "version": 26,
+  "version": 27,
   "queue": {
     "start_num": 537,
     "threads": 4,
@@ -25,6 +25,7 @@
     "tables": {
       "monitor_interval": 10,
       "skip_setup": false,
+      "engine": "",
       "masquerade": false,
       "masquerade_interface": ""
     },
@@ -73,7 +74,8 @@
     },
     "api": {
       "ipinfo_token": ""
-    }
+    },
+    "timezone": ""
   },
   "sets": [
     {

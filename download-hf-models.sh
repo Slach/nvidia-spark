@@ -5,8 +5,9 @@ hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/LFM2-24B-A2B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-122B-A10B-GGUF --include="*MXFP4*"
-hf cache rm -y model/unsloth/Qwen3.5-27B-GGUF
-hf download --max-workers=$(nproc) unsloth/Qwen3.5-27B-GGUF --include="*UD_Q4_K_XL*"
+hf download --max-workers=$(nproc) unsloth/Qwen3.5-35B-A3B-GGUF --include="*UD-Q4_K_XL*"
+hf download --max-workers=$(nproc) unsloth/Qwen3.5-27B-GGUF --include="*UD-Q4_K_XL*"
+# hf cache rm -y model/unsloth/Qwen3.5-27B-GGUF
 
 hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q8_0*"
 hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q4_K_M*"
@@ -51,9 +52,11 @@ hf download --max-workers=$(nproc) ai-sage/GigaChat3-10B-A1.8B-GGUF --include="%
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
 
 ## for vllm & sglang safetensors
+# hf download --max-workers=$(nproc) selimaktas/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-v2-NVFP4A16
 hf download --max-workers=$(nproc) Qwen/Qwen3.5-35B-A3B-FP8
 hf download --max-workers=$(nproc) Qwen/Qwen3.5-27B-FP8
 hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
+
 # hf cache rm -y model/AxionML/Qwen3.5-35B-A3B-NVFP4
 # hf download --max-workers=$(nproc) Kbenkhaled/Qwen3.5-35B-A3B-NVFP4
 hf download --max-workers=$(nproc) ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4

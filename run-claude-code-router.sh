@@ -7,8 +7,8 @@ if [[ "max-inference" == "${AGENT_INFERENCE_SERVER}" ]]; then
   mkdir -p ~/.cache/max_cache
 fi
 
-if [[ "openrouter" != "${AGENT_INFERENCE_SERVER}" ]]; then
-  docker compose -f "$CUR_DIR/docker-compose.yaml" up --force-recreate -d ${AGENT_INFERENCE_SERVER}
+if [[ "openrouter" != "${AGENT_INFERENCE_SERVER}" && "z-ai" != "${AGENT_INFERENCE_SERVER}" ]]; then
+  docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
 fi 
 
 mkdir -p ~/.claude-code-router
@@ -31,7 +31,11 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_key": "vllm",
       "models": [
         "${VLLM_MODEL}"
-      ]
+      ],
+      "transformer": {
+        "use": ["openrouter","tooluse"]
+      }
+
     },
    {
       "name": "sglang",
@@ -40,7 +44,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "models": [
         "${SGLANG_MODEL}"
       ]
-    },
+   },
     {
       "name": "llama.cpp",
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
@@ -82,7 +86,7 @@ cat <<EOT > ~/.claude-code-router/config.json
         "perplexity/sonar",
       ],
       "transformer": {
-        "use": ["openrouter"]
+        "use": ["openrouter","tooluse"]
       }
     },
     {
