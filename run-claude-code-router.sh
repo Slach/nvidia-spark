@@ -8,7 +8,7 @@ if [[ "max-inference" == "${AGENT_INFERENCE_SERVER}" ]]; then
 fi
 
 if [[ "openrouter" != "${AGENT_INFERENCE_SERVER}" && "z-ai" != "${AGENT_INFERENCE_SERVER}" ]]; then
-  docker compose -f "$CUR_DIR/docker-compose.yaml" up -d ${AGENT_INFERENCE_SERVER}
+  docker compose -f "$CUR_DIR/docker-compose.yaml" up --force-recreate -d ${AGENT_INFERENCE_SERVER}
 fi 
 
 mkdir -p ~/.claude-code-router
@@ -59,7 +59,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       ]
     },
     {
-      "name":"z.ai",
+      "name":"z-ai",
       "api_base_url": "https://api.z.ai/api/paas/v4/completions",
       "api_key": "${ZAI_API_KEY}",
       "models": [

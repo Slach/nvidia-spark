@@ -7,6 +7,8 @@ hf download --max-workers=$(nproc) noctrex/LFM2-24B-A2B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-122B-A10B-GGUF --include="*MXFP4*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-35B-A3B-GGUF --include="*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-27B-GGUF --include="*UD-Q4_K_XL*"
+hf download --max-workers=$(nproc) mradermacher/Nemotron-Cascade-2-30B-A3B-i1-GGUF --include="*Q4_K_M*"
+
 # hf cache rm -y model/unsloth/Qwen3.5-27B-GGUF
 
 hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q8_0*"
