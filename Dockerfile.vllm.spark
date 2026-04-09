@@ -1,5 +1,20 @@
 FROM vllm/vllm-openai:cu130-nightly-aarch64
-RUN pip install fastsafetensors
-RUN pip install paroquant[vllm]
-RUN pip install --upgrade transformers
-RUN apt update && apt install -y git && pip install git+https://github.com/caiovicentino/polarengine-vllm.git
+
+RUN apt-get update && apt-get install -y \
+    git \
+    ninja-build \
+    libcusparse-dev-13-0 \
+    libcublas-dev-13-0 \
+    libcurand-dev-13-0 \
+    libcusolver-dev-13-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install fastsafetensors \
+    && pip install paroquant[vllm] \
+    && pip install --upgrade transformers \
+    && pip install git+https://github.com/caiovicentino/polarengine-vllm.git
+
+COPY docker/paroquant/patch.py /tmp/patch.py
+RUN python3 /tmp/patch.py && rm /tmp/patch.py
+
+RUN python3 -c "import paroquant.kernels.cuda"

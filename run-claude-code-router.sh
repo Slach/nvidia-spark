@@ -31,10 +31,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_key": "paroquant",
       "models": [
         "${PAROQUANT_MODEL}"
-      ],
-      "transformer": {
-        "use": ["tooluse"]
-      }
+      ]
     },
     {
       "name": "vllm",
