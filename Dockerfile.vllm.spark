@@ -1,2 +1,5 @@
 FROM vllm/vllm-openai:cu130-nightly-aarch64
 RUN pip install fastsafetensors
+RUN pip install paroquant[vllm]
+RUN pip install --upgrade transformers
+RUN apt update && apt install -y git && pip install git+https://github.com/caiovicentino/polarengine-vllm.git

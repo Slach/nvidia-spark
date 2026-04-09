@@ -1,18 +1,33 @@
+pipx upgrade-all
 # CODING MODELS
 ## for llama.cpp GGUF
 
 hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/LFM2-24B-A2B-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) unsloth/Qwen3.5-122B-A10B-GGUF --include="*MXFP4*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-35B-A3B-GGUF --include="*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.5-27B-GGUF --include="*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) mradermacher/Nemotron-Cascade-2-30B-A3B-i1-GGUF --include="*Q4_K_M*"
+hf download --max-workers=$(nproc) Exil01/Qwen3.5-35B-Uncensored-YaRN-1M --include="*Q4_K_M*" --include="*f16*"
+hf download --max-workers=$(nproc) Ex0bit/Qwen3.5-122B-A10B-PRISM-LITE-GGUF
+hf download --max-workers=$(nproc) unsloth/gemma-4-31B-it-GGUF --include="*UD-Q4_K_XL*" --include="mmproj-BF16*"
+hf download --max-workers=$(nproc) OpenMOSE/Qwen3.5-REAP-97B-A10B-GGUF --include="*Q4_K_M*" --include="*mmproj-BF16*"
 
-# hf cache rm -y model/unsloth/Qwen3.5-27B-GGUF
+# hf download --max-workers=$(nproc) Ex0bit/Qwen3.5-122B-A10B-PRISM-PRO-GGUF
 
-hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q8_0*"
-hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q4_K_M*"
+# hf download --max-workers=$(nproc) Exil01/Qwen3.5-27B-Opus-v2-YaRN-1M --exclude="*BF16*"
+hf cache rm -y model/Exil01/Qwen3.5-27B-Opus-v2-YaRN-1M
+
+# hf download --max-workers=$(nproc) Biomanticus/RYS-Qwen3.5-27B-gguf --include="*Q4_K_M*"
+hf cache rm -y model/Biomanticus/RYS-Qwen3.5-27B-gguf
+
+# hf download --max-workers=$(nproc) unsloth/Qwen3.5-122B-A10B-GGUF --include="*MXFP4*"
+hf cache rm -y model/unsloth/Qwen3.5-122B-A10B-GGUF
+
+
+# hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q8_0*"
+# hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q4_K_M*"
+hf cache rm -y model/Qwen/Qwen3-Coder-Next-GGUF
 
 hf download --max-workers=$(nproc) mradermacher/Strand-Rust-Coder-14B-v1-GGUF --include "*Q8_0*"
 
@@ -50,20 +65,26 @@ hf cache rm -y model/bartowski/zai-org_GLM-4.7-GGUF
 hf cache rm -y model/AaryanK/MiniMax-M2.1-GGUF
 
 # just for fun, Russian Chat models
-hf download --max-workers=$(nproc) ai-sage/GigaChat3-10B-A1.8B-GGUF --include="%q8%"
+hf download --max-workers=$(nproc) ai-sage/GigaChat3.1-10B-A1.8B-GGUF --include="*q8*"
+
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
+# hf download --max-workers=$(nproc) ai-sage/GigaChat3-10B-A1.8B-GGUF --include="*q8*"
+hf cache rm -y model/ai-sage/GigaChat3-10B-A1.8B-GGUF
 
 ## for vllm & sglang safetensors
 # hf download --max-workers=$(nproc) selimaktas/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-v2-NVFP4A16
 hf download --max-workers=$(nproc) Qwen/Qwen3.5-35B-A3B-FP8
 hf download --max-workers=$(nproc) Qwen/Qwen3.5-27B-FP8
 hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
-
 # hf cache rm -y model/AxionML/Qwen3.5-35B-A3B-NVFP4
 # hf download --max-workers=$(nproc) Kbenkhaled/Qwen3.5-35B-A3B-NVFP4
 hf download --max-workers=$(nproc) ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4
 # hf download --max-workers=$(nproc) cyankiwi/GLM-4.7-Flash-AWQ-8bit
 hf cache rm -y model/cyankiwi/GLM-4.7-Flash-AWQ-8bit
+# vLLM only - require polarquant
+hf download --max-workers=$(nproc) caiovicentino1/Qwopus3.5-27B-v3-PolarQuant-Q5
+# vLLM only - require paroquant
+hf download --max-workers=$(nproc) z-lab/gemma-4-31B-it-PARO
 
 # hf download --max-workers=$(nproc) unsloth/Qwen3-Next-80B-A3B-Instruct-bnb-4bit
 hf cache rm -y model/unsloth/Qwen3-Next-80B-A3B-Instruct-bnb-4bit

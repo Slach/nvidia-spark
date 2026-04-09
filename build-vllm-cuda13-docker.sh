@@ -8,8 +8,8 @@ git checkout .
 git checkout main
 git pull --tags
 git checkout "${VLLM_RELEASE}"
-# CUDA_VERSION=$(nvcc --version | grep release | cut -d "V" -f 2)
 CUDA_VERSION=13.0.2
 UBUNTU_VERSION=$(grep 'VERSION_ID' /etc/os-release | cut -d'"' -f2)
+docker pull vllm/vllm-openai:cu130-nightly-aarch64
 docker build --progress=plain --platform=linux/arm64 -f "${CUR_DIR}/Dockerfile.vllm.spark" -t vllm:spark-full .
 cd -

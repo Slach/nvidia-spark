@@ -96,5 +96,5 @@ if screen -list | grep -q "vibe-kanban"; then
   screen -S vibe-kanban -X quit
 fi
 
-screen -L -Logfile /tmp/vibe-kanban.log -dmS vibe-kanban bash -c "PORT=8888 bunx vibe-kanban@latest"
+screen -L -Logfile /tmp/vibe-kanban.log -dmS vibe-kanban bash -c "PORT=8888 bunx --bun vibe-kanban@latest"
 screen -list

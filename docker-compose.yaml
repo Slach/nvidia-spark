@@ -69,7 +69,7 @@ services:
     # image: vllm/vllm-openai:cu130-nightly-aarch64
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface
-      - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
+    #  - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     environment:
       - HF_HOME=/models/huggingface
       - HF_HUB_OFFLINE=1
@@ -86,17 +86,55 @@ services:
       --max-num-batched-tokens 8192
       --enable-chunked-prefill
       --max-num-seqs 2
-      --kv-cache-memory-bytes 17179869184
       --kv-cache-dtype fp8
       --calculate-kv-scales
       --trust-remote-code
       --enable-prefix-caching 
+      --enable-expert-parallel 
       --enable-auto-tool-choice 
       --tool-call-parser qwen3_coder 
       --reasoning-parser qwen3
-      --enable-expert-parallel 
 #      --load-format fastsafetensors 
-      
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+  paroquant:
+    image: ghcr.io/z-lab/paroquant:serve
+    ports:
+      - "127.0.0.1:30002:30002"
+    volumes:
+      - ${HOME}/.cache/paroquant:/root/.cache/paroquant
+      - ${HOME}/.cache/huggingface:/models/huggingface:ro
+    environment:
+      - HF_HOME=/models/huggingface
+      - HF_HUB_OFFLINE=1
+      - HF_TOKEN=${HF_TOKEN:-}
+      - HF_HUB_CACHE=/models/huggingface    
+      - HUGGINGFACE_HUB_CACHE=/models/huggingface
+      - VLLM_CACHE_ROOT=/models/huggingface      
+    command: >
+      ${PAROQUANT_MODEL:-z-lab/gemma-4-31B-it-PARO}
+      --download-dir /models/huggingface
+      --host 0.0.0.0
+      --port 30002      
+      --max-model-len 261375
+      --max-num-batched-tokens 8192
+      --enable-chunked-prefill
+      --max-num-seqs 2
+      --kv-cache-dtype fp8
+      --calculate-kv-scales
+      --trust-remote-code
+      --enable-prefix-caching 
+      --enable-expert-parallel 
+#      --enable-auto-tool-choice 
+#      --tool-call-parser gemma 
+#      --reasoning-parser gemma
+
     deploy:
       resources:
         reservations:

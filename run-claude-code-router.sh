@@ -26,6 +26,17 @@ cat <<EOT > ~/.claude-code-router/config.json
       "models": ["noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"]
     },
     {
+      "name": "paroquant",
+      "api_base_url": "http://127.0.0.1:30002/v1/chat/completions",
+      "api_key": "paroquant",
+      "models": [
+        "${PAROQUANT_MODEL}"
+      ],
+      "transformer": {
+        "use": ["tooluse"]
+      }
+    },
+    {
       "name": "vllm",
       "api_base_url": "http://127.0.0.1:30001/v1/chat/completions",
       "api_key": "vllm",
@@ -33,18 +44,17 @@ cat <<EOT > ~/.claude-code-router/config.json
         "${VLLM_MODEL}"
       ],
       "transformer": {
-        "use": ["openrouter","tooluse"]
+        "use": ["tooluse"]
       }
-
     },
-   {
+    {
       "name": "sglang",
       "api_base_url": "http://127.0.0.1:30000/v1/chat/completions",
       "api_key": "sglang",
       "models": [
         "${SGLANG_MODEL}"
       ]
-   },
+    },
     {
       "name": "llama.cpp",
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
@@ -113,89 +123,7 @@ cat <<EOT > ~/.claude-code-router/config.json
 }
 EOT
 
-bun install -g @qwen-code/qwen-code@latest
-bun install -g opencode-ai@latest
-bun install -g @anthropic-ai/claude-code@latest
-bun install -g @musistudio/claude-code-router@latest
 
-
-# All MCP via NCP
-sudo mkdir -p /opt/npm-global/{bin,lib/node_modules}
-sudo chgrp users -R /opt/npm-global
-sudo chmod -R 775 /opt/npm-global
-
-npm config set prefix ~/.npm-global
-npm install -g @portel/ncp@latest
-grep -q 'npm-global' ~/.bashrc || echo 'export PATH="~/.npm-global/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-echo $PATH
-# todo wait when fix https://github.com/portel-dev/ncp/issues/11
-# bun install -g @portel/ncp
-# npm install -g @portel/ncp@latest
-
-echo "${GITHUB_TOKEN}" | gh auth login --with-token --git-protocol https
-
-
-
-# ncp add -y --token=${GITHUB_TOKEN} github
-ncp add -y gitmcp https://gitmcp.io/docs/
-ncp add -y context7 -- npx -y @upstash/context7-mcp@latest
-ncp add --env PORT="${VIBE_KANBAN_PORT:-8888}" -y vibe_kanban -- npx -y vibe-kanban@latest --mcp
-ncp add -y duckduckgo -- npx -y duckduckgo-mcp-server@latest
-ncp list 
-
-claude mcp add --scope user ncp ncp || true
-claude mcp list
-
-qwen mcp add --scope user ncp ncp || true
-qwen mcp list
-
-# ass LSP to claude code
-grep -q 'ENABLE_LSP_TOOL' ~/.bashrc || echo 'export ENABLE_LSP_TOOL=1' >> ~/.bashrc
-source ~/.bashrc
-
-
-sudo apt install -y clangd llvm make cmake ninja-build rustup
-
-uv tool install pyright@latest
-go install golang.org/x/tools/gopls@latest
-rustup component add rust-analyzer
-sudo apt install -y clangd
-bun install -g vscode-langservers-extracted
-bun install -g typescript-language-server typescript
-
-# official LSP & plugins
-claude plugin marketplace add anthropics/claude-plugins-official || true
-claude plugin install clangd-lsp@claude-plugins-official || true
-claude plugin install gopls-lsp@claude-plugins-official || true
-claude plugin install php-lsp@claude-plugins-official || true
-claude plugin install pyright-lsp@claude-plugins-official || true
-claude plugin install typescript-lsp@claude-plugins-official || true
-claude plugin install rust-analyzer-lsp@claude-plugins-official || true
-# code simplifier
-claude plugin install code-simplifier@claude-plugins-official || true
-
-# compact context for big outputs
-claude plugin marketplace add mksglu/claude-context-mode || true
-claude plugin uninstall context-mode@claude-context-mode || true
-
-# HTML & CSS LSP
-claude plugin marketplace add Piebald-AI/claude-code-lsps || true
-claude plugin install vscode-langservers@claude-code-lsps || true
-
-# TODO 1C - https://github.com/Piebald-AI/claude-code-lsps/tree/main/bsl-lsp
-
-# other marketplaces
-claude plugin marketplace add wshobson/agents || true
-claude plugin marketplace add obra/superpowers-marketplace || true
-claude plugin marketplace add K-Dense-AI/claude-scientific-skills || true
-claude plugin marketplace add EveryInc/every-marketplace || true
-claude plugin marketplace add sawyerhood/dev-browser || true
-claude plugin marketplace add zscole/adversarial-spec || true
-uv tool install superclaude
-superclaude install
-
-bunx get-shit-done-cc --all --global
 
 ccr stop || true
 
