@@ -1,0 +1,5 @@
+FROM ghcr.io/astral-sh/uv:debian
+RUN uv venv
+RUN uv pip install "paroquant[vllm]" "vllm==0.19.1" \
+  --extra-index-url https://wheels.vllm.ai/0.19.1/cu130 \
+  --extra-index-url https://download.pytorch.org/whl/cu130

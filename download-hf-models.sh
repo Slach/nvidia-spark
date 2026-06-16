@@ -2,11 +2,39 @@ pipx upgrade-all
 # CODING MODELS
 ## for llama.cpp GGUF
 
-hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF
+hf cache rm -y model/catlilface/Gemma-4-26B-A4B-NVFP4-GGUF
+hf download --max-workers=$(nproc) unsloth/gemma-4-31B-it-qat-GGUF
+hf download --max-workers=$(nproc) unsloth/gemma-4-12B-it-qat-GGUF
+hf download --max-workers=$(nproc) unsloth/gemma-4-26B-A4B-it-qat-GGUF
+hf download --max-workers=$(nproc) yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF --include="*Q8*"
+hf download --max-workers=$(nproc) unsloth/Qwen3.6-27B-MTP-GGUF  --include="*UD-Q4_K_XL*" --include="*mmproj*"
+hf download --max-workers=$(nproc) unsloth/Qwen3.6-35B-A3B-MTP-GGUF --include="*UD-Q4_K_XL*" --include="*mmproj*"
+hf download --max-workers=$(nproc) llmfan46/Qwen3.5-35B-A3B-uncensored-heretic-v2-Native-MTP-Preserved-NVFP4-GGUF --include="*Q8*" --include="*mmproj*"
+
+# medicine
+hf download --max-workers=$(nproc) mradermacher/AntAngelMed-i1-GGUF --include="*Q4_K_M*" --include="*imatrix*"
+
+# hf download --max-workers=$(nproc) CISCai/gemma-4-31B-it-NVFP4-turbo-GGUF
+hf cache rm -y model/CISCai/gemma-4-31B-it-NVFP4-turbo-GGUF
+# hf download --max-workers=$(nproc) mudler/Qwen3.6-35B-A3B-APEX-GGUF --include="*mmproj*" --include="*I-Quality*" --include="*I-Mini*"
+hf cache rm -y model/mudler/Qwen3.6-35B-A3B-APEX-GGUF
+
+hf cache rm -y model/noctrex/Qwen3.6-35B-A3B-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF
+
 hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MXFP4_MOE-GGUF
 hf download --max-workers=$(nproc) noctrex/LFM2-24B-A2B-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) unsloth/Qwen3.5-35B-A3B-GGUF --include="*UD-Q4_K_XL*"
-hf download --max-workers=$(nproc) unsloth/Qwen3.5-27B-GGUF --include="*UD-Q4_K_XL*"
+
+
+hf cache rm -y model/unsloth/Qwen3.6-35B-A3B-GGUF
+hf cache rm -y model/unsloth/Qwen3.6-27B-GGUF
+
+hf cache rm -y model/unsloth/Qwen3.5-35B-A3B-GGUF
+hf cache rm -y model/unsloth/Qwen3.5-27B-GGUF
+
+
+hf download --max-workers=$(nproc) danielcherubini/Qwen3.5-DeltaCoder-9B-GGUF --include="*Q4_K_M*"
+
 hf download --max-workers=$(nproc) mradermacher/Nemotron-Cascade-2-30B-A3B-i1-GGUF --include="*Q4_K_M*"
 hf download --max-workers=$(nproc) Exil01/Qwen3.5-35B-Uncensored-YaRN-1M --include="*Q4_K_M*" --include="*f16*"
 hf download --max-workers=$(nproc) Ex0bit/Qwen3.5-122B-A10B-PRISM-LITE-GGUF
@@ -72,13 +100,31 @@ hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
 hf cache rm -y model/ai-sage/GigaChat3-10B-A1.8B-GGUF
 
 ## for vllm & sglang safetensors
+hf download --max-workers=$(nproc) AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-NVFP4-MTP-XS
+hf download --max-workers=$(nproc) z-lab/Qwen3.6-27B-DFlash
+hf download --max-workers=$(nproc) AEON-7/Qwen3.6-35B-A3B-heretic-NVFP4
+hf download --max-workers=$(nproc) z-lab/Qwen3.6-35B-A3B-DFlash
+
+hf download --max-workers=$(nproc) nvidia/Gemma-4-31B-IT-NVFP4
+
+# https://github.com/Avarok-Cybersecurity/atlas/issues/106
+hf download --max-workers=$(nproc) Qwen/Qwen3.6-35B-A3B-FP8
+# https://github.com/Avarok-Cybersecurity/atlas/issues/106
+hf download --max-workers=$(nproc) RedHatAI/Qwen3.6-35B-A3B-NVFP4
+# https://github.com/Avarok-Cybersecurity/atlas/issues/107
+hf download --max-workers=$(nproc) nvidia/Qwen3.6-35B-A3B-NVFP4
+hf cache rm -y model/Qwen/Qwen3.5-35B-A3B-FP8
+hf cache rm -y model/Qwen/Qwen3.5-27B-FP8
 # hf download --max-workers=$(nproc) selimaktas/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-v2-NVFP4A16
-hf download --max-workers=$(nproc) Qwen/Qwen3.5-35B-A3B-FP8
-hf download --max-workers=$(nproc) Qwen/Qwen3.5-27B-FP8
-hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
-# hf cache rm -y model/AxionML/Qwen3.5-35B-A3B-NVFP4
-# hf download --max-workers=$(nproc) Kbenkhaled/Qwen3.5-35B-A3B-NVFP4
-hf download --max-workers=$(nproc) ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4
+
+
+hf download --max-workers=$(nproc) LilaRest/gemma-4-31B-it-NVFP4-turbo
+hf cache rm -y model/sakamakismile/Huihui-Qwen3.6-27B-abliterated-NVFP4-MTP
+
+# hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
+hf cache rm -y model/AxionML/Qwen3.5-35B-A3B-NVFP4
+hf cache rm -y model/ig1/Qwen3-Next-80B-A3B-Instruct-NVFP4
+
 # hf download --max-workers=$(nproc) cyankiwi/GLM-4.7-Flash-AWQ-8bit
 hf cache rm -y model/cyankiwi/GLM-4.7-Flash-AWQ-8bit
 # vLLM only - require polarquant

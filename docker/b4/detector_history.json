@@ -1,6 +1,2196 @@
 {
   "entries": [
     {
+      "id": "cf171b9f-cb67-40c9-9dc0-839915c42748",
+      "status": "complete",
+      "tests": [
+        "dns",
+        "domains",
+        "tcp"
+      ],
+      "start_time": "2026-05-04T14:50:32.911979406Z",
+      "end_time": "2026-05-04T14:52:55.178643699Z",
+      "dns_result": {
+        "status": "OK",
+        "doh_server": "Google (IP)",
+        "udp_server": "8.8.8.8",
+        "doh_blocked": false,
+        "udp_blocked": false,
+        "domains": [
+          {
+            "domain": "rutor.info",
+            "doh_ip": "193.46.255.29",
+            "udp_ip": "193.46.255.29",
+            "status": "OK"
+          },
+          {
+            "domain": "ej.ru",
+            "doh_ip": "213.166.70.101",
+            "udp_ip": "213.166.70.101",
+            "status": "OK"
+          },
+          {
+            "domain": "flibusta.is",
+            "doh_ip": "179.43.150.83",
+            "udp_ip": "179.43.150.83",
+            "status": "OK"
+          },
+          {
+            "domain": "clubtone.do.am",
+            "doh_ip": "193.106.232.62",
+            "udp_ip": "193.106.232.62",
+            "status": "OK"
+          },
+          {
+            "domain": "rezka.ag",
+            "doh_ip": "82.221.104.145",
+            "udp_ip": "82.221.104.145",
+            "status": "OK"
+          },
+          {
+            "domain": "shikimori.one",
+            "doh_ip": "186.2.163.41",
+            "udp_ip": "186.2.163.41",
+            "status": "OK"
+          }
+        ],
+        "summary": "6/6 OK, 0 spoofed, 0 intercepted",
+        "spoof_count": 0,
+        "intercept_count": 0,
+        "ok_count": 6
+      },
+      "domains_result": {
+        "domains": [
+          {
+            "domain": "www.instagram.com",
+            "ip": "57.144.248.34",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.facebook.com",
+            "ip": "57.144.248.1",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "x.com",
+            "ip": "162.159.140.229",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://x.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "www.linkedin.com",
+            "ip": "104.18.41.41",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "discord.com",
+            "ip": "162.159.136.232",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://discord.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "gateway.discord.gg",
+            "ip": "162.159.136.234",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://gateway.discord.gg/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "media.discordapp.net",
+            "ip": "162.159.130.232",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 401",
+              "status_code": 401
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "www.youtube.com",
+            "ip": "64.233.164.198",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://www.youtube.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "soundcloud.com",
+            "ip": "52.84.150.35",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://soundcloud.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "meduza.io",
+            "ip": "8.6.112.1",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.dw.com",
+            "ip": "92.123.205.50",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "http": {
+              "status": "ISP_PAGE",
+              "detail": "Cross-domain redirect to: http://bh.beeline.ru/?url=www.dw.com%2F#tf",
+              "status_code": 302,
+              "redirect_to": "http://bh.beeline.ru/?url=www.dw.com%2F#tf"
+            },
+            "overall": "ISP_PAGE"
+          },
+          {
+            "domain": "www.svoboda.org",
+            "ip": "2.22.145.34",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "holod.media",
+            "ip": "104.21.5.248",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.euronews.com",
+            "ip": "199.232.173.91",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.torproject.org",
+            "ip": "204.8.99.144",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "proton.me",
+            "ip": "",
+            "tls13": {
+              "status": "ERROR",
+              "detail": "DNS resolution failed",
+              "latency_ms": 0
+            },
+            "tls12": {
+              "status": "ERROR",
+              "detail": "DNS resolution failed",
+              "latency_ms": 0
+            },
+            "http": {
+              "status": "ERROR",
+              "detail": "DNS resolution failed"
+            },
+            "overall": "ERROR"
+          },
+          {
+            "domain": "protonvpn.com",
+            "ip": "185.159.159.140",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "roskomsvoboda.org",
+            "ip": "8.47.69.1",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://roskomsvoboda.org/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "amnezia.org",
+            "ip": "65.9.175.77",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "rutracker.org",
+            "ip": "104.21.32.39",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "nnmclub.to",
+            "ip": "172.67.144.20",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "rezka.ag",
+            "ip": "82.221.104.145",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "hub.docker.com",
+            "ip": "104.18.43.187",
+            "tls13": {
+              "status": "OK",
+              "detail": "TLS 1.3 connection successful",
+              "latency_ms": 571
+            },
+            "tls12": {
+              "status": "OK",
+              "detail": "TLS 1.2 connection successful",
+              "latency_ms": 197
+            },
+            "http": {
+              "status": "ISP_PAGE",
+              "detail": "Cross-domain redirect to: https://hub.docker.com:443/",
+              "status_code": 301,
+              "redirect_to": "https://hub.docker.com:443/"
+            },
+            "overall": "ISP_PAGE"
+          },
+          {
+            "domain": "www.intel.com",
+            "ip": "23.210.254.130",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 403",
+              "status_code": 403
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "www.canva.com",
+            "ip": "104.16.102.112",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.coursera.org",
+            "ip": "3.174.113.95",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "aws.amazon.com",
+            "ip": "13.33.235.119",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.apkmirror.com",
+            "ip": "104.17.69.215",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.currenttime.tv",
+            "ip": "2.22.145.13",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.messenger.com",
+            "ip": "57.144.248.141",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.themoscowtimes.com",
+            "ip": "8.47.69.1",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.linuxserver.io",
+            "ip": "178.62.84.203",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "danbooru.donmai.us",
+            "ip": "8.47.69.1",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "gelbooru.com",
+            "ip": "172.67.73.83",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.browserleaks.com",
+            "ip": "104.236.69.55",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10001
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "www.cdn77.com",
+            "ip": "37.19.202.45",
+            "tls13": {
+              "status": "OK",
+              "detail": "TLS 1.3 connection successful",
+              "latency_ms": 102
+            },
+            "tls12": {
+              "status": "OK",
+              "detail": "TLS 1.2 connection successful",
+              "latency_ms": 158
+            },
+            "http": {
+              "status": "OK",
+              "detail": "HTTP 301",
+              "status_code": 301,
+              "redirect_to": "https://www.cdn77.com/"
+            },
+            "overall": "OK"
+          },
+          {
+            "domain": "shikimori.one",
+            "ip": "186.2.163.41",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "jut.su",
+            "ip": "8.47.69.1",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "ISP_PAGE",
+              "detail": "Cross-domain redirect to: http://bh.beeline.ru/?url=jut.su%2F#tf",
+              "status_code": 302,
+              "redirect_to": "http://bh.beeline.ru/?url=jut.su%2F#tf"
+            },
+            "overall": "ISP_PAGE"
+          },
+          {
+            "domain": "mos-gorsud.co",
+            "ip": "104.21.43.112",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "kinopub.online",
+            "ip": "216.150.1.129",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          },
+          {
+            "domain": "kino.pub",
+            "ip": "8.47.69.1",
+            "tls13": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "tls12": {
+              "status": "TIMEOUT",
+              "detail": "Connection timed out",
+              "latency_ms": 10000
+            },
+            "http": {
+              "status": "TIMEOUT",
+              "detail": "HTTP connection timed out"
+            },
+            "overall": "TIMEOUT"
+          }
+        ],
+        "blocked_count": 3,
+        "ok_count": 9,
+        "dpi_count": 0,
+        "summary": "9/41 accessible, 3 blocked (0 via DPI)"
+      },
+      "tcp_result": {
+        "targets": [
+          {
+            "target": {
+              "id": "HE-01",
+              "ip": "91.98.156.82",
+              "port": 443,
+              "asn": "24940",
+              "provider": "Hetzner"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-02",
+              "ip": "46.62.154.37",
+              "port": 443,
+              "asn": "24940",
+              "provider": "Hetzner"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-03",
+              "ip": "5.161.249.234",
+              "port": 443,
+              "asn": "213230",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-04",
+              "ip": "178.156.198.203",
+              "port": 443,
+              "asn": "213230",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-05",
+              "ip": "5.78.155.139",
+              "port": 443,
+              "asn": "212317",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-06",
+              "ip": "5.78.82.109",
+              "port": 443,
+              "asn": "212317",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-07",
+              "ip": "5.223.45.178",
+              "port": 443,
+              "asn": "215859",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-08",
+              "ip": "5.223.68.131",
+              "port": 443,
+              "asn": "215859",
+              "provider": "Hetzner Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "HE-09",
+              "ip": "185.189.229.124",
+              "port": 80,
+              "asn": "24940",
+              "provider": "Hetzner HTTP"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CF-01",
+              "ip": "172.67.70.222",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CF-02",
+              "ip": "172.67.181.54",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CF-03",
+              "ip": "104.18.63.125",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CF-04",
+              "ip": "104.19.153.39",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CF-05",
+              "ip": "104.18.46.6",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CF-06",
+              "ip": "104.16.59.56",
+              "port": 443,
+              "asn": "13335",
+              "provider": "Cloudflare"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CDN-01",
+              "ip": "79.127.240.1",
+              "port": 443,
+              "asn": "60068",
+              "provider": "CDN77"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CDN-02",
+              "ip": "89.187.169.9",
+              "port": 443,
+              "asn": "60068",
+              "provider": "CDN77"
+            },
+            "status": "ERROR",
+            "alive": false,
+            "detail": "Error"
+          },
+          {
+            "target": {
+              "id": "CDN-03",
+              "ip": "169.150.239.5",
+              "port": 443,
+              "asn": "60068",
+              "provider": "CDN77"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CDN-04",
+              "ip": "84.17.50.100",
+              "port": 80,
+              "asn": "60068",
+              "provider": "CDN77 HTTP"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 7,
+            "rtt_ms": 267.102958,
+            "detail": "Blackhole at 7KB"
+          },
+          {
+            "target": {
+              "id": "CDN-05",
+              "ip": "82.27.130.121",
+              "port": 443,
+              "asn": "212238",
+              "provider": "CDN77"
+            },
+            "status": "ERROR",
+            "alive": false,
+            "detail": "Error"
+          },
+          {
+            "target": {
+              "id": "CDN-06",
+              "ip": "194.32.146.68",
+              "port": 443,
+              "asn": "212238",
+              "provider": "CDN77"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CDN-07",
+              "ip": "173.211.70.143",
+              "port": 443,
+              "asn": "212238",
+              "provider": "CDN77"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-01",
+              "ip": "23.222.76.4",
+              "port": 443,
+              "asn": "20940",
+              "provider": "Akamai"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-02",
+              "ip": "23.46.144.6",
+              "port": 443,
+              "asn": "20940",
+              "provider": "Akamai"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-03",
+              "ip": "72.246.41.5",
+              "port": 80,
+              "asn": "20940",
+              "provider": "Akamai HTTP"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 7,
+            "rtt_ms": 480.02528,
+            "detail": "Blackhole at 7KB"
+          },
+          {
+            "target": {
+              "id": "AK-04",
+              "ip": "95.100.240.7",
+              "port": 443,
+              "asn": "20940",
+              "provider": "Akamai"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-05",
+              "ip": "23.1.64.4",
+              "port": 443,
+              "asn": "16625",
+              "provider": "Akamai"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-06",
+              "ip": "184.31.208.5",
+              "port": 443,
+              "asn": "16625",
+              "provider": "Akamai"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-07",
+              "ip": "23.62.225.111",
+              "port": 443,
+              "asn": "12222",
+              "provider": "Akamai"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-08",
+              "ip": "88.221.209.114",
+              "port": 443,
+              "asn": "12222",
+              "provider": "Akamai"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-09",
+              "ip": "23.11.41.163",
+              "port": 443,
+              "asn": "33905",
+              "provider": "Akamai",
+              "sni": "media.miele.com"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 489.65855,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AK-10",
+              "ip": "172.236.2.30",
+              "port": 443,
+              "asn": "63949",
+              "provider": "Akamai Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AK-11",
+              "ip": "212.71.233.10",
+              "port": 443,
+              "asn": "63949",
+              "provider": "Akamai Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AWS-01",
+              "ip": "16.15.219.241",
+              "port": 443,
+              "asn": "16509",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 590.296337,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-02",
+              "ip": "76.223.67.41",
+              "port": 443,
+              "asn": "16509",
+              "provider": "AWS"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "AWS-03",
+              "ip": "168.100.27.4",
+              "port": 443,
+              "asn": "16509",
+              "provider": "AWS"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "AWS-04",
+              "ip": "54.196.100.238",
+              "port": 443,
+              "asn": "14618",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 674.40669,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-05",
+              "ip": "148.5.72.176",
+              "port": 443,
+              "asn": "14618",
+              "provider": "AWS"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 736.905851,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "AWS-06",
+              "ip": "198.22.163.54",
+              "port": 443,
+              "asn": "8987",
+              "provider": "AWS"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "AWS-07",
+              "ip": "108.175.48.27",
+              "port": 443,
+              "asn": "8987",
+              "provider": "AWS"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CNT-01",
+              "ip": "173.249.28.198",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CNT-02",
+              "ip": "62.171.173.1",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CNT-03",
+              "ip": "185.211.6.51",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CNT-04",
+              "ip": "5.189.159.58",
+              "port": 443,
+              "asn": "51167",
+              "provider": "Contabo"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CNT-05",
+              "ip": "217.217.252.183",
+              "port": 443,
+              "asn": "141995",
+              "provider": "Contabo"
+            },
+            "status": "ERROR",
+            "alive": false,
+            "detail": "Error"
+          },
+          {
+            "target": {
+              "id": "CNT-06",
+              "ip": "147.93.153.44",
+              "port": 443,
+              "asn": "141995",
+              "provider": "Contabo"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CNT-07",
+              "ip": "94.136.190.9",
+              "port": 443,
+              "asn": "141995",
+              "provider": "Contabo"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "FST-01",
+              "ip": "151.101.66.245",
+              "port": 443,
+              "asn": "54113",
+              "provider": "Fastly",
+              "sni": "www.jetblue.com"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 304.814287,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "FST-02",
+              "ip": "151.101.194.114",
+              "port": 443,
+              "asn": "54113",
+              "provider": "Fastly",
+              "sni": "ssl.p.jwpcdn.com"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 305.440883,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GC-01",
+              "ip": "147.189.239.240",
+              "port": 443,
+              "asn": "396982",
+              "provider": "Google Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 210.313239,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GC-02",
+              "ip": "35.227.66.60",
+              "port": 443,
+              "asn": "396982",
+              "provider": "Google Cloud"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 837.452503,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "GCR-01",
+              "ip": "213.156.152.155",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "GCR-02",
+              "ip": "92.223.13.10",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "GCR-03",
+              "ip": "185.145.113.133",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "GCR-04",
+              "ip": "82.117.228.93",
+              "port": 443,
+              "asn": "199524",
+              "provider": "Gcore"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "GCR-05",
+              "ip": "213.156.150.25",
+              "port": 443,
+              "asn": "202422",
+              "provider": "Gcore"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "GCR-06",
+              "ip": "5.188.190.167",
+              "port": 443,
+              "asn": "202422",
+              "provider": "Gcore"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "OR-01",
+              "ip": "152.67.64.161",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OR-02",
+              "ip": "67.222.57.149",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OR-03",
+              "ip": "132.145.253.77",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OR-04",
+              "ip": "158.180.238.77",
+              "port": 443,
+              "asn": "31898",
+              "provider": "Oracle Cloud"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OR-05",
+              "ip": "79.72.37.28",
+              "port": 80,
+              "asn": "54253",
+              "provider": "Oracle HTTP"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 7,
+            "rtt_ms": 414.270716,
+            "detail": "Blackhole at 7KB"
+          },
+          {
+            "target": {
+              "id": "OR-06",
+              "ip": "158.178.160.240",
+              "port": 443,
+              "asn": "54253",
+              "provider": "Oracle"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "OR-07",
+              "ip": "217.142.192.157",
+              "port": 443,
+              "asn": "54253",
+              "provider": "Oracle"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "OR-09",
+              "ip": "156.151.59.19",
+              "port": 443,
+              "asn": "1219",
+              "provider": "Oracle"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "OR-10",
+              "ip": "139.87.83.30",
+              "port": 443,
+              "asn": "6142",
+              "provider": "Oracle"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 7,
+            "rtt_ms": 4622.84257,
+            "detail": "Blackhole at 7KB"
+          },
+          {
+            "target": {
+              "id": "OR-11",
+              "ip": "139.87.117.158",
+              "port": 443,
+              "asn": "6142",
+              "provider": "Oracle"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "OR-12",
+              "ip": "207.127.85.89",
+              "port": 443,
+              "asn": "14544",
+              "provider": "Oracle"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "OR-13",
+              "ip": "155.248.72.27",
+              "port": 443,
+              "asn": "20054",
+              "provider": "Oracle"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 7,
+            "rtt_ms": 4333.366841,
+            "detail": "Blackhole at 7KB"
+          },
+          {
+            "target": {
+              "id": "OVH-01",
+              "ip": "199.168.193.103",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OVH-02",
+              "ip": "141.95.228.164",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OVH-03",
+              "ip": "46.105.222.91",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OVH-04",
+              "ip": "40.160.45.210",
+              "port": 443,
+              "asn": "16276",
+              "provider": "OVH"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "OVH-05",
+              "ip": "185.155.218.223",
+              "port": 80,
+              "asn": "16276",
+              "provider": "OVH HTTP"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "SW-01",
+              "ip": "62.4.10.75",
+              "port": 443,
+              "asn": "12876",
+              "provider": "Scaleway"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "SW-02",
+              "ip": "51.158.153.203",
+              "port": 443,
+              "asn": "12876",
+              "provider": "Scaleway"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "SW-03",
+              "ip": "212.83.152.108",
+              "port": 443,
+              "asn": "12876",
+              "provider": "Scaleway"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "SW-04",
+              "ip": "163.172.223.99",
+              "port": 80,
+              "asn": "12876",
+              "provider": "Scaleway HTTP"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "SW-05",
+              "ip": "81.56.227.171",
+              "port": 443,
+              "asn": "29447",
+              "provider": "Scaleway"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "SW-06",
+              "ip": "83.158.240.200",
+              "port": 443,
+              "asn": "29447",
+              "provider": "Scaleway"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "SW-07",
+              "ip": "81.56.11.201",
+              "port": 443,
+              "asn": "29447",
+              "provider": "Scaleway"
+            },
+            "status": "ERROR",
+            "alive": false,
+            "detail": "Error"
+          },
+          {
+            "target": {
+              "id": "DO-01",
+              "ip": "157.230.91.62",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "DO-02",
+              "ip": "138.68.63.162",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "DO-03",
+              "ip": "159.203.180.157",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "ERROR",
+            "alive": false,
+            "detail": "Refused"
+          },
+          {
+            "target": {
+              "id": "DO-04",
+              "ip": "147.182.168.41",
+              "port": 443,
+              "asn": "14061",
+              "provider": "DigitalOcean"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "DO-05",
+              "ip": "45.55.107.70",
+              "port": 80,
+              "asn": "14061",
+              "provider": "DigitalOcean HTTP"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "DO-06",
+              "ip": "141.0.173.188",
+              "port": 443,
+              "asn": "46652",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 4544.459297,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "DO-07",
+              "ip": "69.55.57.11",
+              "port": 443,
+              "asn": "46652",
+              "provider": "DigitalOcean"
+            },
+            "status": "OK",
+            "alive": true,
+            "rtt_ms": 1284.331897,
+            "detail": "All 16 iterations OK"
+          },
+          {
+            "target": {
+              "id": "VLT-01",
+              "ip": "209.250.243.50",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "VLT-02",
+              "ip": "64.176.188.124",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "VLT-03",
+              "ip": "108.61.167.59",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "VLT-04",
+              "ip": "173.199.115.182",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "VLT-05",
+              "ip": "108.61.197.203",
+              "port": 443,
+              "asn": "20473",
+              "provider": "Vultr"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "MBC-01",
+              "ip": "193.35.224.194",
+              "port": 443,
+              "asn": "8849",
+              "provider": "Melbicom"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "MBC-03",
+              "ip": "185.6.14.1",
+              "port": 443,
+              "asn": "56630",
+              "provider": "Melbicom"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 7,
+            "rtt_ms": 296.882409,
+            "detail": "Blackhole at 7KB"
+          },
+          {
+            "target": {
+              "id": "FT-01",
+              "ip": "104.244.74.134",
+              "port": 443,
+              "asn": "53667",
+              "provider": "FranTech"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "FT-02",
+              "ip": "198.251.88.98",
+              "port": 443,
+              "asn": "53667",
+              "provider": "FranTech"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "CV-01",
+              "ip": "130.185.249.20",
+              "port": 443,
+              "asn": "62240",
+              "provider": "Clouvider"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CV-02",
+              "ip": "194.127.178.154",
+              "port": 443,
+              "asn": "62240",
+              "provider": "Clouvider"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "ME-01",
+              "ip": "146.70.158.22",
+              "port": 443,
+              "asn": "9009",
+              "provider": "M247 Europe"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "IM-01",
+              "ip": "213.175.200.210",
+              "port": 443,
+              "asn": "20860",
+              "provider": "IOMART"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "IM-02",
+              "ip": "185.224.199.82",
+              "port": 443,
+              "asn": "21130",
+              "provider": "IOMART"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "ZL-01",
+              "ip": "193.118.45.137",
+              "port": 443,
+              "asn": "21859",
+              "provider": "Zenlayer"
+            },
+            "status": "TIMEOUT",
+            "alive": false,
+            "detail": "Blackhole"
+          },
+          {
+            "target": {
+              "id": "CN-01",
+              "ip": "185.212.149.82",
+              "port": 443,
+              "asn": "51765",
+              "provider": "CreaNova"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          },
+          {
+            "target": {
+              "id": "SCA-01",
+              "ip": "5.61.55.146",
+              "port": 443,
+              "asn": "58061",
+              "provider": "Scalaxy"
+            },
+            "status": "DETECTED",
+            "alive": true,
+            "drop_at_kb": 3,
+            "detail": "Blackhole at 3KB"
+          }
+        ],
+        "detected_count": 35,
+        "ok_count": 10,
+        "summary": "10/105 OK, 35 TSPU drops detected (33% of endpoints affected)"
+      }
+    },
+    {
       "id": "dd6bab21-4774-4640-9220-e77d4bba5a83",
       "status": "complete",
       "tests": [

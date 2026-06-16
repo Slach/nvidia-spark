@@ -1,0 +1,1333 @@
+{
+  "entries": [
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 19,
+          "seg2delay": 20,
+          "seg2delay_max": 0,
+          "syn_fake": false,
+          "syn_fake_len": 0,
+          "syn_ttl": 7,
+          "drop_sack": false,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "off",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 3,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "off",
+            "ttl": 7,
+            "count": 3,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 6,
+          "fake_len": 64,
+          "faking_strategy": "none",
+          "dport_filter": "",
+          "filter_quic": "disabled",
+          "filter_stun": true,
+          "conn_bytes_limit": 8,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "disorder",
+          "reverse_order": false,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": false,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [],
+          "combo": {
+            "first_byte_split": false,
+            "extension_split": false,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "edges",
+            "min_jitter_us": 1000,
+            "max_jitter_us": 3000,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 7,
+          "strategy": "pastseq",
+          "seq_offset": 10000,
+          "sni_seq_length": 1,
+          "sni_type": 3,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "disorder",
+      "success_count": 3,
+      "last_success": "2026-05-04T15:26:38.771583867Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 69442.7099091132
+    },
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 19,
+          "seg2delay": 0,
+          "seg2delay_max": 0,
+          "syn_fake": false,
+          "syn_fake_len": 0,
+          "syn_ttl": 7,
+          "drop_sack": false,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "off",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 3,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "rst",
+            "ttl": 3,
+            "count": 2,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 6,
+          "fake_len": 64,
+          "faking_strategy": "none",
+          "dport_filter": "",
+          "filter_quic": "disabled",
+          "filter_stun": true,
+          "conn_bytes_limit": 8,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "tcp",
+          "reverse_order": true,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": false,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [],
+          "combo": {
+            "first_byte_split": false,
+            "extension_split": false,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "full",
+            "min_jitter_us": 1000,
+            "max_jitter_us": 3000,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 7,
+          "strategy": "pastseq",
+          "seq_offset": 10000,
+          "sni_seq_length": 1,
+          "sni_type": 3,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "desync",
+      "success_count": 33,
+      "last_success": "2026-05-04T15:26:38.771616958Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 183638.46867809683
+    },
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 1,
+          "seg2delay": 5,
+          "seg2delay_max": 0,
+          "syn_fake": true,
+          "syn_fake_len": 256,
+          "syn_ttl": 7,
+          "drop_sack": false,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "off",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 3,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "off",
+            "ttl": 7,
+            "count": 3,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 10,
+          "fake_len": 128,
+          "faking_strategy": "checksum",
+          "dport_filter": "",
+          "filter_quic": "all",
+          "filter_stun": true,
+          "conn_bytes_limit": 1,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "tcp",
+          "reverse_order": true,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": true,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [],
+          "combo": {
+            "first_byte_split": false,
+            "extension_split": false,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "full",
+            "min_jitter_us": 1000,
+            "max_jitter_us": 3000,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 7,
+          "strategy": "pastseq",
+          "seq_offset": 50000,
+          "sni_seq_length": 3,
+          "sni_type": 3,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "none",
+      "success_count": 1,
+      "last_success": "2026-05-04T15:26:38.77157041Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 70525.00619244487
+    },
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 19,
+          "seg2delay": 20,
+          "seg2delay_max": 60,
+          "syn_fake": false,
+          "syn_fake_len": 0,
+          "syn_ttl": 7,
+          "drop_sack": false,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "off",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 3,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "off",
+            "ttl": 7,
+            "count": 3,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 6,
+          "fake_len": 64,
+          "faking_strategy": "none",
+          "dport_filter": "",
+          "filter_quic": "disabled",
+          "filter_stun": true,
+          "conn_bytes_limit": 8,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "combo",
+          "reverse_order": true,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": true,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [],
+          "combo": {
+            "first_byte_split": true,
+            "extension_split": true,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "full",
+            "min_jitter_us": 1000,
+            "max_jitter_us": 3000,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 7,
+          "strategy": "timestamp",
+          "seq_offset": 10000,
+          "sni_seq_length": 1,
+          "sni_type": 2,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "combo",
+      "success_count": 4,
+      "last_success": "2026-05-04T15:26:38.771607645Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 124180.10986940096
+    },
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 19,
+          "seg2delay": 0,
+          "seg2delay_max": 0,
+          "syn_fake": false,
+          "syn_fake_len": 0,
+          "syn_ttl": 7,
+          "drop_sack": false,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "fake",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 7,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "off",
+            "ttl": 7,
+            "count": 3,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 6,
+          "fake_len": 64,
+          "faking_strategy": "none",
+          "dport_filter": "",
+          "filter_quic": "disabled",
+          "filter_stun": true,
+          "conn_bytes_limit": 8,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "combo",
+          "reverse_order": true,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": true,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [],
+          "combo": {
+            "first_byte_split": true,
+            "extension_split": true,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "full",
+            "min_jitter_us": 1000,
+            "max_jitter_us": 3000,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 7,
+          "strategy": "pastseq",
+          "seq_offset": 10000,
+          "sni_seq_length": 1,
+          "sni_type": 3,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "incoming",
+      "success_count": 5,
+      "last_success": "2026-05-04T15:26:38.771610318Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 84933.80746975688
+    },
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 19,
+          "seg2delay": 20,
+          "seg2delay_max": 60,
+          "syn_fake": false,
+          "syn_fake_len": 0,
+          "syn_ttl": 7,
+          "drop_sack": false,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "off",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 3,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "off",
+            "ttl": 7,
+            "count": 3,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 6,
+          "fake_len": 64,
+          "faking_strategy": "none",
+          "dport_filter": "",
+          "filter_quic": "disabled",
+          "filter_stun": true,
+          "conn_bytes_limit": 8,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "combo",
+          "reverse_order": true,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": true,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [],
+          "combo": {
+            "first_byte_split": true,
+            "extension_split": true,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "full",
+            "min_jitter_us": 1000,
+            "max_jitter_us": 3000,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 5,
+          "strategy": "randseq",
+          "seq_offset": 10000,
+          "sni_seq_length": 1,
+          "sni_type": 3,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "combo",
+      "success_count": 3,
+      "last_success": "2026-05-04T15:26:38.771608718Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 171264.65229911465
+    },
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 19,
+          "seg2delay": 20,
+          "seg2delay_max": 50,
+          "syn_fake": false,
+          "syn_fake_len": 0,
+          "syn_ttl": 7,
+          "drop_sack": true,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "off",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 3,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "rst",
+            "ttl": 5,
+            "count": 10,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 6,
+          "fake_len": 64,
+          "faking_strategy": "none",
+          "dport_filter": "",
+          "filter_quic": "disabled",
+          "filter_stun": true,
+          "conn_bytes_limit": 8,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "disorder",
+          "reverse_order": true,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": true,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [
+            "0x16",
+            "0x03",
+            "0x03",
+            "0x00",
+            "0x00"
+          ],
+          "combo": {
+            "first_byte_split": false,
+            "extension_split": false,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "reverse",
+            "min_jitter_us": 500,
+            "max_jitter_us": 2100,
+            "fake_per_segment": true,
+            "fake_per_seg_count": 3,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 7,
+          "strategy": "pastseq",
+          "seq_offset": 10000,
+          "sni_seq_length": 11,
+          "sni_type": 2,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [
+            "rnd",
+            "dupsid"
+          ],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "disorder",
+      "success_count": 1,
+      "last_success": "2026-05-04T15:26:38.771603645Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 30354.557279905748
+    },
+    {
+      "config": {
+        "id": "",
+        "name": "",
+        "tcp": {
+          "conn_bytes_limit": 19,
+          "seg2delay": 20,
+          "seg2delay_max": 60,
+          "syn_fake": false,
+          "syn_fake_len": 0,
+          "syn_ttl": 7,
+          "drop_sack": false,
+          "dport_filter": "",
+          "incoming": {
+            "mode": "off",
+            "min": 14,
+            "max": 14,
+            "fake_ttl": 7,
+            "fake_count": 3,
+            "strategy": "badsum"
+          },
+          "desync": {
+            "mode": "off",
+            "ttl": 7,
+            "count": 3,
+            "post_desync": false
+          },
+          "win": {
+            "mode": "off",
+            "values": [
+              0,
+              1460,
+              8192,
+              65535
+            ]
+          },
+          "duplicate": {
+            "enabled": false,
+            "count": 3
+          },
+          "ip_block_detect": {
+            "enabled": false,
+            "retransmit_threshold": 3,
+            "timeout_ms": 3000,
+            "cache_blocked_ips": false
+          },
+          "rst_protection": {
+            "enabled": false,
+            "ttl_tolerance": 3
+          }
+        },
+        "udp": {
+          "mode": "fake",
+          "fake_seq_length": 6,
+          "fake_len": 64,
+          "faking_strategy": "none",
+          "dport_filter": "",
+          "filter_quic": "disabled",
+          "filter_stun": true,
+          "conn_bytes_limit": 8,
+          "seg2delay": 0,
+          "seg2delay_max": 0
+        },
+        "fragmentation": {
+          "strategy": "combo",
+          "reverse_order": true,
+          "strategy_pool": [],
+          "tlsrec_pos": 0,
+          "tlsrec_pos_max": 0,
+          "middle_sni": true,
+          "sni_position": 1,
+          "sni_position_max": 0,
+          "oob_position": 0,
+          "oob_position_max": 0,
+          "oob_char": 120,
+          "seq_overlap_pattern": [],
+          "combo": {
+            "first_byte_split": true,
+            "extension_split": true,
+            "shuffle_mode": "full",
+            "first_delay_ms": 30,
+            "first_delay_ms_max": 0,
+            "jitter_max_us": 1000,
+            "jitter_max_us_max": 0,
+            "decoy_enabled": false,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          },
+          "disorder": {
+            "shuffle_mode": "full",
+            "min_jitter_us": 1000,
+            "max_jitter_us": 3000,
+            "fake_per_segment": false,
+            "fake_per_seg_count": 1,
+            "fake_per_seg_count_max": 0
+          }
+        },
+        "faking": {
+          "sni": true,
+          "ttl": 5,
+          "strategy": "ttl",
+          "seq_offset": 10000,
+          "sni_seq_length": 1,
+          "sni_type": 3,
+          "custom_payload": "",
+          "payload_file": "",
+          "payload_domain": "",
+          "tls_mod": [],
+          "timestamp_decrease": 600000,
+          "sni_mutation": {
+            "mode": "off",
+            "grease_count": 3,
+            "padding_size": 2048,
+            "fake_ext_count": 5,
+            "fake_snis": [
+              "ya.ru",
+              "vk.com",
+              "max.ru"
+            ]
+          },
+          "tcp_md5": false
+        },
+        "targets": {
+          "sni_domains": null,
+          "ip": null,
+          "geosite_categories": null,
+          "geoip_categories": null,
+          "source_devices": null,
+          "tls": ""
+        },
+        "enabled": false,
+        "dns": {
+          "enabled": false,
+          "target_dns": "",
+          "fragment_query": false
+        },
+        "routing": {
+          "enabled": false,
+          "mode": "interface",
+          "egress_interface": "",
+          "upstream": {
+            "host": "",
+            "port": 0,
+            "fail_open": false,
+            "use_domain": true
+          },
+          "fwmark": 0,
+          "table": 0,
+          "source_interfaces": [],
+          "ip_ttl_seconds": 3600
+        },
+        "escalate": {
+          "to": "",
+          "rst_threshold": 3,
+          "rst_window_sec": 30,
+          "ttl_sec": 3600
+        }
+      },
+      "family": "combo",
+      "success_count": 1,
+      "last_success": "2026-05-04T15:26:38.771615486Z",
+      "origin_domain": "r2.fwupd.org",
+      "speed": 68678.51962268984
+    }
+  ]
+}

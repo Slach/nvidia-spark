@@ -8,7 +8,7 @@ if [[ "max-inference" == "${AGENT_INFERENCE_SERVER}" ]]; then
 fi
 
 if [[ "openrouter" != "${AGENT_INFERENCE_SERVER}" && "z-ai" != "${AGENT_INFERENCE_SERVER}" ]]; then
-  docker compose -f "$CUR_DIR/docker-compose.yaml" up --force-recreate -d ${AGENT_INFERENCE_SERVER}
+  docker compose -f "$CUR_DIR/docker-compose.yaml" up --force-recreate -d --wait --wait-timeout 3600 ${AGENT_INFERENCE_SERVER}
 fi 
 
 mkdir -p ~/.claude-code-router
@@ -26,6 +26,14 @@ cat <<EOT > ~/.claude-code-router/config.json
       "models": ["noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"]
     },
     {
+      "name": "atlas",
+      "api_base_url": "http://127.0.0.1:30003/v1/chat/completions",
+      "api_key": "atlas",
+      "models": [
+        "${ATLAS_MODEL}"
+      ]
+    },
+    {
       "name": "paroquant",
       "api_base_url": "http://127.0.0.1:30002/v1/chat/completions",
       "api_key": "paroquant",
@@ -39,10 +47,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_key": "vllm",
       "models": [
         "${VLLM_MODEL}"
-      ],
-      "transformer": {
-        "use": ["tooluse"]
-      }
+      ]
     },
     {
       "name": "sglang",
@@ -70,9 +75,8 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_base_url": "https://api.z.ai/api/paas/v4/completions",
       "api_key": "${ZAI_API_KEY}",
       "models": [
-          "glm-4.7", 
-          "glm-4.7-flash", 
-          "glm-4.7-flashx"
+          "glm-5.1", 
+          "glm-4.7"
       ]
     },
     {

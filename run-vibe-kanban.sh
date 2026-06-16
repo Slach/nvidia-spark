@@ -1,7 +1,7 @@
 #!/bin/bash
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 source "$CUR_DIR/.env"
-bash "$CUR_DIR/run-claude-code-router.sh"
+exec "$CUR_DIR/run-claude-code-router.sh"
 cat <<EOT > ~/.local/share/vibe-kanban/profiles.json
 {
   "executors": {
@@ -39,10 +39,12 @@ cat <<EOT > ~/.local/share/vibe-kanban/profiles.json
       }
     },
     "OPENCODE": {
-      "Z.AI": {
+      "DEFAULT": {
         "OPENCODE": {
-         "base_command_override":"bunx --bun opencode-ai@latest"
-        } 
+          "base_command_override": "bunx --bun opencode-ai@latest --model zai-coding-plan/glm-5.1",
+          "mode": "build",
+          "auto_approve": true
+        }
       }
     }
   }

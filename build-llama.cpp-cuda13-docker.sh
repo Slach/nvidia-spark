@@ -7,8 +7,8 @@ cd ~/src/github.com/ggml-org/llama.cpp
 git checkout master
 git pull
 git checkout "${LLAMA_CPP_RELEASE}"
-# CUDA_VERSION=$(nvcc --version | grep release | cut -d "V" -f 2)
-CUDA_VERSION=13.0.2
+# CUDA_VERSION=$( | grep release | cut -d "V" -f 2)
+CUDA_VERSION=13.2.1
 UBUNTU_VERSION=$(grep 'VERSION_ID' /etc/os-release | cut -d'"' -f2)
 CUDA_DOCKER_ARCH=121
 docker build --progress=plain --platform=linux/arm64 -f "${CUR_DIR}/Dockerfile.llama.cpp.spark" --build-arg UBUNTU_VERSION=${UBUNTU_VERSION} --build-arg CUDA_VERSION=${CUDA_VERSION} --build-arg CUDA_DOCKER_ARCH=${CUDA_DOCKER_ARCH} --target full -t llama.cpp:spark-full .

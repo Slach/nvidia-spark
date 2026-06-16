@@ -1,6 +1,6 @@
 ARG UBUNTU_VERSION=24.04
 # This needs to generally match the container host's environment.
-ARG CUDA_VERSION=13.0.2
+ARG CUDA_VERSION=13.2.1
 # Target the CUDA build image
 ARG BASE_CUDA_DEV_CONTAINER=nvidia/cuda:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 
@@ -8,22 +8,27 @@ ARG BASE_CUDA_RUN_CONTAINER=nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu${UBUNTU_V
 
 FROM ${BASE_CUDA_DEV_CONTAINER} AS build
 
-# CUDA architecture to build for (defaults to all supported archs)
+# CUDA architecture for GB10 (Blackwell, compute 12.1)
+# The 'a' suffix is added automatically by llama.cpp's cmake for Blackwell FP4 tensor cores.
 ARG CUDA_DOCKER_ARCH=121
 
 RUN apt-get update && \
-    apt-get install -y build-essential cmake python3 python3-pip git libcurl4-openssl-dev libgomp1
+    apt-get install -y build-essential cmake python3 python3-pip git libcurl4-openssl-dev libgomp1 && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/local/cuda-13.0/targets/sbsa-linux/lib/stubs/libcuda.so /usr/local/cuda-13.0/targets/sbsa-linux/lib/stubs/libcuda.so.1
+RUN ln -s /usr/local/cuda-13.2/targets/sbsa-linux/lib/stubs/libcuda.so /usr/local/cuda-13.2/targets/sbsa-linux/lib/stubs/libcuda.so.1
 
-ENV LD_LIBRARY_PATH=/usr/local/cuda-13.0/targets/sbsa-linux/lib/stubs:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/local/cuda-13.2/targets/sbsa-linux/lib/stubs:$LD_LIBRARY_PATH
 
 WORKDIR /app
 
 
 COPY . .
 
-RUN cmake -B build -DGGML_CUDA=ON -DLLAMA_CURL=ON -DCMAKE_CUDA_ARCHITECTURES="${CUDA_DOCKER_ARCH}" && \
+# Force target CUDA architecture (required in Docker where no GPU is available for native detection).
+# GGML_NATIVE=OFF prevents cmake from trying -arch=native which fails without a GPU.
+# cmake regex in ggml-cuda/CMakeLists.txt converts 121 -> 121a automatically for Blackwell.
+RUN cmake -B build -DGGML_CUDA=ON -DGGML_CUDA_GRAPHS=ON -DGGML_CUDA_FORCE_MMQ=ON -DGGML_CUDA_NCCL=OFF -DGGML_NATIVE=OFF -DLLAMA_CURL=ON -DCMAKE_CUDA_ARCHITECTURES="${CUDA_DOCKER_ARCH}" && \
     cmake --build build --config Release -j$(nproc)
 
 

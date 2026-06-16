@@ -32,6 +32,12 @@ services:
 
   sglang:
     image: lmsysorg/sglang:dev-cu13
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:30000/health" ]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface:ro
     shm_size: '32gb' 
@@ -61,40 +67,79 @@ services:
               count: 1
               capabilities: [ gpu ]
   vllm:
-    # image: vllm/vllm-openai:cu130-nightly-aarch64
+    image: vllm/vllm-openai:cu130-nightly-aarch64
     # look build-vllm-cuda13-docker.sh
-    image: vllm:spark-full
-    build: 
-      context: .
-      dockerfile: Dockerfile.vllm.spark
+    # image: vllm:spark-full
+    # build: 
+    #  context: .
+    #  dockerfile: Dockerfile.vllm.spark
+    # image: ghcr.io/aeon-7/vllm-aeon-ultimate-dflash:qwen36-v3
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface
+    #  - ./docker/chat-template-qwen3.jinja:/etc/vllm/chat-template.jinja:ro
     #  - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     environment:
       - HF_HOME=/models/huggingface
       - HF_HUB_OFFLINE=1
       - HF_TOKEN=${HF_TOKEN:-}
+      # ─── Core vLLM ───
+      - VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
+
+      # ─── GB10 / sm_121a runtime ───
+      - TORCH_CUDA_ARCH_LIST=12.1a
+      - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+      - TORCH_MATMUL_PRECISION=high
+      - NVIDIA_FORWARD_COMPAT=1
+      - NVIDIA_DISABLE_REQUIRE=1
+
+      # Required by PR https://github.com/vllm-project/vllm/pull/40191 for sm_121a-only builds — without this,
+      # vllm._C_stable_libtorch.abi3.so fails to import.
+      - ENABLE_NVFP4_SM100=0
+
+      # ─── FP4 path selection ───
+      - VLLM_USE_FLASHINFER_MOE_FP4=0
+      - VLLM_TEST_FORCE_FP8_MARLIN=0
+      - VLLM_USE_FLASHINFER_SAMPLER=1
+      # XS-specific: explicitly select the patched CUTLASS NVFP4 GEMM backend.
+      # This is a no-op on the v2.1 image (already the default) but makes the path
+      # selection unambiguous.
+      - VLLM_NVFP4_GEMM_BACKEND=flashinfer-cutlass
     ports:
       - "127.0.0.1:30001:30001"
+    # vLLM start really slow =(
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:30001/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 100
+      start_period: 600s
     networks:
       - spark-network
     command: >
-      ${VLLM_MODEL:-Qwen/Qwen3.5-35B-A3B-FP8}
+      ${VLLM_MODEL:-Qwen/Qwen3.6-35B-A3B-FP8}
       --host 0.0.0.0
       --port 30001      
-      --max-model-len 261375
-      --max-num-batched-tokens 8192
+      --max-model-len 262144
+      --max-num-batched-tokens 32768
       --enable-chunked-prefill
-      --max-num-seqs 2
-      --kv-cache-dtype fp8
-      --calculate-kv-scales
+      --max-num-seqs 3
       --trust-remote-code
+      --quantization modelopt
+      --dtype auto
+      --gpu-memory-utilization 0.85
       --enable-prefix-caching 
-      --enable-expert-parallel 
       --enable-auto-tool-choice 
-      --tool-call-parser qwen3_coder 
-      --reasoning-parser qwen3
-#      --load-format fastsafetensors 
+      --load-format safetensors 
+      --mm-encoder-tp-mode data 
+      --mm-processor-cache-type shm
+      --tool-call-parser gemma4
+      --reasoning-parser gemma4
+#      --tool-call-parser qwen3_coder 
+#      --reasoning-parser qwen3
+#      --limit-mm-per-prompt '{"image": 4, "video": 2}' 
+#      --attention-backend flash_attn 
+#      --speculative-config '{"method":"dflash","model":"z-lab/Qwen3.6-27B-DFlash","num_speculative_tokens":15}'
+#      --speculative-config '{"method": "dflash", "model": "z-lab/Qwen3.6-35B-A3B-DFlash", "num_speculative_tokens": 15 }'
     deploy:
       resources:
         reservations:
@@ -105,11 +150,10 @@ services:
 
   paroquant:
     # image: ghcr.io/z-lab/paroquant:serve
-    # look build-vllm-cuda13-docker.sh
-    image: vllm:spark-full
+    image: paroquant:spark-full
     build:
       context: .
-      dockerfile: Dockerfile.vllm.spark
+      dockerfile: Dockerfile.paroquant.spark
     ports:
       - "127.0.0.1:30002:30002"
     volumes:
@@ -127,7 +171,7 @@ services:
     command: >
       "
       python3 -m paroquant.cli.serve
-      --model ${PAROQUANT_MODEL:-z-lab/gemma-4-31B-it-PARO}
+      --model ${PAROQUANT_MODEL:-z-lab/Qwen3.6-27B-PARO}
       --host 0.0.0.0
       --port 30002
       --max-model-len 261375
@@ -142,7 +186,6 @@ services:
       --tool-call-parser gemma4
       --reasoning-parser gemma4
       "
-#       --model /models/huggingface/hub/models--z-lab--gemma-4-31B-it-PARO/snapshots/f99bc0f15ececcd4d3100b8216786495ebfe260d
 
     deploy:
       resources:
@@ -151,12 +194,55 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
-
+  atlas:
+    image: avarok/atlas-gb10:latest
+    ipc: host
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - RUST_LOG=info
+    command: >
+      serve ${ATLAS_MODEL:-Qwen/Qwen3.6-35B-A3B-FP8}
+      --bind 0.0.0.0
+      --port 30003 
+      --max-seq-len 261375 
+      --max-batch-size 4
+      --kv-cache-dtype ${ATLAS_KV_CACHE_TYPE:-fp8}
+      --kv-high-precision-layers auto
+      --gpu-memory-utilization ${ATLAS_MEMORY_USAGE:-0.9}
+      --scheduling-policy slai
+      --enable-prefix-caching
+      --max-prefill-tokens 8192
+      --speculative
+      --num-drafts 2
+      --tool-call-parser qwen3_coder
+    ports:
+      - "127.0.0.1:30003:30003"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    networks:
+      - spark-network
+    healthcheck:
+      test: ['CMD', 'bash', '-c', 'exec 3<>/dev/tcp/localhost/30003; printf "GET /health HTTP/1.0\r\n\r\n" >&3; read -r _ code _ <&3; [ "$$code" = 200 ]']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
   llama.cpp:
     build:
       context: .
       dockerfile: Dockerfile.llama.cpp.spark
     image: "llama.cpp:spark-full"
+    # image: ghcr.io/ggml-org/llama.cpp:full-cuda13
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface:ro
       - ./llama.cpp.models.ini:/etc/llama.cpp/config.ini
