@@ -37,21 +37,39 @@ SHELL ["/bin/bash", "-c"]
 ENV PATH="/root/.local/bin:${PATH}"
 RUN pipx install uv
 
-COPY ./ /vllm/
+# only requirements first: deps + cubins + AOT layers stay cached across vllm source edits
+COPY requirements/ /vllm/requirements/
 WORKDIR /vllm/
 
 ENV CUDA_HOME=/usr/local/cuda-13.3 \
     TORCH_CUDA_ARCH_LIST="12.1a" \
+    FLASHINFER_CUDA_ARCH_LIST="12.1a" \
+    FLASHINFER_CUBIN_DOWNLOAD_THREADS=10 \
+    FLASHINFER_LOGGING_LEVEL=WARNING \
     VLLM_TARGET_DEVICE=cuda \
     VLLM_CUDA_VERSION="13.3" \
     UV_CONCURRENT_DOWNLOADS=3 \
     UV_HTTP_RETRIES=10
 
-RUN uv venv --python python3.12 --allow-existing
-RUN --mount=type=cache,target=/root/.cache/ source ./.venv/bin/activate && \
-    export MAX_JOBS=$(nproc) && \
+RUN --mount=type=cache,target=/root/.cache/ \
+    uv venv --python python3.12 && \
+    source ./.venv/bin/activate && \
     uv pip install -r requirements/build/cuda.txt -r requirements/cuda.txt --torch-backend cu130 && \
-    uv pip install fastsafetensors runai-model-streamer && \
+    uv pip install fastsafetensors runai-model-streamer
+
+RUN --mount=type=cache,target=/root/.cache/ \
+    source ./.venv/bin/activate && \
+    export MAX_JOBS=$(nproc) && \
+    /vllm/.venv/bin/python3.12 -m flashinfer.aot && \
+    HTTP_PROXY=http://192.168.3.3:9998 /vllm/.venv/bin/python3.12 -m flashinfer --download-cubin || true
+
+# source edits invalidate only from here down; ccache (cache mount) makes recompile fast
+COPY ./ /vllm/
+
+RUN --mount=type=cache,target=/root/.cache/ \
+    source ./.venv/bin/activate && \
+    export MAX_JOBS=$(nproc) CCACHE_DIR=/root/.cache/ccache CCACHE_COMPILERCHECK=content && \
+    export CMAKE_ARGS="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_CUDA_COMPILER_LAUNCHER=ccache" && \
     uv pip install . --no-build-isolation -v
 
 FROM ${BASE_CUDA_RUN_CONTAINER} AS runtime
