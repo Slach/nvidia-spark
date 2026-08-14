@@ -190,12 +190,14 @@ cat <<EOT > ~/.claude-code-router/config.json
 }
 EOT
 
-# ccr v3 хранит конфиг в config.sqlite и игнорирует config.json, если sqlite уже есть.
-# Стираем sqlite, чтобы ccr реимпортнул свежий config.json (скрипт = источник правды).
-CCR_DB=~/.claude-code-router/config.sqlite
-rm -f "$CCR_DB" "$CCR_DB-shm" "$CCR_DB-wal"
+# claude CLI with CLAUDE_CONFIG_DIR=~/.claude looks for ~/.claude/.claude.json,
+# but the real config lives at ~/.claude.json. Mirror it so ccr's profile wrapper works.
+[[ -f ~/.claude.json ]] && cp ~/.claude.json ~/.claude/.claude.json
 
 ccr stop || true
+
+CCR_DB=~/.claude-code-router/config.sqlite
+rm -f "$CCR_DB" "$CCR_DB-shm" "$CCR_DB-wal"
 
 screen -L -Logfile /tmp/ccr-server.log -dmS ccr-server ccr start --no-open
 sleep 2
@@ -203,4 +205,4 @@ screen -list
 echo
 echo "Web UI:   http://127.0.0.1:3458"
 echo "Gateway:  http://127.0.0.1:3456"
-echo "Logs:     screen -r ccr-server  |  tail -f /tmp/ccr-server.log"
+echo "Prompt:   ccr default-claude-code -- -p '...'   |   claude -p '...'"

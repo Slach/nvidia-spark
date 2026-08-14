@@ -214,9 +214,10 @@ services:
       --mm-processor-cache-type shm
       --limit-mm-per-prompt '{"image": 4, "video": 2}' 
       --speculative-config '{"method":"${VLLM_MTP_METHOD:-dflash}","model":"${VLLM_MTP_MODEL:-z-lab/Qwen3.6-35B-A3B-DFlash}","num_speculative_tokens":${VLLM_MTP_TOKENS:-4}}'
-      --load-format runai_streamer 
-      --model-loader-extra-config '{"concurrency": 8}'      
-#      --enable-prefix-caching 
+      --load-format runai_streamer
+      --model-loader-extra-config '{"concurrency": 8}'
+      --enable-prefix-caching
+      --mamba-cache-mode align
 #      --load-format fastsafetensors
 #      --attention-backend flash_attn 
 #      --tool-call-parser qwen3_coder 
