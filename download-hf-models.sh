@@ -7,6 +7,7 @@ hf cache rm -y model/unsloth/Qwen-AgentWorld-35B-A3B-GGUF
 # model was removed from huggingface
 # hf download --max-workers=$(nproc) protoLabsAI/ThinkingCap-Qwen3.6-27B-heretic-MTP-GGUF --include="*NVFP4*"
 
+hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_XL*" --include="*mmproj*BF16*"
 hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
 hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
@@ -224,4 +225,5 @@ sudo mkdir -p /models
 sudo ln -sfn ${HOME}/.cache/huggingface /models/huggingface
 sudo chown -R ${USER}:${USER} /models
 
+hf cache prune
 hf cache ls
