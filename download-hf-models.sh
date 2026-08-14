@@ -2,14 +2,43 @@ pipx upgrade-all
 # CODING MODELS
 ## for llama.cpp GGUF
 
-hf cache rm -y model/catlilface/Gemma-4-26B-A4B-NVFP4-GGUF
+# hf download --max-workers=$(nproc) unsloth/Qwen-AgentWorld-35B-A3B-GGUF --include="*UD-Q4_K_XL*" --include="*imatrix*"
+hf cache rm -y model/unsloth/Qwen-AgentWorld-35B-A3B-GGUF
+# model was removed from huggingface
+# hf download --max-workers=$(nproc) protoLabsAI/ThinkingCap-Qwen3.6-27B-heretic-MTP-GGUF --include="*NVFP4*"
+
+hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
+hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
+hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
+
+# 403 suki pidarasi ;)
+# hf download --max-workers=$(nproc) meta-models/Muse-Glimmer-30B-GGUF --include="*dynamic*" --include="*kquant*"
+
+
+# wait when resolve https://github.com/ggml-org/llama.cpp/pull/26608
+# hf download --max-workers=$(nproc) AtomicChat/Ling-3.0-flash-NVFP4-GGUF --include "*AD-NVFP4*"
+
+# need fork llama.cpp
+hf download --max-workers=$(nproc) prism-ml/Ternary-Bonsai-27B-gguf --include="*Q8*" --include="*Q4*" --include="*Q2_0*" --include="*BF16*"
+
+# qwen3.5 for programming
+hf download --max-workers=$(nproc) deepreinforce-ai/Ornith-1.0-35B-GGUF --include="*Q8*" --include="*Q4*"
+hf download --max-workers=$(nproc) a4lg/Qwen3.5-35B-A3B-MTP-ONLY-GGUF --include="*BF16*"
+hf download --max-workers=$(nproc) juan1995-dev/Qwen3.5-35B-A3B-mmproj-BF16-GGUF
+hf download --max-workers=$(nproc) froggeric/Qwen-Fixed-Chat-Templates
+
 hf download --max-workers=$(nproc) unsloth/gemma-4-31B-it-qat-GGUF
 hf download --max-workers=$(nproc) unsloth/gemma-4-12B-it-qat-GGUF
 hf download --max-workers=$(nproc) unsloth/gemma-4-26B-A4B-it-qat-GGUF
 hf download --max-workers=$(nproc) yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF --include="*Q8*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.6-27B-MTP-GGUF  --include="*UD-Q4_K_XL*" --include="*mmproj*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.6-35B-A3B-MTP-GGUF --include="*UD-Q4_K_XL*" --include="*mmproj*"
-hf download --max-workers=$(nproc) llmfan46/Qwen3.5-35B-A3B-uncensored-heretic-v2-Native-MTP-Preserved-NVFP4-GGUF --include="*Q8*" --include="*mmproj*"
+hf download --max-workers=$(nproc) empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF --include="*MTP*Q8*" --include="*mmproj*"
+
+hf cache rm -y model/MaralGPT/MaralGPT-Mythos-9B-2606-GGUF
+hf cache rm -y model/Guilherme34/Firefly-v4-BetterGGUF
+hf cache rm -y model/llmfan46/Qwen3.5-35B-A3B-uncensored-heretic-v2-Native-MTP-Preserved-NVFP4-GGUF
+hf cache rm -y model/catlilface/Gemma-4-26B-A4B-NVFP4-GGUF
 
 # medicine
 hf download --max-workers=$(nproc) mradermacher/AntAngelMed-i1-GGUF --include="*Q4_K_M*" --include="*imatrix*"
@@ -22,8 +51,8 @@ hf cache rm -y model/mudler/Qwen3.6-35B-A3B-APEX-GGUF
 hf cache rm -y model/noctrex/Qwen3.6-35B-A3B-MXFP4_MOE-GGUF
 hf cache rm -y model/noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF
 
-hf download --max-workers=$(nproc) noctrex/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) noctrex/LFM2-24B-A2B-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/LFM2-24B-A2B-MXFP4_MOE-GGUF
 
 
 hf cache rm -y model/unsloth/Qwen3.6-35B-A3B-GGUF
@@ -33,84 +62,68 @@ hf cache rm -y model/unsloth/Qwen3.5-35B-A3B-GGUF
 hf cache rm -y model/unsloth/Qwen3.5-27B-GGUF
 
 
-hf download --max-workers=$(nproc) danielcherubini/Qwen3.5-DeltaCoder-9B-GGUF --include="*Q4_K_M*"
-
-hf download --max-workers=$(nproc) mradermacher/Nemotron-Cascade-2-30B-A3B-i1-GGUF --include="*Q4_K_M*"
-hf download --max-workers=$(nproc) Exil01/Qwen3.5-35B-Uncensored-YaRN-1M --include="*Q4_K_M*" --include="*f16*"
-hf download --max-workers=$(nproc) Ex0bit/Qwen3.5-122B-A10B-PRISM-LITE-GGUF
-hf download --max-workers=$(nproc) unsloth/gemma-4-31B-it-GGUF --include="*UD-Q4_K_XL*" --include="mmproj-BF16*"
-hf download --max-workers=$(nproc) OpenMOSE/Qwen3.5-REAP-97B-A10B-GGUF --include="*Q4_K_M*" --include="*mmproj-BF16*"
-
-# hf download --max-workers=$(nproc) Ex0bit/Qwen3.5-122B-A10B-PRISM-PRO-GGUF
-
-# hf download --max-workers=$(nproc) Exil01/Qwen3.5-27B-Opus-v2-YaRN-1M --exclude="*BF16*"
+hf cache rm -y model/danielcherubini/Qwen3.5-DeltaCoder-9B-GGUF
+hf cache rm -y model/mradermacher/Nemotron-Cascade-2-30B-A3B-i1-GGUF
+hf cache rm -y model/Exil01/Qwen3.5-35B-Uncensored-YaRN-1M
+hf cache rm -y model/Ex0bit/Qwen3.5-122B-A10B-PRISM-LITE-GGUF
+hf cache rm -y model/unsloth/gemma-4-31B-it-GGUF
+hf cache rm -y model/OpenMOSE/Qwen3.5-REAP-97B-A10B-GGUF
 hf cache rm -y model/Exil01/Qwen3.5-27B-Opus-v2-YaRN-1M
-
-# hf download --max-workers=$(nproc) Biomanticus/RYS-Qwen3.5-27B-gguf --include="*Q4_K_M*"
 hf cache rm -y model/Biomanticus/RYS-Qwen3.5-27B-gguf
-
-# hf download --max-workers=$(nproc) unsloth/Qwen3.5-122B-A10B-GGUF --include="*MXFP4*"
 hf cache rm -y model/unsloth/Qwen3.5-122B-A10B-GGUF
-
-
-# hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q8_0*"
-# hf download --max-workers=$(nproc) Qwen/Qwen3-Coder-Next-GGUF --include "*Q4_K_M*"
 hf cache rm -y model/Qwen/Qwen3-Coder-Next-GGUF
 
 hf download --max-workers=$(nproc) mradermacher/Strand-Rust-Coder-14B-v1-GGUF --include "*Q8_0*"
 
-# hf download --max-workers=$(nproc) dinerburger/Qwen3.5-27B-GGUF
 hf cache rm -y model/dinerburger/Qwen3.5-27B-GGUF
-# hf download --max-workers=$(nproc) lmstudio-community/Qwen3.5-27B-GGUF --include "*Q6_K*"
 hf cache rm -y model/lmstudio-community/Qwen3.5-27B-GGUF
 
-# hf download --max-workers=$(nproc) unsloth/GLM-4.7-Flash-GGUF --include "*Q8_0*"
-# hf cache rm -y model/unsloth/GLM-4.7-Flash-GGUF
-hf download --max-workers=$(nproc) DavidAU/GLM-4.7-Flash-Uncensored-Heretic-NEO-CODE-Imatrix-MAX-GGUF --include="*Q8_0*"
-# hf download --max-workers=$(nproc) cturan/IQuest-Coder-V1-40B-Instruct-GGUF --include "*Q4_K_M*"
+hf cache rm -y model/unsloth/GLM-4.7-Flash-GGUF
+hf cache rm -y model/DavidAU/GLM-4.7-Flash-Uncensored-Heretic-NEO-CODE-Imatrix-MAX-GGUF
 hf cache rm -y model/cturan/IQuest-Coder-V1-40B-Instruct-GGUF
 
 
-# hf download --max-workers=$(nproc) noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
 hf cache rm -y model/noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF
-# hf download --max-workers=$(nproc) rushyrush/MiniMax-M2.1-REAP-139B-A10B-GGUF
 hf cache rm -y model/rushyrush/MiniMax-M2.1-REAP-139B-A10B-GGUF
 
-hf download --max-workers=$(nproc) noctrex/Qwen3-Next-80B-A3B-Instruct-1M-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/Qwen3-Next-80B-A3B-Instruct-1M-MXFP4_MOE-GGUF
 
 
-# hf download --max-workers=$(nproc) noctrex/GLM-4.6V-MXFP4_MOE-GGUF
 hf cache rm -y model/noctrex/GLM-4.6V-MXFP4_MOE-GGUF
-# hf download --max-workers=$(nproc) unsloth/Devstral-2-123B-Instruct-2512-GGUF --include "*Q4_K_XL*"
 hf cache rm -y model/unsloth/Devstral-2-123B-Instruct-2512-GGUF
 
-# hf download --max-workers=$(nproc) mradermacher/GLM-4.6-REAP-218B-A32B-Derestricted-i1-GGUF --include "*IQ2_M*"
 hf cache rm -y model/mradermacher/GLM-4.6-REAP-218B-A32B-Derestricted-i1-GGUF
 
-# hf download --max-workers=$(nproc) bartowski/zai-org_GLM-4.7-GGUF --include "*IQ1_M*"
 hf cache rm -y model/bartowski/zai-org_GLM-4.7-GGUF
-# hf download --max-workers=$(nproc) AaryanK/MiniMax-M2.1-GGUF --include="*q2_k*"
 hf cache rm -y model/AaryanK/MiniMax-M2.1-GGUF
 
 # just for fun, Russian Chat models
 hf download --max-workers=$(nproc) ai-sage/GigaChat3.1-10B-A1.8B-GGUF --include="*q8*"
-
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
-# hf download --max-workers=$(nproc) ai-sage/GigaChat3-10B-A1.8B-GGUF --include="*q8*"
-hf cache rm -y model/ai-sage/GigaChat3-10B-A1.8B-GGUF
 
 ## for vllm & sglang safetensors
 hf download --max-workers=$(nproc) AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-NVFP4-MTP-XS
 hf download --max-workers=$(nproc) z-lab/Qwen3.6-27B-DFlash
 hf download --max-workers=$(nproc) AEON-7/Qwen3.6-35B-A3B-heretic-NVFP4
 hf download --max-workers=$(nproc) z-lab/Qwen3.6-35B-A3B-DFlash
+hf cache rm -y model/nvidia/NVIDIA-Nemotron-Labs-3-Puzzle-75B-A9B-NVFP4
 
+# todo 1M context
+hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-NVFP4
+hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-DFlash-NVFP4
+# 256k context
+hf download --max-workers=$(nproc) nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4
+hf download --max-workers=$(nproc) nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-DSpark
 hf download --max-workers=$(nproc) nvidia/Gemma-4-31B-IT-NVFP4
+
+# 131k context
+hf download --max-workers=$(nproc) Inferact/Muse-Glimmer-30B-NVFP4-W4A4 
+
 
 # https://github.com/Avarok-Cybersecurity/atlas/issues/106
 hf download --max-workers=$(nproc) Qwen/Qwen3.6-35B-A3B-FP8
 # https://github.com/Avarok-Cybersecurity/atlas/issues/106
-hf download --max-workers=$(nproc) RedHatAI/Qwen3.6-35B-A3B-NVFP4
+hf download --max-workers=$(nproc) RedHatAI/Qwen3.6-35B-A3B-NVFP4 --exclude="*score*" --exclude="*eval_ever*"
 # https://github.com/Avarok-Cybersecurity/atlas/issues/107
 hf download --max-workers=$(nproc) nvidia/Qwen3.6-35B-A3B-NVFP4
 hf cache rm -y model/Qwen/Qwen3.5-35B-A3B-FP8
@@ -153,7 +166,7 @@ hf cache rm -y model/noctrex/Nemotron-3-Nano-30B-A3B-MXFP4_MOE-GGUF
 hf cache rm -y model/noctrex/MiroThinker-v1.5-30B-MXFP4_MOE-GGUF
 
 # hf download --max-workers=$(nproc) noctrex/HyperNova-60B-MXFP4_MOE-GGUF
-hf cache rm -y model noctrex/HyperNova-60B-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/HyperNova-60B-MXFP4_MOE-GGUF
 
 # hf download --max-workers=$(nproc) juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
 hf cache rm -y model/juanml82/Huihui-Qwen3-Next-80B-A3B-Thinking-abliterated-gguf
@@ -188,8 +201,8 @@ hf download --max-workers=$(nproc) geoffmunn/Qwen3Guard-Stream-8B --include="*Q4
 
 #VLM
 # long horizon text
-hf download --max-workers=$(nproc) noctrex/Jan-v2-VL-max-MXFP4_MOE-GGUF
-hf download --max-workers=$(nproc) noctrex/Qwen3-VL-30B-A3B-Thinking-1M-MXFP4_MOE-GGUF
+hf cache rm -y model/Jan-v2-VL-max-MXFP4_MOE-GGUF
+hf cache rm -y model/noctrex/Qwen3-VL-30B-A3B-Thinking-1M-MXFP4_MOE-GGUF
 
 # Voice
 hf download --max-workers=$(nproc) onnx-community/chatterbox-multilingual-ONNX
@@ -201,9 +214,8 @@ hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR-2
 hf download --max-workers=$(nproc) PaddlePaddle/PaddleOCR-VL-1.5
 
 # small interesting LLMs
-hf download --max-workers=$(nproc) LiquidAI/LFM2-2.6B-Exp-GGUF --include="*Q8_0*" #edge-devices 
-hf download --max-workers=$(nproc) noctrex/rnj-1-instruct-GGUF --include="*Q8_0*" #coding
-# hf download --max-workers=$(nproc) tiiuae/Falcon-H1R-7B-GGUF --include="*Q8_0*" #coding + reasoning
+hf cache rm -y model/LiquidAI/LFM2-2.6B-Exp-GGUF
+hf cache rm -y model/noctrex/rnj-1-instruct-GGU
 hf cache rm -y model/tiiuae/Falcon-H1R-7B-GGUF
 
 

@@ -26,6 +26,14 @@ cat <<EOT > ~/.claude-code-router/config.json
       "models": ["noctrex/MiniMax-M2-REAP-139B-A10B-MXFP4_MOE-GGUF"]
     },
     {
+      "name": "ds4-sparkinfer",
+      "api_base_url": "http://127.0.0.1:8000/v1/chat/completions",
+      "api_key": "ds4-sparkinfer",
+      "models": [
+        "${ATLAS_MODEL}"
+      ]
+    },
+    {
       "name": "atlas",
       "api_base_url": "http://127.0.0.1:30003/v1/chat/completions",
       "api_key": "atlas",

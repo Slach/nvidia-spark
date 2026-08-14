@@ -1,6 +1,6 @@
-FROM vllm/vllm-openai:cu130-nightly-aarch64
+# FROM vllm/vllm-openai:cu130-nightly-aarch64
 
-RUN pip install fastsafetensors 
+# RUN pip install fastsafetensors 
 
 # paroquant + polarengine
 # RUN apt-get update && apt-get install -y \
@@ -20,3 +20,49 @@ RUN pip install fastsafetensors
 # RUN python3 /tmp/patch.py && rm /tmp/patch.py
 
 # RUN python3 -c "import paroquant.kernels.cuda"
+
+ARG UBUNTU_VERSION=24.04
+ARG CUDA_VERSION=13.3.1
+ARG BASE_CUDA_DEV_CONTAINER=nvidia/cuda:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
+ARG BASE_CUDA_RUN_CONTAINER=nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu${UBUNTU_VERSION}
+
+FROM ${BASE_CUDA_DEV_CONTAINER} AS build
+
+RUN apt-get update && apt-get install -y \
+    python3-pip python3.12-dev python3.12-venv pipx \
+    build-essential ninja-build cmake git curl bash ccache \
+    && rm -rf /var/lib/apt/lists/*
+
+SHELL ["/bin/bash", "-c"]
+ENV PATH="/root/.local/bin:${PATH}"
+RUN pipx install uv
+
+COPY ./ /vllm/
+WORKDIR /vllm/
+
+ENV CUDA_HOME=/usr/local/cuda-13.3 \
+    TORCH_CUDA_ARCH_LIST="12.1a" \
+    VLLM_TARGET_DEVICE=cuda \
+    VLLM_CUDA_VERSION="13.3" \
+    UV_CONCURRENT_DOWNLOADS=3 \
+    UV_HTTP_RETRIES=10
+
+RUN uv venv --python python3.12 --allow-existing
+RUN --mount=type=cache,target=/root/.cache/ source ./.venv/bin/activate && \
+    export MAX_JOBS=$(nproc) && \
+    uv pip install -r requirements/build/cuda.txt -r requirements/cuda.txt --torch-backend cu130 && \
+    uv pip install fastsafetensors runai-model-streamer && \
+    uv pip install . --no-build-isolation -v
+
+FROM ${BASE_CUDA_RUN_CONTAINER} AS runtime
+
+RUN apt update && \
+    apt install -y python3.12 python3.12-venv python3.12-dev gcc g++ ninja-build curl && \
+    apt install -y cuda-nvcc-13-3 cuda-libraries-dev-13-3 && \
+    rm -rf /var/lib/apt/lists/*
+    
+COPY --from=build /vllm/.venv /vllm/.venv
+ENV PATH="/vllm/.venv/bin:${PATH}"
+ENV VLLM_USAGE_SOURCE=docker
+# for properly fastsafetensors initialization
+# RUN ln -s /usr/local/cuda/lib64/libcudart.so.13 /usr/local/cuda/lib64/libcudart.so    

@@ -4,7 +4,10 @@ This project provides tools and configurations for setting up your own AI HomeLa
 
 ## Overview
 
-This repository contains scripts and Docker configurations for running multiple LLM inference servers on NVIDIA's GB10 DGX Spark GPU. The setup supports llama.cpp, vLLM, SGLang, and MAX inference servers, along with Claude Code Router and Vibe Kanban for AI-assisted development.
+This repository contains scripts and Docker configurations
+for running multiple LLM inference servers on NVIDIA's GB10 DGX Spark GPU.
+The setup supports llama.cpp, vLLM, SGLang, and MAX inference servers,
+along with Claude Code Router and Vibe Kanban for AI-assisted development.
 
 ## Features
 
@@ -44,6 +47,7 @@ docker compose logs -f
 ```
 
 This will:
+
 - Start the configured inference server (llama.cpp, vLLM, SGLang, or MAX)
 - Configure Claude Code Router with local and remote model providers
 - Start the router via `screen`
@@ -55,13 +59,14 @@ This will:
 ```
 
 This will:
+
 - Configure Vibe Kanban to use Claude Code Router
 - Start Vibe Kanban via `screen`
 
 ## Inference Servers
 
 | Service | Port | Description |
-|---------|------|-------------|
+| ------- | ---- | ----------------------- |
 | `llama.cpp` | 8090 | llama.cpp server with INI-based model config |
 | `vllm` | 30001 | vLLM with fastsafetensors support |
 | `sglang` | 30000 | SGLang inference server |
@@ -71,15 +76,16 @@ This will:
 
 Models are configured in `llama.cpp.models.ini`:
 
-### Active Models
+### Active Models (MTP / Speculative Decoding)
 
-- **mradermacher/Nemotron-Cascade-2-30B** - 60-70t/s generation, 2900t/s context parsing
-- **unsloth/Qwen3.5-35B** - 49-51t/s generation, 1800-2500t/s context parsing
-- **noctrex/Qwen3.5-35B** (MXFP4) - 39-50t/s generation, 1500-2000t/s context parsing
-- **Exil01/Qwen3.5-35B-1M** - 1M context support with YaRN scaling
-- **noctrex/Qwen3-Next-80B** - 1M context support
-- **unsloth/GLM-4.7-Flash-30B** - Fast inference model
-- **unsloth/Qwen3.5-27B** - 10t/s generation, 500t/s context parsing
+| Model | Quantization | Gen Speed | Prefill Speed | Notes |
+| ------- | ---------------- | ----------- | --------------- | ---------------------------------- |
+| protoLabsAI/ThinkingCap-Qwen3.6-27B-heretic-MTP | NVFP4 | — | — | MTP, reasoning, 262K ctx |
+| deepreinforce-ai/Ornith-1.0-35B-MTP | Q4_K_M + BF16 MTP | 30-70 t/s | 2200-2400 t/s | Acceptance ~0.77, multimodal |
+| unsloth/Gemma4-31B-MTP | Q4_K_XL + MTP | 15-16 t/s | ~470 t/s | Acceptance ~0.5, multimodal |
+| unsloth/Gemma4-26B-MTP | Q4_K_XL + MTP | 44-55 t/s | 1400-1800 t/s | Multimodal |
+| unsloth/Qwen3.6-35B-MTP | UD-Q4_K_XL + MTP | 70-90 t/s | 2200-2400 t/s | Acceptance 0.8-0.9, multimodal |
+| unsloth/Qwen3.6-27B-MTP | UD-Q4_K_XL + MTP | 15-20 t/s | 500-600 t/s | Multimodal |
 
 ### Additional Services
 
@@ -138,14 +144,14 @@ Router config is generated in `~/.claude-code-router/config.json`.
 ## Ports
 
 | Service | URL |
-|---------|-----|
-| llama.cpp | http://127.0.0.1:8090 |
-| vLLM | http://127.0.0.1:30001 |
-| SGLang | http://127.0.0.1:30000 |
-| MAX | http://127.0.0.1:8100 |
-| Vibe Kanban | http://127.0.0.1:8888 |
-| Seer | http://127.0.0.1:8889 |
-| Aider Desk | http://127.0.0.1:24337 |
+| ------- | ---------------------- |
+| llama.cpp | <http://127.0.0.1:8090> |
+| vLLM | <http://127.0.0.1:30001> |
+| SGLang | <http://127.0.0.1:30000> |
+| MAX | <http://127.0.0.1:8100> |
+| Vibe Kanban | <http://127.0.0.1:8888> |
+| Seer | <http://127.0.0.1:8889> |
+| Aider Desk | <http://127.0.0.1:24337> |
 
 ## Scripts
 

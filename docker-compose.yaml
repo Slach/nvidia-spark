@@ -1,4 +1,79 @@
 services:
+  # wait when resolve freeze + OOM https://github.com/antirez/ds4/issues/705
+  ds4:
+    image: ds4:spark-full
+    build:
+      context: .
+      dockerfile: Dockerfile.ds4.spark
+    volumes:
+      - ${HOME}/src/github.com/antirez/ds4/gguf:/app/gguf
+      - ${HOME}/src/github.com/antirez/ds4/server-kv:/app/server-kv      
+    command: /app/ds4-server --cuda --host 0.0.0.0 --prefill-chunk 2048 --port 8200 --threads 20  --kv-disk-dir /app/server-kv --kv-disk-space-mb 8192  --dspark --model /app/gguf/DeepSeek-V4-Flash-Layers37-42Q4KExperts-OtherExpertLayersIQ2XXSGateUp-Q2KDown-AProjQ8-SExpQ8-OutQ8-chat-v2-imatrix-fixed-0731.gguf --mtp /app/gguf/DeepSeek-V4-Flash-DSpark-support-0731.gguf
+    networks:
+      - spark-network
+    ports:
+      - "127.0.0.1:8200:8200"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8200/health" ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  ds4-sparkinfer:
+    # wait when merge https://github.com/0xSero/deepseek-v4-flash-0731-spark-sparkinfer/pull/2 
+    # image: ghcr.io/0xsero/deepseek-v4-flash-0731-spark-sparkinfer@sha256:2e077489a83a0360952828051fe7f7a32c1801e5ce8436d85f7267583d614ff4
+    image: ds4-sparkinfer:spark-full
+    build:
+      context: ${HOME}/src/github.com/0xSero/deepseek-v4-flash-0731-spark-sparkinfer
+      dockerfile: Dockerfile
+    ipc: host
+    shm_size: 16gb
+    environment:
+      HF_TOKEN: ${HF_TOKEN:-}
+      MODEL_REPO: 0xSero/deepseek-v4-flash-0731-spark
+      MODEL_REVISION: 22f28d32b9b29b4352eaa380ff8c2c170b2847ab
+      MAX_MODEL_LEN: "262144"
+      MAX_NUM_SEQS: "4"
+      MAX_NUM_BATCHED_TOKENS: "8224"
+      MODE: dspark
+      DSPARK_TOKENS: "5"
+      DSPARK_CAPACITY: "0"
+      DSPARK_DYNAMIC_DRAFT_DEPTH: "0"
+      DSPARK_DYNAMIC_DRAFT_DEPTH_WINDOW: "8"
+      DSPARK_DRAFT_EXPERTS: "64"
+      DSPARK_STRUCTURED_EXPERTS_PER_CATEGORY: "32"
+      VLLM_USE_B12X_WO_PROJECTION: "1"
+      GPU_MEMORY_UTILIZATION: "0.9465"
+      VERIFY_MODEL_CHECKSUMS: "1"
+    volumes:
+      - ${HOME}/src/github.com/0xSero/deepseek-v4-flash-0731-spark-sparkinfer/data:/models
+      - ${HOME}/src/github.com/0xSero/deepseek-v4-flash-0731-spark-sparkinfer/cache:/cache      
+    networks:
+      - spark-network
+    ports:
+      - "127.0.0.1:8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "--connect-timeout 2" ,"--max-time 5", "http://localhost:8000/health" ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
   max-inference:
     image: modular/max-nvidia-full:latest
     volumes:
@@ -67,15 +142,16 @@ services:
               count: 1
               capabilities: [ gpu ]
   vllm:
-    image: vllm/vllm-openai:cu130-nightly-aarch64
+    # image: vllm/vllm-openai:cu130-nightly-aarch64
+    # image: ghcr.io/aeon-7/vllm-aeon-ultimate-dflash:qwen36-v3
     # look build-vllm-cuda13-docker.sh
-    # image: vllm:spark-full
+    image: vllm:spark-full
     # build: 
     #  context: .
     #  dockerfile: Dockerfile.vllm.spark
-    # image: ghcr.io/aeon-7/vllm-aeon-ultimate-dflash:qwen36-v3
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface
+      - vllm-cache:/root/.cache/
     #  - ./docker/chat-template-qwen3.jinja:/etc/vllm/chat-template.jinja:ro
     #  - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     environment:
@@ -91,19 +167,19 @@ services:
       - TORCH_MATMUL_PRECISION=high
       - NVIDIA_FORWARD_COMPAT=1
       - NVIDIA_DISABLE_REQUIRE=1
+      - CUTE_DSL_ARCH=sm_121a
 
-      # Required by PR https://github.com/vllm-project/vllm/pull/40191 for sm_121a-only builds — without this,
-      # vllm._C_stable_libtorch.abi3.so fails to import.
-      - ENABLE_NVFP4_SM100=0
+      - ENABLE_NVFP4_SM120=1
 
       # ─── FP4 path selection ───
-      - VLLM_USE_FLASHINFER_MOE_FP4=0
+      - VLLM_USE_FLASHINFER_MOE_FP4=1
       - VLLM_TEST_FORCE_FP8_MARLIN=0
       - VLLM_USE_FLASHINFER_SAMPLER=1
-      # XS-specific: explicitly select the patched CUTLASS NVFP4 GEMM backend.
-      # This is a no-op on the v2.1 image (already the default) but makes the path
-      # selection unambiguous.
       - VLLM_NVFP4_GEMM_BACKEND=flashinfer-cutlass
+      # unified memory
+      - VLLM_WORKER_MULTIPROC_METHOD=spawn  
+      # debug fastsafetensors
+      - FASTSAFETENSORS_ENABLE_INIT_LOG=1
     ports:
       - "127.0.0.1:30001:30001"
     # vLLM start really slow =(
@@ -112,34 +188,41 @@ services:
       interval: 30s
       timeout: 10s
       retries: 100
-      start_period: 600s
+      start_period: 100s
     networks:
       - spark-network
     command: >
+      vllm serve
       ${VLLM_MODEL:-Qwen/Qwen3.6-35B-A3B-FP8}
       --host 0.0.0.0
       --port 30001      
-      --max-model-len 262144
       --max-num-batched-tokens 32768
       --enable-chunked-prefill
       --max-num-seqs 3
       --trust-remote-code
-      --quantization modelopt
       --dtype auto
-      --gpu-memory-utilization 0.85
-      --enable-prefix-caching 
+      --gpu-memory-utilization ${VLLM_MEMORY_LIMIT:-0.85}
+      --async-scheduling 
+      --mamba-backend flashinfer
+      --mamba-ssm-cache-dtype float16 
+      --mamba-cache-philox-rounds 5
+      --enable-mamba-cache-stochastic-rounding 
       --enable-auto-tool-choice 
-      --load-format safetensors 
+      --tool-call-parser ${VLLM_TOOL_CALL_PARSER:-qwen3_coder}
+      --reasoning-parser ${VLLM_REASONING_PARSER:-qwen3}
       --mm-encoder-tp-mode data 
       --mm-processor-cache-type shm
-      --tool-call-parser gemma4
-      --reasoning-parser gemma4
+      --limit-mm-per-prompt '{"image": 4, "video": 2}' 
+      --speculative-config '{"method":"${VLLM_MTP_METHOD:-dflash}","model":"${VLLM_MTP_MODEL:-z-lab/Qwen3.6-35B-A3B-DFlash}","num_speculative_tokens":${VLLM_MTP_TOKENS:-4}}'
+      --load-format runai_streamer 
+      --model-loader-extra-config '{"concurrency": 8}'      
+#      --enable-prefix-caching 
+#      --load-format fastsafetensors
+#      --attention-backend flash_attn 
 #      --tool-call-parser qwen3_coder 
 #      --reasoning-parser qwen3
-#      --limit-mm-per-prompt '{"image": 4, "video": 2}' 
-#      --attention-backend flash_attn 
-#      --speculative-config '{"method":"dflash","model":"z-lab/Qwen3.6-27B-DFlash","num_speculative_tokens":15}'
-#      --speculative-config '{"method": "dflash", "model": "z-lab/Qwen3.6-35B-A3B-DFlash", "num_speculative_tokens": 15 }'
+#      --speculative-config '{"method":"dflash","model":"z-lab/Qwen3.6-27B-DFlash","num_speculative_tokens":4}'
+#      --speculative-config '{"method":"dflash","model":"z-lab/Qwen3.6-35B-A3B-DFlash","num_speculative_tokens": 4 }'
     deploy:
       resources:
         reservations:
@@ -342,3 +425,4 @@ networks:
 
 volumes:
   aider-desk-data:
+  vllm-cache:

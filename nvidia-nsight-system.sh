@@ -5,4 +5,6 @@ curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF60F4B3D7FA2
 
 echo "deb [signed-by=/etc/apt/keyrings/nvidia-devtools.gpg] https://developer.download.nvidia.com/devtools/repos/ubuntu$(. /etc/os-release; echo ${VERSION_ID//./})/$(dpkg --print-architecture) /" | sudo tee /etc/apt/sources.list.d/nvidia-devtools.list
 sudo apt update 
-sudo apt install -y nsight-systems nsight-systems-cli
+sudo apt install -y nsight-systems nsight-systems-cli libxcb-icccm4-dev
+curl -sL -o /tmp/NVIDIA_Nsight_Graphics_2026.1.0.26083-linux_arm64.deb https://developer.nvidia.com/downloads/assets/tools/secure/nsight-graphics/2026_1_0/linux_arm64/NVIDIA_Nsight_Graphics_2026.1.0.26083-linux_arm64.deb
+sudo dpkg -i /tmp/NVIDIA_Nsight_Graphics_2026.1.0.26083-linux_arm64.deb
