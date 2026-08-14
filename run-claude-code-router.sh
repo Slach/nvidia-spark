@@ -9,15 +9,22 @@ fi
 
 if [[ "openrouter" != "${AGENT_INFERENCE_SERVER}" && "z-ai" != "${AGENT_INFERENCE_SERVER}" ]]; then
   docker compose -f "$CUR_DIR/docker-compose.yaml" up --force-recreate -d --wait --wait-timeout 3600 ${AGENT_INFERENCE_SERVER}
-fi 
+fi
 
 mkdir -p ~/.claude-code-router
+
+CCR_ACTIVE_MODEL="${AGENT_INFERENCE_SERVER}/${AGENT_MAIN_MODEL}"
+CCR_BACKGROUND_MODEL="${AGENT_INFERENCE_SERVER}/${AGENT_BACKGROUND_MODEL}"
+
 cat <<EOT > ~/.claude-code-router/config.json
 {
   "LOG": true,
   "LOG_LEVEL": "error",
   "API_TIMEOUT_MS": 3600000,
   "NON_INTERACTIVE_MODE": false,
+  "HOST": "127.0.0.1",
+  "PORT": 3456,
+  "routerEndpoint": "http://127.0.0.1:3456",
   "Providers": [
     {
       "name": "max-inference",
@@ -70,6 +77,8 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_base_url": "http://127.0.0.1:8090/v1/chat/completions",
       "api_key": "llama.cpp",
       "models": [
+        "${AGENT_MAIN_MODEL}",
+        "${AGENT_BACKGROUND_MODEL}",
         "unsloth/Qwen3.5-120B",
         "unsloth/Qwen3.5-27B",
         "unsloth/GLM-4.7-Flash-30B",
@@ -83,7 +92,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_base_url": "https://api.z.ai/api/paas/v4/completions",
       "api_key": "${ZAI_API_KEY}",
       "models": [
-          "glm-5.1", 
+          "glm-5.1",
           "glm-4.7"
       ]
     },
@@ -102,7 +111,7 @@ cat <<EOT > ~/.claude-code-router/config.json
         "qwen/qwen3.5-flash-02-23",
         "moonshotai/kimi-k2.5",
         "deepseek/deepseek-v3.2-speciale",
-        "perplexity/sonar",
+        "perplexity/sonar"
       ],
       "transformer": {
         "use": ["openrouter","tooluse"]
@@ -122,19 +131,76 @@ cat <<EOT > ~/.claude-code-router/config.json
     }
   ],
   "Router": {
-    "default": "${AGENT_INFERENCE_SERVER},${AGENT_MAIN_MODEL}",
-    "background": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
-    "think": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
-    "longContext": "${AGENT_INFERENCE_SERVER},${AGENT_BACKGROUND_MODEL}",
-    "longContextThreshold": 131072,
-    "webSearch": "${AGENT_INFERENCE_SERVER},${AGENT_MAIN_MODEL}"
+    "builtInRules": {
+      "claude-code": { "enabled": true },
+      "codex": { "enabled": true }
+    },
+    "fallback": {
+      "mode": "retry",
+      "retryCount": 2,
+      "models": [
+        "${CCR_BACKGROUND_MODEL}"
+      ]
+    },
+    "rules": []
+  },
+  "profile": {
+    "enabled": true,
+    "claudeCode": {
+      "enabled": true,
+      "model": "${CCR_ACTIVE_MODEL}",
+      "sonnetModel": "${CCR_ACTIVE_MODEL}",
+      "opusModel": "${CCR_ACTIVE_MODEL}",
+      "haikuModel": "${CCR_BACKGROUND_MODEL}",
+      "smallFastModel": "${CCR_BACKGROUND_MODEL}",
+      "fableModel": "${CCR_BACKGROUND_MODEL}",
+      "managedCompact": false,
+      "settingsFile": "~/.claude/settings.json"
+    },
+    "codex": {
+      "enabled": false,
+      "model": "${CCR_ACTIVE_MODEL}",
+      "providerId": "claude-code-router",
+      "providerName": "Claude Code Router",
+      "cliMiddleware": true,
+      "configFormat": "separate_profile_files",
+      "configFile": "~/.codex/config.toml",
+      "managedCompact": false,
+      "showAllSessions": false
+    },
+    "profiles": [
+      {
+        "id": "default-claude-code",
+        "name": "Claude Code",
+        "agent": "claude-code",
+        "enabled": true,
+        "scope": "global",
+        "surface": "auto",
+        "model": "${CCR_ACTIVE_MODEL}",
+        "sonnetModel": "${CCR_ACTIVE_MODEL}",
+        "opusModel": "${CCR_ACTIVE_MODEL}",
+        "haikuModel": "${CCR_BACKGROUND_MODEL}",
+        "smallFastModel": "${CCR_BACKGROUND_MODEL}",
+        "fableModel": "${CCR_BACKGROUND_MODEL}",
+        "managedCompact": false,
+        "settingsFile": "~/.claude/settings.json"
+      }
+    ]
   }
 }
 EOT
 
-
+# ccr v3 хранит конфиг в config.sqlite и игнорирует config.json, если sqlite уже есть.
+# Стираем sqlite, чтобы ccr реимпортнул свежий config.json (скрипт = источник правды).
+CCR_DB=~/.claude-code-router/config.sqlite
+rm -f "$CCR_DB" "$CCR_DB-shm" "$CCR_DB-wal"
 
 ccr stop || true
 
-screen -L -Logfile /tmp/ccr-server.log -dmS ccr-server ccr start
+screen -L -Logfile /tmp/ccr-server.log -dmS ccr-server ccr start --no-open
+sleep 2
 screen -list
+echo
+echo "Web UI:   http://127.0.0.1:3458"
+echo "Gateway:  http://127.0.0.1:3456"
+echo "Logs:     screen -r ccr-server  |  tail -f /tmp/ccr-server.log"

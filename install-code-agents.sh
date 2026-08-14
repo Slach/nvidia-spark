@@ -20,7 +20,7 @@ grep -q 'npm-global' ~/.bashrc || echo 'export PATH="~/.npm-global/bin:$PATH"' >
 source ~/.bashrc
 echo $PATH
 # todo wait when fix https://github.com/portel-dev/ncp/issues/11
-# bun install -g @portel/ncp
+# bun install -g @portel/ncp@latest
 # npm install -g @portel/ncp@latest
 
 echo "${GITHUB_TOKEN}" | gh auth login --with-token --git-protocol https
@@ -40,7 +40,7 @@ claude mcp list
 qwen mcp add --scope user ncp ncp || true
 qwen mcp list
 
-# ass LSP to claude code
+# add LSP to claude code
 grep -q 'ENABLE_LSP_TOOL' ~/.bashrc || echo 'export ENABLE_LSP_TOOL=1' >> ~/.bashrc
 source ~/.bashrc
 
@@ -82,6 +82,7 @@ claude plugin marketplace add K-Dense-AI/claude-scientific-skills || true
 claude plugin marketplace add EveryInc/every-marketplace || true
 claude plugin marketplace add sawyerhood/dev-browser || true
 claude plugin marketplace add zscole/adversarial-spec || true
+
 uv tool install superclaude
 superclaude install
 
