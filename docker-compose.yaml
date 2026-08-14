@@ -152,6 +152,7 @@ services:
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface
       - vllm-cache:/root/.cache/
+      - ./docker/vllm-configs:/etc/vllm-configs:ro
     #  - ./docker/chat-template-qwen3.jinja:/etc/vllm/chat-template.jinja:ro
     #  - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     environment:
@@ -178,8 +179,12 @@ services:
       - VLLM_NVFP4_GEMM_BACKEND=flashinfer-cutlass
       # unified memory
       - VLLM_WORKER_MULTIPROC_METHOD=spawn  
-      # debug fastsafetensors
-      - FASTSAFETENSORS_ENABLE_INIT_LOG=1
+      # VLLM_USE_DEEP_GEMM is env-only (no CLI flag, so it can't live in vllm-configs/*.yaml);
+      # set VLLM_USE_DEEP_GEMM=0 in .env for FP8 models that crash with
+      # deepgemm "Unknown SF transformation" (/vllm/.deps/deepgemm-src/csrc/apis/layout.hpp:60)
+      - VLLM_USE_DEEP_GEMM=${VLLM_USE_DEEP_GEMM:-1}
+      # flashinfer runtime compilation
+      - MAX_JOBS=4
     ports:
       - "127.0.0.1:30001:30001"
     # vLLM start really slow =(
@@ -191,39 +196,18 @@ services:
       start_period: 100s
     networks:
       - spark-network
+    # per-model configs live in docker/vllm-configs/*.yaml, selected via VLLM_CONFIG in .env
     command: >
       vllm serve
-      ${VLLM_MODEL:-Qwen/Qwen3.6-35B-A3B-FP8}
+      --config /etc/vllm-configs/${VLLM_CONFIG:-qwen3.6-35b-a3b-fp8.yaml}
       --host 0.0.0.0
-      --port 30001      
-      --max-num-batched-tokens 32768
-      --enable-chunked-prefill
-      --max-num-seqs 3
-      --trust-remote-code
-      --dtype auto
-      --gpu-memory-utilization ${VLLM_MEMORY_LIMIT:-0.85}
-      --async-scheduling 
-      --mamba-backend flashinfer
-      --mamba-ssm-cache-dtype float16 
-      --mamba-cache-philox-rounds 5
-      --enable-mamba-cache-stochastic-rounding 
-      --enable-auto-tool-choice 
-      --tool-call-parser ${VLLM_TOOL_CALL_PARSER:-qwen3_coder}
-      --reasoning-parser ${VLLM_REASONING_PARSER:-qwen3}
-      --mm-encoder-tp-mode data 
-      --mm-processor-cache-type shm
-      --limit-mm-per-prompt '{"image": 4, "video": 2}' 
-      --speculative-config '{"method":"${VLLM_MTP_METHOD:-dflash}","model":"${VLLM_MTP_MODEL:-z-lab/Qwen3.6-35B-A3B-DFlash}","num_speculative_tokens":${VLLM_MTP_TOKENS:-4}}'
-      --load-format runai_streamer
-      --model-loader-extra-config '{"concurrency": 8}'
-      --enable-prefix-caching
-      --mamba-cache-mode align
-#      --load-format fastsafetensors
-#      --attention-backend flash_attn 
-#      --tool-call-parser qwen3_coder 
-#      --reasoning-parser qwen3
-#      --speculative-config '{"method":"dflash","model":"z-lab/Qwen3.6-27B-DFlash","num_speculative_tokens":4}'
-#      --speculative-config '{"method":"dflash","model":"z-lab/Qwen3.6-35B-A3B-DFlash","num_speculative_tokens": 4 }'
+      --port 30001
+    # GB10: CUDA unified memory is host-backed and charged to this cgroup.
+    # Without a limit a runaway load (e.g. runai_streamer staging 71GB+) eats all RAM + swap,
+    # and the node OOM killer never fires because swap reclaim "makes progress" -> machine thrashes.
+    # mem_limit + memswap_limit (equal) make the kernel OOM-kill only this container, early, no swap.
+    mem_limit: 112g
+    memswap_limit: 112g
     deploy:
       resources:
         reservations:

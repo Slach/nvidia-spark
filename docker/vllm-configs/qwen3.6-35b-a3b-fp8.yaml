@@ -1,0 +1,35 @@
+# Qwen/Qwen3.6-35B-A3B-FP8 + DFlash MTP
+# 20 t/s - 4000 prefill, with DFlash - only 30% accept rate
+# NOTE: crashes on vllm v0.27.1 with deepgemm "Unknown SF transformation"
+#       (Assertion error /vllm/.deps/deepgemm-src/csrc/apis/layout.hpp:60).
+#       Env vars can't live here (--config yaml maps to CLI args only),
+#       so set VLLM_USE_DEEP_GEMM=0 in .env next to VLLM_CONFIG for this model
+model: Qwen/Qwen3.6-35B-A3B-FP8
+max-num-batched-tokens: 32768
+enable-chunked-prefill: true
+max-num-seqs: 3
+trust-remote-code: true
+dtype: auto
+gpu-memory-utilization: 0.85
+async-scheduling: true
+mamba-backend: flashinfer
+mamba-ssm-cache-dtype: float16
+mamba-cache-philox-rounds: 5
+enable-mamba-cache-stochastic-rounding: true
+enable-auto-tool-choice: true
+tool-call-parser: qwen3_coder
+reasoning-parser: qwen3
+mm-encoder-tp-mode: data
+mm-processor-cache-type: shm
+limit-mm-per-prompt:
+  image: 4
+  video: 2
+speculative-config:
+  method: dflash
+  model: z-lab/Qwen3.6-35B-A3B-DFlash
+  num_speculative_tokens: 4
+load-format: runai_streamer
+model-loader-extra-config:
+  concurrency: 8
+enable-prefix-caching: true
+mamba-cache-mode: align

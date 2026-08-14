@@ -1,0 +1,33 @@
+# nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4 + DSpark MTP
+# decode avg 51 tok/s · prefill/pp avg 7.4k tok/s cold, ~6x faster warm prefix
+# prefix caching blocks are 2304 tokens; with dspark one block is held back,
+# so hits need prompts > ~4.6k tokens
+model: nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4
+max-num-batched-tokens: 32768
+enable-chunked-prefill: true
+max-num-seqs: 3
+trust-remote-code: true
+dtype: auto
+gpu-memory-utilization: 0.85
+async-scheduling: true
+mamba-backend: flashinfer
+mamba-ssm-cache-dtype: float16
+mamba-cache-philox-rounds: 5
+enable-mamba-cache-stochastic-rounding: true
+enable-auto-tool-choice: true
+tool-call-parser: qwen3_coder
+reasoning-parser: nemotron_v3
+mm-encoder-tp-mode: data
+mm-processor-cache-type: shm
+limit-mm-per-prompt:
+  image: 4
+  video: 2
+speculative-config:
+  method: dspark
+  model: nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-DSpark
+  num_speculative_tokens: 4
+load-format: runai_streamer
+model-loader-extra-config:
+  concurrency: 8
+enable-prefix-caching: true
+mamba-cache-mode: align

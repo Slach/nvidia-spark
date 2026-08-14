@@ -1,0 +1,31 @@
+# poolside/Laguna-S-2.1-NVFP4 + DFlash MTP
+# 117.6B MoE (8.5B active), NVFP4 weights ~71GB, native 1M context capped to 256K
+# per official DGX Spark recipe https://huggingface.co/poolside/Laguna-S-2.1-NVFP4:
+#   - max-model-len 262144, max-num-seqs 32 is MANDATORY (DFlash crashes at default 256)
+#   - first start takes ~15 min (load + JIT + graph capture)
+#   - runai_streamer for fast load, but needs a clean host: an OOM happened when
+#     unified memory from a previous dead run was not yet released
+#   - no min_p/logit_bias with speculative decoding; quantization auto-detected (compressed-tensors)
+model: poolside/Laguna-S-2.1-NVFP4
+max-model-len: 262144
+max-num-seqs: 32
+# memory: 71GB weights + ~7GB DFlash draft live in the GB10 driver pool (~100GB);
+# gpu-memory-utilization 0.85 + max-num-batched-tokens 32768 OOMs the host during
+# KV alloc + JIT compile. 0.75/8192 leaves ~25GB host headroom, KV ~350K fp8 tokens.
+# enforce-eager: cudagraph capture duplicated activation pools and OOM-killed the host
+gpu-memory-utilization: 0.72
+max-num-batched-tokens: 8192
+enforce-eager: true
+enable-chunked-prefill: true
+trust-remote-code: true
+dtype: auto
+async-scheduling: true
+enable-auto-tool-choice: true
+tool-call-parser: poolside_v1
+reasoning-parser: poolside_v1
+speculative-config:
+  method: dflash
+  model: poolside/Laguna-S-2.1-DFlash-NVFP4
+  num_speculative_tokens: 7
+enable-prefix-caching: true
+load-format: fastsafetensors

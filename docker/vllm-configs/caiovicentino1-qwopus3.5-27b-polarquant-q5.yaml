@@ -1,0 +1,28 @@
+# caiovicentino1/Qwopus3.5-27B-v3-PolarQuant-Q5, no MTP
+# doesn't work https://github.com/caiovicentino/polarengine-vllm/issues/4
+# requires polarengine: uncomment the paroquant + polarengine section in Dockerfile.vllm.spark
+model: caiovicentino1/Qwopus3.5-27B-v3-PolarQuant-Q5
+max-num-batched-tokens: 32768
+enable-chunked-prefill: true
+max-num-seqs: 3
+trust-remote-code: true
+dtype: auto
+gpu-memory-utilization: 0.85
+async-scheduling: true
+mamba-backend: flashinfer
+mamba-ssm-cache-dtype: float16
+mamba-cache-philox-rounds: 5
+enable-mamba-cache-stochastic-rounding: true
+enable-auto-tool-choice: true
+tool-call-parser: qwen3_coder
+reasoning-parser: qwen3
+mm-encoder-tp-mode: data
+mm-processor-cache-type: shm
+limit-mm-per-prompt:
+  image: 4
+  video: 2
+load-format: runai_streamer
+model-loader-extra-config:
+  concurrency: 8
+enable-prefix-caching: true
+mamba-cache-mode: align

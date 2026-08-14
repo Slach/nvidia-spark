@@ -2,6 +2,13 @@
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 source "${CUR_DIR}/.env"
 
+# vllm model lives in docker/vllm-configs/*.yaml (selected by VLLM_CONFIG), not in .env
+VLLM_SERVED_MODEL="$(sed -n 's/^model:[[:space:]]*//p' "${CUR_DIR}/docker/vllm-configs/${VLLM_CONFIG:-qwen3.6-35b-a3b-fp8.yaml}" | head -n1 | xargs)"
+if [[ -z "${VLLM_SERVED_MODEL}" ]]; then
+  echo "ERROR: cannot read model from docker/vllm-configs/${VLLM_CONFIG:-qwen3.6-35b-a3b-fp8.yaml}" >&2
+  exit 1
+fi
+
 bash "$CUR_DIR/install-bun.sh"
 if [[ "max-inference" == "${AGENT_INFERENCE_SERVER}" ]]; then
   mkdir -p ~/.cache/max_cache
@@ -61,7 +68,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "api_base_url": "http://127.0.0.1:30001/v1/chat/completions",
       "api_key": "vllm",
       "models": [
-        "${VLLM_MODEL}"
+        "${VLLM_SERVED_MODEL}"
       ]
     },
     {
