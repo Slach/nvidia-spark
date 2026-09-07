@@ -3,11 +3,19 @@ pipx upgrade-all
 ## for llama.cpp GGUF
 
 # hf download --max-workers=$(nproc) unsloth/Qwen-AgentWorld-35B-A3B-GGUF --include="*UD-Q4_K_XL*" --include="*imatrix*"
-hf cache rm -y model/unsloth/Qwen-AgentWorld-35B-A3B-GGUF
+# hf cache rm -y model/unsloth/Qwen-AgentWorld-35B-A3B-GGUF
 # model was removed from huggingface
 # hf download --max-workers=$(nproc) protoLabsAI/ThinkingCap-Qwen3.6-27B-heretic-MTP-GGUF --include="*NVFP4*"
 
-hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_XL*" --include="*mmproj*BF16*"
+hf cache rm -y model/mudler/Ornith-1.5-35B-A3B-APEX-MTP-GGUF
+ms download --max-workers=$(nproc) --model Tariel/Ornith-1.5-35B-A3B-MTP-GGUF --include "*mtp-head/*" --include "*I-Quality*" --include="*mmproj*"
+hf download --max-workers=$(nproc) ornith-ai/Ornith-1.5-35B-A3B-GGUF --include "*Q4_K_M*" --include="*mmproj*"
+hf download --max-workers=$(nproc) shisa-ai/Ornith-1.5-35B-A3B-MTP-ONLY
+
+hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_XL*" --include="*mmproj*BF16*" --include="MTP/*mtp*"
+hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --include="*mmproj*Q8*"
+hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
+
 hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
 hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
@@ -103,6 +111,9 @@ hf download --max-workers=$(nproc) ai-sage/GigaChat3.1-10B-A1.8B-GGUF --include=
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
 
 ## for vllm & sglang safetensors
+# https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark single DGX Spark recipe
+# needs patches from MiaAI-Lab repo + packed PLE table (~27GB extra, built on first launch)
+hf download --max-workers=$(nproc) Mia-AiLab/Qwen3.8-Flash-Next-NVFP4
 hf download --max-workers=$(nproc) AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-NVFP4-MTP-XS
 hf download --max-workers=$(nproc) z-lab/Qwen3.6-27B-DFlash
 hf download --max-workers=$(nproc) AEON-7/Qwen3.6-35B-A3B-heretic-NVFP4

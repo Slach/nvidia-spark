@@ -1,0 +1,32 @@
+# Mia-AiLab/Qwen3.8-Flash-Next-NVFP4 via vllm/vllm-openai:qwen38-flash-next
+# https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark (.env.sample profile, 2026-09-06)
+# - vision-language model (text/images/video), NVFP4 PLE + MXFP8 attention, 98.6GiB checkpoint
+# - PLE table (26.8GiB) must stay CPU-offloaded: runtime patches are mounted in
+#   docker-compose.yaml from docker/vllm-patches/qwen38-flash-next/, packed table lives in
+#   ~/.cache/vllm/ple_cache/Mia-AiLab--Qwen3.8-Flash-Next-NVFP4 (built by build_ple_packed_table.py)
+# - gpu-memory-utilization 0.78: host-side cap MemTotal - HOST_RESERVE_GIB(26) ~= 95.7GiB
+#   (MiaAI derived 0.786 on a 121.69GiB host) => ~16.7GiB KV = ~1.1M fp8 tokens
+# - served under the full HF id (no served-model-name), same as the other configs here
+model: Mia-AiLab/Qwen3.8-Flash-Next-NVFP4
+max-model-len: 262144
+max-num-seqs: 4
+max-num-batched-tokens: 2048
+gpu-memory-utilization: 0.78
+kv-cache-dtype: fp8
+mamba-ssm-cache-dtype: bfloat16
+load-format: safetensors
+safetensors-load-strategy: lazy
+enable-chunked-prefill: true
+reasoning-parser: qwen3
+tool-call-parser: qwen3_coder
+enable-auto-tool-choice: true
+# REQUIRED for PLE offload: only multiproc_executor spawns the offload worker
+distributed-executor-backend: mp
+speculative-config:
+  method: mtp
+  num_speculative_tokens: 3
+# capture every verify-batch width the scheduler can build: (1+K)*S for S in 1..4 => {4,8,12,16}
+compilation-config:
+  mode: 0
+  cudagraph_mode: FULL_DECODE_ONLY
+  cudagraph_capture_sizes: [4, 8, 12, 16]

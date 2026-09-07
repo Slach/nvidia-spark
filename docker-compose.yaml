@@ -145,14 +145,43 @@ services:
     # image: vllm/vllm-openai:cu130-nightly-aarch64
     # image: ghcr.io/aeon-7/vllm-aeon-ultimate-dflash:qwen36-v3
     # look build-vllm-cuda13-docker.sh
-    image: vllm:spark-full
+    image: ${VLLM_IMAGE:-vllm:spark-full}
     # build: 
     #  context: .
     #  dockerfile: Dockerfile.vllm.spark
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface
-      - vllm-cache:/root/.cache/
+      # qwen38-flash-next: vLLM caches + packed PLE table (~27GB, ~/.cache/vllm/ple_cache).
+      # The old named volume kept spark-full compile/ccache state across images - swap
+      # this line back together with VLLM_IMAGE=vllm:spark-full in .env
+      - ${HOME}/.cache/vllm:/root/.cache/vllm
+      # - vllm-cache:/root/.cache/
       - ./docker/vllm-configs:/etc/vllm-configs:ro
+      # qwen38-flash-next runtime patches (generated from the image by
+      # ~/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark/files/patch_*.py - edit generators,
+      # not these copies). REMOVE these mounts when switching back to spark-full.
+      # Verified 2026-09-07: all still required - image tag qwen38-flash-next not rebuilt
+      # since 2026-08-26 and nothing merged upstream yet:
+      #  - PLE CPU offload + NVFP4 dispatch: open PR vllm-project/vllm#53899
+      #    https://github.com/vllm-project/vllm/pull/53899 (conflicts, awaiting review)
+      #  - GB10/TP=1 offload deadlock (host-side handshake replaces CUDA stream mem ops):
+      #    open bug vllm-project/vllm#53960 https://github.com/vllm-project/vllm/issues/53960
+      #  - QSA fp8_e4m3 KV cache: open RFC vllm-project/vllm#54426
+      #    https://github.com/vllm-project/vllm/issues/54426 (reimplemented from
+      #    https://github.com/lancelind/qwen3.8-Flash-DGX, Apache-2.0)
+      #  - ModelOpt MXFP8 small-shape BF16 fallback (FlashInfer needs N,K>=128) and the
+      #    MTP draft-vocab patch (inert without VLLM_MTP_DRAFT_VOCAB): no upstream PR yet
+      # When #53899 merges and a new image ships: regenerate patches (or drop the mounts
+      # if the release notes say GB10 offload landed), see files/patch_*.py in the MiaAI repo.
+      - ./docker/vllm-patches/qwen38-flash-next/ple_layer_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/ple_layer.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/modelopt_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/modelopt.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/qsa_ops_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/ops/qsa.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/qsa_nvidia_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/qsa.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/mtp_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/mtp.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_layer.py:/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/ple_offload_layer.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_connector.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/connector.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_worker.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/worker.py:ro
+      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_protocol.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/protocol.py:ro
     #  - ./docker/chat-template-qwen3.jinja:/etc/vllm/chat-template.jinja:ro
     #  - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     environment:
@@ -185,8 +214,26 @@ services:
       - VLLM_USE_DEEP_GEMM=${VLLM_USE_DEEP_GEMM:-1}
       # flashinfer runtime compilation
       - MAX_JOBS=4
+      # ─── qwen38-flash-next (MiaAI recipe): PLE CPU offload + V2 model runner pin ───
+      # V2 pin prevents the MTP draft copy from falling back to V1 and turning
+      # FULL decode graphs into PIECEWISE (see .env.sample in the MiaAI-Lab repo)
+      - VLLM_PLE_CPU_OFFLOAD=1
+      - VLLM_PLE_PACKED_TABLE_DIR=/root/.cache/vllm/ple_cache/Mia-AiLab--Qwen3.8-Flash-Next-NVFP4
+      - VLLM_PLE_OFFLOAD_STEP_TIMEOUT=300
+      - VLLM_USE_V2_MODEL_RUNNER=1
     ports:
       - "127.0.0.1:30001:30001"
+    # qwen38-flash-next PLE offload worker uses POSIX shm (MiaAI recipe runs --ipc host);
+    # leftover /dev/shm segments leak until reboot when the container is SIGKILLed
+    ipc: host
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack: 67108864
+    cap_add:
+      - SYS_NICE
+      - SYS_PTRACE
     # vLLM start really slow =(
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:30001/health" ]
@@ -197,8 +244,10 @@ services:
     networks:
       - spark-network
     # per-model configs live in docker/vllm-configs/*.yaml, selected via VLLM_CONFIG in .env
+    # vllm/vllm-openai:qwen38-flash-next ships ENTRYPOINT ["vllm","serve"], spark-full uses
+    # nvidia_entrypoint.sh - pin the entrypoint so the command below works for both
+    entrypoint: ["vllm", "serve"]
     command: >
-      vllm serve
       --config /etc/vllm-configs/${VLLM_CONFIG:-qwen3.6-35b-a3b-fp8.yaml}
       --host 0.0.0.0
       --port 30001
@@ -313,6 +362,7 @@ services:
     # image: ghcr.io/ggml-org/llama.cpp:full-cuda13
     volumes:
       - ${HOME}/.cache/huggingface:/models/huggingface:ro
+      - ${HOME}/.cache/modelscope:/models/modelscope:ro
       - ./llama.cpp.models.ini:/etc/llama.cpp/config.ini
     entrypoint: /app/llama-server
     command:

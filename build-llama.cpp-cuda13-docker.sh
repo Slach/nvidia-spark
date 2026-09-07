@@ -1,8 +1,9 @@
 # curl https://installama.sh | sh
 CUR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+source "${CUR_DIR}/.env"
 mkdir -p ~/src/github.com/ggml-org/llama.cpp
 git clone git@github.com:ggml-org/llama.cpp.git ~/src/github.com/ggml-org/llama.cpp || true
-export LLAMA_CPP_RELEASE=$(curl -sL -H "Accept: application/json" https://github.com/ggml-org/llama.cpp/releases/latest | jq -c -r .tag_name)
+export LLAMA_CPP_RELEASE=$(curl -s -H "Accept: application/vnd.github+json" ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} "https://api.github.com/repos/ggml-org/llama.cpp/releases?per_page=100" | jq -r '[.[] | select(.draft == false) | .tag_name | select(test("^b[0-9]+$"))] | max_by(.[1:] | tonumber)')
 cd ~/src/github.com/ggml-org/llama.cpp
 git checkout master
 git pull
