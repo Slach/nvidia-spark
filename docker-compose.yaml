@@ -367,7 +367,7 @@ services:
     entrypoint: /app/llama-server
     command:
       - --models-max
-      - "1"
+      - "2"
       - --models-preset
       - /etc/llama.cpp/config.ini
       - --host

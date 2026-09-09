@@ -40,6 +40,7 @@ hf download --max-workers=$(nproc) unsloth/gemma-4-31B-it-qat-GGUF
 hf download --max-workers=$(nproc) unsloth/gemma-4-12B-it-qat-GGUF
 hf download --max-workers=$(nproc) unsloth/gemma-4-26B-A4B-it-qat-GGUF
 hf download --max-workers=$(nproc) yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF --include="*Q8*"
+hf download --max-workers=$(nproc) mradermacher/Gemma-4-Novelist-31B-i1-GGUF --include="*Q4_K_M*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.6-27B-MTP-GGUF  --include="*UD-Q4_K_XL*" --include="*mmproj*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.6-35B-A3B-MTP-GGUF --include="*UD-Q4_K_XL*" --include="*mmproj*"
 hf download --max-workers=$(nproc) empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF --include="*MTP*Q8*" --include="*mmproj*"
