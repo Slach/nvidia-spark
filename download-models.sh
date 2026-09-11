@@ -15,7 +15,8 @@ hf download --max-workers=$(nproc) shisa-ai/Ornith-1.5-35B-A3B-MTP-ONLY
 hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_XL*" --include="*mmproj*BF16*" --include="MTP/*mtp*"
 hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --include="*mmproj*Q8*"
 hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
-hf download --max-workers=$(nproc) webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
+# hf download --max-workers=$(nproc) webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
+hf cache rm -y model/webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 
 hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
