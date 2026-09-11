@@ -18,6 +18,9 @@ hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*
 # hf download --max-workers=$(nproc) webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 hf cache rm -y model/webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 
+# Qwen3.8-27B-Flash (Claude Opus distill), 1M context via baked YaRN, DSpark draft model in speculative/
+hf download --max-workers=$(nproc) Solstice-AI/Qwopus3.8-27B-Flash-GGUF-1M --include "*UD-Q4_K_XL*" --include "*json*" --include "*speculative*" --include="*mmproj*"
+
 hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
 hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
