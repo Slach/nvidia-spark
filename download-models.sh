@@ -14,12 +14,20 @@ hf download --max-workers=$(nproc) shisa-ai/Ornith-1.5-35B-A3B-MTP-ONLY
 
 hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_XL*" --include="*mmproj*BF16*" --include="MTP/*mtp*"
 hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --include="*mmproj*Q8*"
+# Signal-3.8-27B = token-efficiency fine-tune of Qwen3.8-27B (vision kept, thinking by default)
+hf download --max-workers=$(nproc) agentionai/Signal-3.8-27B-GGUF --include "*Q4_K_XL*" --include "*mmproj*"
 hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
+
+# ShapeLearn per-tensor hybrid quants of Qwen3.8-27B, MTP head embedded in every GGUF
+# IQ4_XS-3.84bpw = GPU-5 (13.1GB), best quality of the release; mmproj-bf16 for vision
+hf download --max-workers=$(nproc) byteshape/Qwen3.8-27B-GGUF --include "*IQ4*" --include "*mmproj*"
 # hf download --max-workers=$(nproc) webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 hf cache rm -y model/webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 
 # Qwen3.8-27B-Flash (Claude Opus distill), 1M context via baked YaRN, DSpark draft model in speculative/
 hf download --max-workers=$(nproc) Solstice-AI/Qwopus3.8-27B-Flash-GGUF-1M --include "*UD-Q4_K_XL*" --include "*json*" --include "*speculative*" --include="*mmproj*"
+# same model, original 262k quant from the author (no YaRN), embedded MTP head
+hf download --max-workers=$(nproc) Jackrong/Qwopus3.8-27B-Flash-GGUF --include "*MTP-Q4_K_M*"
 
 hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
