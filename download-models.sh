@@ -17,6 +17,8 @@ hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --
 # Signal-3.8-27B = token-efficiency fine-tune of Qwen3.8-27B (vision kept, thinking by default)
 hf download --max-workers=$(nproc) agentionai/Signal-3.8-27B-GGUF --include "*Q4_K_XL*" --include "*mmproj*"
 hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
+# Altworld Hemmingway-1 = Qwen3.8-27B fine-tune (bartowski quants), MTP embedded in every quant, text-only (no mmproj)
+hf download --max-workers=$(nproc) botp/Altworld_Hemmingway-1-GGUF --include "*Q4_K_M*"
 
 # ShapeLearn per-tensor hybrid quants of Qwen3.8-27B, MTP head embedded in every GGUF
 # IQ4_XS-3.84bpw = GPU-5 (13.1GB), best quality of the release; mmproj-bf16 for vision
@@ -41,7 +43,13 @@ hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B
 # hf download --max-workers=$(nproc) AtomicChat/Ling-3.0-flash-NVFP4-GGUF --include "*AD-NVFP4*"
 
 # need fork llama.cpp
-hf download --max-workers=$(nproc) prism-ml/Ternary-Bonsai-27B-gguf --include="*Q8*" --include="*Q4*" --include="*Q2_0*" --include="*BF16*"
+# Bonsai 1 27B, still in cache (17.8G)
+# hf download --max-workers=$(nproc) prism-ml/Ternary-Bonsai-27B-gguf --include="*Q8*" --include="*Q4*" --include="*Q2_0*" --include="*BF16*"
+
+# Bonsai 2 27B ternary g128 (98.2% of FP16 avg at 1.72 bpw), needs PrismML-Eng/llama.cpp fork (service bonsai, image llama.cpp:prism-full)
+# PQ2_0 = 2-bit slots 7.21GB (Blackwell pick), PTQ1_0 = dense trits 5.95GB; stock llama.cpp rejects both (ggml types 142/143)
+# no plain Q2_0 in this repo - stock loads Q2_0 silently producing garbage without Hadamard activation runtime
+hf download --max-workers=$(nproc) prism-ml/Ternary-Bonsai-2-27B-gguf --include="*PQ2_0*" --include="*mmproj-Q8_0*"
 
 # qwen3.5 for programming
 hf download --max-workers=$(nproc) deepreinforce-ai/Ornith-1.0-35B-GGUF --include="*Q8*" --include="*Q4*"

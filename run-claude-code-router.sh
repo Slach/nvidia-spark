@@ -95,6 +95,15 @@ cat <<EOT > ~/.claude-code-router/config.json
       ]
     },
     {
+      "name": "bonsai",
+      "api_base_url": "http://127.0.0.1:8091/v1/chat/completions",
+      "api_key": "bonsai",
+      "models": [
+        "${AGENT_MAIN_MODEL}",
+        "${AGENT_BACKGROUND_MODEL}"
+      ]
+    },
+    {
       "name":"z-ai",
       "api_base_url": "https://api.z.ai/api/paas/v4/completions",
       "api_key": "${ZAI_API_KEY}",

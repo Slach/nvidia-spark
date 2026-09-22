@@ -397,6 +397,48 @@ services:
       retries: 3
       start_period: 10s
 
+  bonsai:
+    # Ternary Bonsai 2 27B (1.72 bpw ternary g128 + Hadamard activation runtime)
+    # needs PrismML-Eng/llama.cpp fork - stock llama.cpp rejects PQ2_0/PTQ1_0 (ggml types 142/143),
+    # no upstream support yet: https://github.com/ggml-org/llama.cpp/issues/29058
+    # image built by build-llama.cpp-prism-docker.sh (fork releases have no aarch64 CUDA binaries)
+    image: llama.cpp:prism-full
+    volumes:
+      - ${HOME}/.cache/huggingface:/models/huggingface:ro
+      - ./llama.cpp.models.ini:/etc/llama.cpp/config.ini
+    entrypoint: /app/llama-server
+    command:
+      - --models-max
+      - "2"
+      - --models-preset
+      - /etc/llama.cpp/config.ini
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8091"
+      - "--metrics"
+    ports:
+      - "127.0.0.1:8091:8091"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    networks:
+      - spark-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8091/health" ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
   vibe-kanban:
     build:
       context: .
