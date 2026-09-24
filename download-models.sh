@@ -13,12 +13,13 @@ hf download --max-workers=$(nproc) ornith-ai/Ornith-1.5-35B-A3B-GGUF --include "
 hf download --max-workers=$(nproc) shisa-ai/Ornith-1.5-35B-A3B-MTP-ONLY
 
 hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_XL*" --include="*mmproj*BF16*" --include="MTP/*mtp*"
-hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --include="*mmproj*Q8*"
+# hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --include="*mmproj*Q8*"
+hf cache rm -y model/ggml-org/Qwen3.8-27B-GGUF
 # Signal-3.8-27B = token-efficiency fine-tune of Qwen3.8-27B (vision kept, thinking by default)
 hf download --max-workers=$(nproc) agentionai/Signal-3.8-27B-GGUF --include "*Q4_K_XL*" --include "*mmproj*"
 hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
-# Altworld Hemmingway-1 = Qwen3.8-27B fine-tune (bartowski quants), MTP embedded in every quant, text-only (no mmproj)
-hf download --max-workers=$(nproc) botp/Altworld_Hemmingway-1-GGUF --include "*Q4_K_M*"
+# Altworld Hemmingway-1 = Qwen3.8-27B fine-tune, MTP embedded in every quant, text-only (no mmproj)
+hf download --max-workers=$(nproc) bartowski/Altworld_Hemmingway-1-GGUF --include "*Q4_K_M*"
 
 # ShapeLearn per-tensor hybrid quants of Qwen3.8-27B, MTP head embedded in every GGUF
 # IQ4_XS-3.84bpw = GPU-5 (13.1GB), best quality of the release; mmproj-bf16 for vision
