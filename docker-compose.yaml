@@ -159,7 +159,10 @@ services:
       - ./docker/vllm-configs:/etc/vllm-configs:ro
       # qwen38-flash-next runtime patches (generated from the image by
       # ~/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark/files/patch_*.py - edit generators,
-      # not these copies). REMOVE these mounts when switching back to spark-full.
+      # not these copies). qwen38-flash-next PROFILE ONLY - re-enable together with
+      # VLLM_IMAGE=vllm/vllm-openai:qwen38-flash-next in .env. They overwrite shared vllm
+      # modules (modelopt.py carries MarlinNvFp4LinearKernel!) and break other images:
+      # the flint image dies in weight load (shape assert) with modelopt_patched mounted.
       # Verified 2026-09-07: all still required - image tag qwen38-flash-next not rebuilt
       # since 2026-08-26 and nothing merged upstream yet:
       #  - PLE CPU offload + NVFP4 dispatch: open PR vllm-project/vllm#53899
@@ -173,15 +176,35 @@ services:
       #    MTP draft-vocab patch (inert without VLLM_MTP_DRAFT_VOCAB): no upstream PR yet
       # When #53899 merges and a new image ships: regenerate patches (or drop the mounts
       # if the release notes say GB10 offload landed), see files/patch_*.py in the MiaAI repo.
-      - ./docker/vllm-patches/qwen38-flash-next/ple_layer_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/ple_layer.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/modelopt_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/modelopt.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/qsa_ops_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/ops/qsa.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/qsa_nvidia_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/qsa.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/mtp_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/mtp.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_layer.py:/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/ple_offload_layer.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_connector.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/connector.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_worker.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/worker.py:ro
-      - ./docker/vllm-patches/qwen38-flash-next/ple_offload_protocol.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/protocol.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/ple_layer_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/ple_layer.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/modelopt_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/modelopt.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/qsa_ops_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/ops/qsa.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/qsa_nvidia_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/qsa.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/mtp_patched.py:/usr/local/lib/python3.12/dist-packages/vllm/models/qwen3_8_flash_next/nvidia/mtp.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/ple_offload_layer.py:/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/ple_offload_layer.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/ple_offload_connector.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/connector.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/ple_offload_worker.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/worker.py:ro
+      # - ./docker/vllm-patches/qwen38-flash-next/ple_offload_protocol.py:/usr/local/lib/python3.12/dist-packages/vllm/v1/ple_offload/protocol.py:ro
+      # Recursive Flint (vllm PR #62938): vllm:flint image was built from PR commit db02bc9f;
+      # six later PR commits (826fd3f..02f263a) gate the custom SM100 kernels off on sm_120/121
+      # and fix the stock-layers fallback (weight load shape assert dies on GB10 without them).
+      # Files extracted from pr-62938 branch head - drop these mounts when a rebuilt flint
+      # image ships (or the PR merges and lands in a release/nightly)
+      - ./docker/vllm-patches/flint/model.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/model.py:ro
+      - ./docker/vllm-patches/flint/configs.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/configs.py:ro
+      - ./docker/vllm-patches/flint/gguf_nvfp4.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/gguf_nvfp4.py:ro
+      - ./docker/vllm-patches/flint/__init__.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/__init__.py:ro
+      - ./docker/vllm-patches/flint/ops/__init__.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/__init__.py:ro
+      - ./docker/vllm-patches/flint/ops/cute_primitives.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/cute_primitives.py:ro
+      - ./docker/vllm-patches/flint/ops/decode_attention.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/decode_attention.py:ro
+      - ./docker/vllm-patches/flint/ops/linear.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/linear.py:ro
+      - ./docker/vllm-patches/flint/ops/moe.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/moe.py:ro
+      - ./docker/vllm-patches/flint/ops/moe_cute.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/moe_cute.py:ro
+      - ./docker/vllm-patches/flint/ops/moe_gemv.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/moe_gemv.py:ro
+      - ./docker/vllm-patches/flint/ops/norm.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/norm.py:ro
+      - ./docker/vllm-patches/flint/ops/nvfp4_gemv.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/nvfp4_gemv.py:ro
+      - ./docker/vllm-patches/flint/ops/qk_norm_rope.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/qk_norm_rope.py:ro
+      - ./docker/vllm-patches/flint/ops/qkv_fused.py:/usr/local/lib/python3.12/dist-packages/vllm/models/flint/ops/qkv_fused.py:ro
     #  - ./docker/chat-template-qwen3.jinja:/etc/vllm/chat-template.jinja:ro
     #  - ./docker/safetensors_coding_generation.json:/models/huggingface/hub/models--AxionML--Qwen3.5-35B-A3B-NVFP4/snapshots/75f5a9d934e5528d372916d8df7376ec52f6801a/generation_config.json:ro
     environment:
@@ -194,18 +217,17 @@ services:
       # ─── GB10 / sm_121a runtime ───
       - TORCH_CUDA_ARCH_LIST=12.1a
       - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-      - TORCH_MATMUL_PRECISION=high
       - NVIDIA_FORWARD_COMPAT=1
       - NVIDIA_DISABLE_REQUIRE=1
-      - CUTE_DSL_ARCH=sm_121a
 
-      - ENABLE_NVFP4_SM120=1
-
-      # ─── FP4 path selection ───
-      - VLLM_USE_FLASHINFER_MOE_FP4=1
-      - VLLM_TEST_FORCE_FP8_MARLIN=0
-      - VLLM_USE_FLASHINFER_SAMPLER=1
-      - VLLM_NVFP4_GEMM_BACKEND=flashinfer-cutlass
+      # ─── FP4 path selection (qwen38-era knobs, NOT for the flint image) ───
+      # - VLLM_USE_FLASHINFER_MOE_FP4=1
+      # - VLLM_TEST_FORCE_FP8_MARLIN=0
+      # - VLLM_USE_FLASHINFER_SAMPLER=1
+      # - VLLM_NVFP4_GEMM_BACKEND=flashinfer-cutlass
+      # - ENABLE_NVFP4_SM120=1
+      # - TORCH_MATMUL_PRECISION=high
+      # - CUTE_DSL_ARCH=sm_121a
       # unified memory
       - VLLM_WORKER_MULTIPROC_METHOD=spawn  
       # VLLM_USE_DEEP_GEMM is env-only (no CLI flag, so it can't live in vllm-configs/*.yaml);
@@ -214,13 +236,6 @@ services:
       - VLLM_USE_DEEP_GEMM=${VLLM_USE_DEEP_GEMM:-1}
       # flashinfer runtime compilation
       - MAX_JOBS=4
-      # ─── qwen38-flash-next (MiaAI recipe): PLE CPU offload + V2 model runner pin ───
-      # V2 pin prevents the MTP draft copy from falling back to V1 and turning
-      # FULL decode graphs into PIECEWISE (see .env.sample in the MiaAI-Lab repo)
-      - VLLM_PLE_CPU_OFFLOAD=1
-      - VLLM_PLE_PACKED_TABLE_DIR=/root/.cache/vllm/ple_cache/Mia-AiLab--Qwen3.8-Flash-Next-NVFP4
-      - VLLM_PLE_OFFLOAD_STEP_TIMEOUT=300
-      - VLLM_USE_V2_MODEL_RUNNER=1
     ports:
       - "127.0.0.1:30001:30001"
     # qwen38-flash-next PLE offload worker uses POSIX shm (MiaAI recipe runs --ipc host);
@@ -246,6 +261,7 @@ services:
     # per-model configs live in docker/vllm-configs/*.yaml, selected via VLLM_CONFIG in .env
     # vllm/vllm-openai:qwen38-flash-next ships ENTRYPOINT ["vllm","serve"], spark-full uses
     # nvidia_entrypoint.sh - pin the entrypoint so the command below works for both
+    # (vllm:flint tag = Dockerfile.vllm.spark flint target, keeps the same entrypoint)
     entrypoint: ["vllm", "serve"]
     command: >
       --config /etc/vllm-configs/${VLLM_CONFIG:-qwen3.6-35b-a3b-fp8.yaml}

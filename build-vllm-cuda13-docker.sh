@@ -14,3 +14,9 @@ rm -rf .deps .venv build *.egg-info
 docker pull vllm/vllm-openai:cu130-nightly-aarch64
 docker build --progress=plain --platform=linux/arm64 -f "${CUR_DIR}/Dockerfile.vllm.spark" -t vllm:spark-full "${VLLM_DIR}"
 cd -
+
+# Recursive Flint (vllm PR #62938): flint target = official flint-arm64-cu130 image + gguf
+# pip package (the image predates the 826fd3f fix, see Dockerfile.vllm.spark). Fast single
+# layer, does not need the vllm source checkout - repo dir is just a build context
+docker pull vllm/vllm-openai:flint-arm64-cu130
+docker build --progress=plain --platform=linux/arm64 -f "${CUR_DIR}/Dockerfile.vllm.spark" --target flint -t vllm:flint "${CUR_DIR}"

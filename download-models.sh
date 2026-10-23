@@ -32,6 +32,10 @@ hf download --max-workers=$(nproc) Solstice-AI/Qwopus3.8-27B-Flash-GGUF-1M --inc
 # same model, original 262k quant from the author (no YaRN), embedded MTP head
 hf download --max-workers=$(nproc) Jackrong/Qwopus3.8-27B-Flash-GGUF --include "*MTP-Q4_K_M*"
 
+# Recursive Flint 39.8B MoE (2.5B active), 256K ctx, Apache-2.0, strongest <50B MoE on agentic coding
+# needs llama.cpp release with flint arch support, see https://unsloth.ai/docs/models/flint
+hf download --max-workers=$(nproc) unsloth/flint-GGUF --include "*UD-Q4_K_XL*" --include "*imatrix*"
+
 hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
 hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
@@ -134,6 +138,11 @@ hf download --max-workers=$(nproc) ai-sage/GigaChat3.1-10B-A1.8B-GGUF --include=
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
 
 ## for vllm & sglang safetensors
+# Recursive Flint for vLLM (vllm/vllm-openai:flint-arm64-cu130 image, vllm PR #62938):
+# NVFP4 GGUF 23GB runs W4A16 via Marlin on GB10/sm_120 (custom SM100 kernels don't apply),
+# config+tokenizer come from the BF16 repo (--hf-config-path/--tokenizer RecursiveSI/flint)
+hf download --max-workers=$(nproc) RecursiveSI/flint-nvfp4-gguf
+hf download --max-workers=$(nproc) RecursiveSI/flint --include "*.json" --include "*.jinja" --include "sglang/*"
 # https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark single DGX Spark recipe
 # needs patches from MiaAI-Lab repo + packed PLE table (~27GB extra, built on first launch)
 hf download --max-workers=$(nproc) Mia-AiLab/Qwen3.8-Flash-Next-NVFP4

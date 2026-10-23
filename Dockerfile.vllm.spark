@@ -83,4 +83,12 @@ COPY --from=build /vllm/.venv /vllm/.venv
 ENV PATH="/vllm/.venv/bin:${PATH}"
 ENV VLLM_USAGE_SOURCE=docker
 # for properly fastsafetensors initialization
-# RUN ln -s /usr/local/cuda/lib64/libcudart.so.13 /usr/local/cuda/lib64/libcudart.so    
+# RUN ln -s /usr/local/cuda/lib64/libcudart.so.13 /usr/local/cuda/lib64/libcudart.so
+
+### Flint: Recursive Flint support (vllm PR #62938)
+# flint-arm64-cu130 was built from PR commit db02bc9f, before 826fd3f added gguf>=0.19.0
+# to the image - Flint NVFP4 GGUF loading dies on "requires the gguf package" (#63020).
+# One fast layer on top of the pulled image; drop this target when the tag is rebuilt
+# after the PR merges. Build: build-vllm-cuda13-docker.sh (vllm:flint tag)
+FROM vllm/vllm-openai:flint-arm64-cu130 AS flint
+RUN pip install --no-cache-dir "gguf>=0.19.0"
