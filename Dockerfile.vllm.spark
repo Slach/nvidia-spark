@@ -92,3 +92,14 @@ ENV VLLM_USAGE_SOURCE=docker
 # after the PR merges. Build: build-vllm-cuda13-docker.sh (vllm:flint tag)
 FROM vllm/vllm-openai:flint-arm64-cu130 AS flint
 RUN pip install --no-cache-dir "gguf>=0.19.0"
+
+### Chisel: chisel-nvfp4-dflash2-replay recipe (yuanlin2004/chisel-spark-recipes)
+# 65.1 t/s decode Qwen3.8-27B recipe: the pinned spark-arena vLLM nightly
+# (0.31.1rc1.dev380) + the chisel-passes plugin (GDN state replay + reduced draft
+# vocabulary, lossless spec-decode passes). Pinned to the recipe repo commit 84feafd.
+# Same pip install as recipes/qwen3.8-27b/mods/chisel-passes/run.sh does at start.
+# Build: build-vllm-cuda13-docker.sh (vllm:chisel tag)
+FROM ghcr.io/spark-arena/dgx-vllm-eugr-nightly@sha256:b77010699ec42ab88b3409f4dd101f2288dfd8895e2778e5bb737e03a20953f0 AS chisel
+RUN curl -fsSL https://github.com/yuanlin2004/chisel-spark-recipes/archive/84feafddff1e834bd16b849c827eed11676e5934.tar.gz | tar xz -C /tmp \
+    && pip install --no-cache-dir --no-deps --no-build-isolation /tmp/chisel-spark-recipes-84feafddff1e834bd16b849c827eed11676e5934/recipes/qwen3.8-27b/mods/chisel-passes \
+    && rm -rf /tmp/chisel-spark-recipes-*

@@ -1,0 +1,28 @@
+# chisel-nvfp4-dflash2-replay recipe from yuanlin2004/chisel-spark-recipes, flags 1:1
+# from recipes/qwen3.8-27b/chisel-nvfp4-dflash2-replay.yaml (commit 84feafd)
+# target: unsloth/Qwen3.8-27B-NVFP4 (NVFP4) + Chisel DFlash2 NVFP4 drafter, 10 draft
+# tokens (~4.3 accepted/step), GDN linear-attention state in BF16
+# image: vllm:chisel = spark-arena dgx-vllm-eugr-nightly pinned digest (vLLM
+# 0.31.1rc1.dev380) + chisel-passes plugin layer, see Dockerfile.vllm.spark
+# recipe-measured on DGX Spark 2026-10-15: 65.1 t/s median decode (15.35 ms/tok,
+# p90 28-29 ms), TTFT 241 ms, quality 99.3-101.2% of BF16 (gsm8k/ifeval/humaneval/NarrativeQA)
+# gpu-mem 0.6 is the recipe default - NVFP4 weights ~15GB + small drafter leave plenty
+# of unified memory; GDN state replay capacity 8 + FP8 draft head 100k vocab are the
+# two lossless chisel passes (--additional-config), served tokens are the target's own
+model: unsloth/Qwen3.8-27B-NVFP4
+trust-remote-code: true
+max-model-len: 262144
+max-num-seqs: 4
+max-num-batched-tokens: 16384
+gpu-memory-utilization: 0.6
+enable-chunked-prefill: true
+skip-mm-profiling: true
+limit-mm-per-prompt: '{"image":0,"video":0}'
+reasoning-parser: qwen3
+tool-call-parser: qwen3_coder
+enable-auto-tool-choice: true
+generation-config: auto
+speculative-config: '{"method":"dflash","model":"yuanlin2004/Qwen3.8-27B-Chisel-DFlash2-NVFP4-drafter","num_speculative_tokens":10}'
+default-chat-template-kwargs: '{"enable_thinking":true,"reasoning_effort":"medium"}'
+mamba-ssm-cache-dtype: bfloat16
+additional-config: '{"chisel_gdn_replay": 8, "chisel_draft_vocab": "qwen3.8-27b-100k", "chisel_draft_vocab_fp8": true}'

@@ -20,3 +20,9 @@ cd -
 # layer, does not need the vllm source checkout - repo dir is just a build context
 docker pull vllm/vllm-openai:flint-arm64-cu130
 docker build --progress=plain --platform=linux/arm64 -f "${CUR_DIR}/Dockerfile.vllm.spark" --target flint -t vllm:flint "${CUR_DIR}"
+
+# chisel (yuanlin2004/chisel-spark-recipes chisel-nvfp4-dflash2-replay, 65.1 t/s decode):
+# pinned spark-arena vLLM nightly + chisel-passes plugin layer, see Dockerfile.vllm.spark
+# chisel target. Single layer on top of the pulled digest, no vllm checkout needed
+docker pull ghcr.io/spark-arena/dgx-vllm-eugr-nightly@sha256:b77010699ec42ab88b3409f4dd101f2288dfd8895e2778e5bb737e03a20953f0
+docker build --progress=plain --platform=linux/arm64 -f "${CUR_DIR}/Dockerfile.vllm.spark" --target chisel -t vllm:chisel "${CUR_DIR}"

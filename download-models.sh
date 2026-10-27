@@ -143,6 +143,11 @@ hf download --max-workers=$(nproc) ai-sage/GigaChat3.1-10B-A1.8B-GGUF --include=
 hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
 
 ## for vllm & sglang safetensors
+# chisel-nvfp4-dflash2-replay recipe (https://github.com/yuanlin2004/chisel-spark-recipes),
+# 65.1 t/s decode on DGX Spark: unsloth NVFP4 target 13GB + Chisel DFlash2 NVFP4 drafter 1.3GB
+# vllm:chisel image + docker/vllm-configs/qwen3.8-27b-chisel-nvfp4.yaml
+hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-NVFP4
+hf download --max-workers=$(nproc) yuanlin2004/Qwen3.8-27B-Chisel-DFlash2-NVFP4-drafter
 # Recursive Flint for vLLM (vllm/vllm-openai:flint-arm64-cu130 image, vllm PR #62938):
 # NVFP4 GGUF 23GB runs W4A16 via Marlin on GB10/sm_120 (custom SM100 kernels don't apply),
 # config+tokenizer come from the BF16 repo (--hf-config-path/--tokenizer RecursiveSI/flint)
