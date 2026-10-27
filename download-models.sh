@@ -36,6 +36,11 @@ hf download --max-workers=$(nproc) Jackrong/Qwopus3.8-27B-Flash-GGUF --include "
 # needs llama.cpp release with flint arch support, see https://unsloth.ai/docs/models/flint
 hf download --max-workers=$(nproc) unsloth/flint-GGUF --include "*UD-Q4_K_XL*" --include "*imatrix*"
 
+# Nanbeige4.3-33B dense agent/reasoning (Llama arch, ChatML, thinking on default, native 131k ctx)
+# quantization-sensitive model: AD-Q4_K_M (Atomic Dynamic imatrix, top-1 92.6%) >> plain Q4_K_M (89.9%)
+# card https://huggingface.co/AtomicChat/Nanbeige4.3-33B-GGUF
+hf download --max-workers=$(nproc) AtomicChat/Nanbeige4.3-33B-GGUF --include "Nanbeige4.3-33B-AD-Q4_K_M*" --include "Nanbeige4.3-33B-Q4_K_M*"
+
 hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
 hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
