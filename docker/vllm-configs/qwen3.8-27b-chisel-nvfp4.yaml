@@ -7,8 +7,14 @@
 # recipe-measured on DGX Spark 2026-10-15: 65.1 t/s median decode (15.35 ms/tok,
 # p90 28-29 ms), TTFT 241 ms, quality 99.3-101.2% of BF16 (gsm8k/ifeval/humaneval/NarrativeQA)
 # gpu-mem 0.6 is the recipe default - NVFP4 weights ~15GB + small drafter leave plenty
-# of unified memory; GDN state replay capacity 8 + FP8 draft head 100k vocab are the
-# two lossless chisel passes (--additional-config), served tokens are the target's own
+# of unified memory; GDN state replay capacity 8 is the remaining chisel pass
+# (--additional-config), served tokens are the target's own.
+# Diverged from recipe 84feafd on 2026-10-27: dropped
+# chisel_draft_vocab=qwen3.8-27b-100k. That token list is English-frequency-based -
+# half the tokens of common Russian words are missing from it, so DFlash2 acceptance
+# collapsed to ~0.35 tok/step on Russian (13 t/s vs 25 t/s English). Full draft head
+# (+~0.7 GB) restores multilingual drafting; chisel_draft_vocab_fp8 is kept but inert
+# without a vocab list.
 model: unsloth/Qwen3.8-27B-NVFP4
 trust-remote-code: true
 max-model-len: 262144
@@ -25,4 +31,4 @@ generation-config: auto
 speculative-config: '{"method":"dflash","model":"yuanlin2004/Qwen3.8-27B-Chisel-DFlash2-NVFP4-drafter","num_speculative_tokens":10}'
 default-chat-template-kwargs: '{"enable_thinking":true,"reasoning_effort":"medium"}'
 mamba-ssm-cache-dtype: bfloat16
-additional-config: '{"chisel_gdn_replay": 8, "chisel_draft_vocab": "qwen3.8-27b-100k", "chisel_draft_vocab_fp8": true}'
+additional-config: '{"chisel_gdn_replay": 8, "chisel_draft_vocab_fp8": true}'

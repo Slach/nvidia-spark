@@ -20,6 +20,9 @@ hf download --max-workers=$(nproc) agentionai/Signal-3.8-27B-GGUF --include "*Q4
 hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
 # Altworld Hemmingway-1 = Qwen3.8-27B fine-tune, MTP embedded in every quant, text-only (no mmproj)
 hf download --max-workers=$(nproc) bartowski/Altworld_Hemmingway-1-GGUF --include "*Q4_K_M*"
+# HemmingwayAI Hemmingway-1.5 = Hemmingway-1 (Qwen3.8-27B) fine-tune, MTP embedded in every quant (Q4_0 draft),
+# text-only (no mmproj), quants need llama.cpp b11969+
+hf download --max-workers=$(nproc) bartowski/HemmingwayAI_Hemmingway-1.5-GGUF --include "*Q4_K_M*"
 
 # ShapeLearn per-tensor hybrid quants of Qwen3.8-27B, MTP head embedded in every GGUF
 # IQ4_XS-3.84bpw = GPU-5 (13.1GB), best quality of the release; mmproj-bf16 for vision
