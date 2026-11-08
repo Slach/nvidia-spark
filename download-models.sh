@@ -48,6 +48,12 @@ hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
 hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
 
+# Sakura = abliterated edit (refusal direction removed, 128 language tensors) of NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB,
+# nemotron_h_moe Mamba-hybrid MoE, mixed IQ2_XXS/NVFP4/Q8_0 expert quants + Q8_0-edited 128 tensors,
+# Q8_0-edited closer to NVIDIA original than F16-edited (KLD 0.019 vs 0.154), text-only, no MTP, needs llama.cpp b11681+
+# card https://huggingface.co/webmp3/Sakura-Nemotron-3.5-Bolt-74B-A9B-24GB-Uncensored-GGUF
+hf download --max-workers=$(nproc) webmp3/Sakura-Nemotron-3.5-Bolt-74B-A9B-24GB-Uncensored-GGUF --include "*Q8_0*"
+
 # 403 suki pidarasi ;)
 # hf download --max-workers=$(nproc) meta-models/Muse-Glimmer-30B-GGUF --include="*dynamic*" --include="*kquant*"
 
@@ -77,6 +83,11 @@ hf download --max-workers=$(nproc) yuxinlu1/gemma-4-12B-coder-fable5-composer2.5
 hf download --max-workers=$(nproc) mradermacher/Gemma-4-Novelist-31B-i1-GGUF --include="*Q4_K_M*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.6-27B-MTP-GGUF  --include="*UD-Q4_K_XL*" --include="*mmproj*"
 hf download --max-workers=$(nproc) unsloth/Qwen3.6-35B-A3B-MTP-GGUF --include="*UD-Q4_K_XL*" --include="*mmproj*"
+# empero-ai/Qwen3.8-35B-A3B-Distill = Qwen3.8 frontier distill into Qwen3.6-35B-A3B MoE arch
+# (30 Gated DeltaNet + 10 full-attn layers, 256 experts top-8), reasoning model, vision inherited from Qwen3.6 base
+# block_count=41 = 40 trunk + 1 full MTP block (blk.40 own attn+MoE + nextn.* tensors) -> embedded draft-mtp works,
+# same tensor layout as unsloth/Qwen3.6-35B-A3B-MTP-GGUF, no external draft needed
+hf download --max-workers=$(nproc) empero-ai/Qwen3.8-35B-A3B-Distill-GGUF --include="*Q4_K_M*" --include="*mmproj*"
 hf download --max-workers=$(nproc) empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF --include="*MTP*Q8*" --include="*mmproj*"
 
 hf cache rm -y model/MaralGPT/MaralGPT-Mythos-9B-2606-GGUF
