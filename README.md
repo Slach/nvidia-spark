@@ -80,7 +80,6 @@ Models are configured in `llama.cpp.models.ini`:
 
 | Model | Quantization | Gen Speed | Prefill Speed | Notes |
 | ------- | ---------------- | ----------- | --------------- | ---------------------------------- |
-| protoLabsAI/ThinkingCap-Qwen3.6-27B-heretic-MTP | NVFP4 | — | — | MTP, reasoning, 262K ctx |
 | deepreinforce-ai/Ornith-1.0-35B-MTP | Q4_K_M + BF16 MTP | 30-70 t/s | 2200-2400 t/s | Acceptance ~0.77, multimodal |
 | unsloth/Gemma4-31B-MTP | Q4_K_XL + MTP | 15-16 t/s | ~470 t/s | Acceptance ~0.5, multimodal |
 | unsloth/Gemma4-26B-MTP | Q4_K_XL + MTP | 44-55 t/s | 1400-1800 t/s | Multimodal |

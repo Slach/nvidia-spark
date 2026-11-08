@@ -6,6 +6,7 @@ pipx upgrade-all
 # hf cache rm -y model/unsloth/Qwen-AgentWorld-35B-A3B-GGUF
 # model was removed from huggingface
 # hf download --max-workers=$(nproc) protoLabsAI/ThinkingCap-Qwen3.6-27B-heretic-MTP-GGUF --include="*NVFP4*"
+hf cache rm -y model/protoLabsAI/ThinkingCap-Qwen3.6-27B-heretic-MTP-GGUF
 
 hf cache rm -y model/mudler/Ornith-1.5-35B-A3B-APEX-MTP-GGUF
 ms download --max-workers=$(nproc) --model Tariel/Ornith-1.5-35B-A3B-MTP-GGUF --include "*mtp-head/*" --include "*I-Quality*" --include="*mmproj*"
@@ -16,8 +17,11 @@ hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_
 # hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --include="*mmproj*Q8*"
 hf cache rm -y model/ggml-org/Qwen3.8-27B-GGUF
 # Signal-3.8-27B = token-efficiency fine-tune of Qwen3.8-27B (vision kept, thinking by default)
-hf download --max-workers=$(nproc) agentionai/Signal-3.8-27B-GGUF --include "*Q4_K_XL*" --include "*mmproj*"
-hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
+# hf download --max-workers=$(nproc) agentionai/Signal-3.8-27B-GGUF --include "*Q4_K_XL*" --include "*mmproj*"
+hf cache rm -y model/agentionai/Signal-3.8-27B-GGUF
+# incoai DFlash2 draft - only consumer was byteshape/Qwen3.8-27B-IQ4_XS-DFlash2 (removed)
+# hf download --max-workers=$(nproc) incoai/Qwen3.8-27B-DFlash2-GGUF  --include "*Q4*"
+hf cache rm -y model/incoai/Qwen3.8-27B-DFlash2-GGUF
 # Altworld Hemmingway-1 = Qwen3.8-27B fine-tune, MTP embedded in every quant, text-only (no mmproj)
 hf download --max-workers=$(nproc) bartowski/Altworld_Hemmingway-1-GGUF --include "*Q4_K_M*"
 # HemmingwayAI Hemmingway-1.5 = Hemmingway-1 (Qwen3.8-27B) fine-tune, MTP embedded in every quant (Q4_0 draft),
@@ -26,7 +30,8 @@ hf download --max-workers=$(nproc) bartowski/HemmingwayAI_Hemmingway-1.5-GGUF --
 
 # ShapeLearn per-tensor hybrid quants of Qwen3.8-27B, MTP head embedded in every GGUF
 # IQ4_XS-3.84bpw = GPU-5 (13.1GB), best quality of the release; mmproj-bf16 for vision
-hf download --max-workers=$(nproc) byteshape/Qwen3.8-27B-GGUF --include "*IQ4*" --include "*mmproj*"
+# hf download --max-workers=$(nproc) byteshape/Qwen3.8-27B-GGUF --include "*IQ4*" --include "*mmproj*"
+hf cache rm -y model/byteshape/Qwen3.8-27B-GGUF
 # hf download --max-workers=$(nproc) webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 hf cache rm -y model/webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 
