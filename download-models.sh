@@ -181,6 +181,16 @@ hf download --max-workers=$(nproc) AEON-7/Qwen3.6-35B-A3B-heretic-NVFP4
 hf download --max-workers=$(nproc) z-lab/Qwen3.6-35B-A3B-DFlash
 hf cache rm -y model/nvidia/NVIDIA-Nemotron-Labs-3-Puzzle-75B-A9B-NVFP4
 
+# Ricursive Ripple-65B-Preview (dense 65B, 80 layers = 4 SWA-1024 + 1 NoPE full-attn per 5,
+# native 2M ctx), TerminalBench 2.1 = 80.52 - strongest <100B agentic coder
+# NVFP4 checkpoint 57.2GB (ModelOpt: NVFP4 MLP + BF16 attention/KV, no fp8 KV allowed)
+# + BF16 DFlash2 drafter 4GB (acceptance 7.34 mean @15 draft tokens, GSM8K)
+# native vLLM support via vllm PR #65745 (merged 2026-11-05, needs vllm >= 0.33.0 nightly;
+# no trust-remote-code - RicursiveConfig is built-in), official recipe recipes/models/ricursiveAI/
+# config docker/vllm-configs/ripple-65b-preview-nvfp4.yaml
+hf download --max-workers=$(nproc) ricursiveAI/Ripple-65B-Preview-NVFP4
+hf download --max-workers=$(nproc) ricursiveAI/Ripple-65B-Preview-DFlash2
+
 # todo 1M context
 hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-NVFP4
 hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-DFlash-NVFP4

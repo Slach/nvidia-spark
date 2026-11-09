@@ -1,0 +1,37 @@
+# ricursiveAI/Ripple-65B-Preview-NVFP4 + DFlash2 drafter via vllm PR #65745
+# (merged 2026-11-05, min vllm 0.33.0 -> VLLM_IMAGE=vllm/vllm-openai:cu134-nightly-aarch64;
+# cu130-nightly-aarch64 tag went stale 2026-04-23, nightlies moved to cu134)
+# dense 65B reasoning/agentic coder (TerminalBench 2.1 = 80.52), 80 layers =
+# 4 SWA-1024 + 1 NoPE full-attn per 5, gated attention (g_proj), ChatML + <think>,
+# native 2M ctx capped to 131k like the authors' DGX Spark sglang recipe
+# (inference/local/spark.py: context-length 131072, mem-fraction 0.78, BF16 KV)
+# ModelOpt mixed precision: NVFP4 MLP (group 16) + BF16 attention/embed/lm_head,
+# 57.2GB weights + 4GB BF16 drafter = ~61.4GB -> gpu-mem 0.70 leaves ~17GB KV
+# (NoPE layers only grow with ctx: ~64KB/tok -> 131k seq ~8.9GB; SWA bounded 1024)
+# 0.80 OOM-killed the container at 112g compose mem_limit right after torch.compile,
+# during KV alloc (61.4 weights + runtime + KV budget ~30GB + cudagraph pools > 112g)
+# kv fp8 forbidden (kv_cache_quant_algo null in quant config), no trust-remote-code
+# official recipe: recipes/models/ricursiveAI/Ripple-65B-Preview.yaml (b300-verified,
+# 7 draft tokens default; PR-measured acceptance 7.34 mean @15 on GSM8K with NoPE draft)
+model: ricursiveAI/Ripple-65B-Preview-NVFP4
+max-model-len: 262144
+max-num-seqs: 1
+max-num-batched-tokens: 4096
+# fp8 KV switches backend to FLASHINFER; its autotune warmup spikes unified memory
+# on GB10 and OOM-killed the 112g container at KV alloc -> autotune off, 4096 chunks
+no-enable-flashinfer-autotune: true
+# one 256k seq fp8 KV = 11.23 GiB per vLLM planner (16 NoPE full-attn layers grow
+# with ctx, 64 SWA-1024 layers bounded, +17.65% hybrid padding waste)
+# 0.65 -> 9.55 GiB KV available < 11.23 needed ("estimated maximum model length 218240")
+# 0.70 -> ~15.4 GiB KV: 256k x1 seq fits with margin; anon total ~87GB < 112g compose limit
+gpu-memory-utilization: 0.70
+kv-cache-dtype: fp8
+enable-chunked-prefill: true
+enable-auto-tool-choice: true
+tool-call-parser: ripple
+reasoning-parser: ripple
+speculative-config:
+  method: dflash
+  model: ricursiveAI/Ripple-65B-Preview-DFlash2
+  num_speculative_tokens: 7
+enable-prefix-caching: true
