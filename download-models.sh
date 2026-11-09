@@ -38,7 +38,8 @@ hf cache rm -y model/webhie/Qwen3.8-27B-Q4-AutoRound-Code-GGUF
 # Qwen3.8-27B-Flash (Claude Opus distill), 1M context via baked YaRN, DSpark draft model in speculative/
 hf download --max-workers=$(nproc) Solstice-AI/Qwopus3.8-27B-Flash-GGUF-1M --include "*UD-Q4_K_XL*" --include "*json*" --include "*speculative*" --include="*mmproj*"
 # same model, original 262k quant from the author (no YaRN), embedded MTP head
-hf download --max-workers=$(nproc) Jackrong/Qwopus3.8-27B-Flash-GGUF --include "*MTP-Q4_K_M*"
+# hf download --max-workers=$(nproc) Jackrong/Qwopus3.8-27B-Flash-GGUF --include "*MTP-Q4_K_M*"
+hf cache rm -y model/Jackrong/Qwopus3.8-27B-Flash-GGUF
 
 # Recursive Flint 39.8B MoE (2.5B active), 256K ctx, Apache-2.0, strongest <50B MoE on agentic coding
 # needs llama.cpp release with flint arch support, see https://unsloth.ai/docs/models/flint
@@ -47,9 +48,11 @@ hf download --max-workers=$(nproc) unsloth/flint-GGUF --include "*UD-Q4_K_XL*" -
 # Nanbeige4.3-33B dense agent/reasoning (Llama arch, ChatML, thinking on default, native 131k ctx)
 # quantization-sensitive model: AD-Q4_K_M (Atomic Dynamic imatrix, top-1 92.6%) >> plain Q4_K_M (89.9%)
 # card https://huggingface.co/AtomicChat/Nanbeige4.3-33B-GGUF
-hf download --max-workers=$(nproc) AtomicChat/Nanbeige4.3-33B-GGUF --include "Nanbeige4.3-33B-AD-Q4_K_M*" --include "Nanbeige4.3-33B-Q4_K_M*"
+# hf download --max-workers=$(nproc) AtomicChat/Nanbeige4.3-33B-GGUF --include "Nanbeige4.3-33B-AD-Q4_K_M*" --include "Nanbeige4.3-33B-Q4_K_M*"
+hf cache rm -y model/AtomicChat/Nanbeige4.3-33B-GGUF
 
-hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
+# hf download --max-workers=$(nproc) unsloth/Laguna-S-2.1-GGUF --include "*UD-Q4_K_XL*"
+hf cache rm -y model/unsloth/Laguna-S-2.1-GGUF
 hf download --max-workers=$(nproc) unsloth/Muse-Glimmer-30B-GGUF --include "*UD-Q4_K_XL*" --include "*kquant*"
 hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF --include "*UD-Q4_K_XL*"
 
@@ -59,8 +62,18 @@ hf download --max-workers=$(nproc) unsloth/NVIDIA-Nemotron-3.5-Lightning-30B-A3B
 # card https://huggingface.co/webmp3/Sakura-Nemotron-3.5-Bolt-74B-A9B-24GB-Uncensored-GGUF
 hf download --max-workers=$(nproc) webmp3/Sakura-Nemotron-3.5-Bolt-74B-A9B-24GB-Uncensored-GGUF --include "*Q8_0*"
 
+# DavidAU Qwen3-48B-A4B-Savant-Commander-Distill-12X (Qwen3 MoE 48B, 12X expert-expanded
+# distill + Closed-Open-Heretic uncensoring), Q4_K_M 20.4GB, no MTP head -> plain decode
+# MANDATORY llama.cpp override (model card is WRONG, see discussion
+# https://huggingface.co/DavidAU/Qwen3-48B-A4B-Savant-Commander-Distill-12X-Closed-Open-Heretic-Uncensored-GGUF/discussions/2):
+#   --override-kv qwen3moe.expert_used_count=int:6
+hf download --max-workers=$(nproc) DavidAU/Qwen3-48B-A4B-Savant-Commander-Distill-12X-Closed-Open-Heretic-Uncensored-GGUF --include "*Q4_K_M*"
+
 # 403 suki pidarasi ;)
 # hf download --max-workers=$(nproc) meta-models/Muse-Glimmer-30B-GGUF --include="*dynamic*" --include="*kquant*"
+hf cache rm -y model/meta-models/Muse-Glimmer-30B-GGUF
+# phucngodev/Qwen3.5-9B-MTP - never had a download line here, cache leftover
+hf cache rm -y model/phucngodev/Qwen3.5-9B-MTP
 
 
 # wait when resolve https://github.com/ggml-org/llama.cpp/pull/26608
@@ -74,6 +87,8 @@ hf download --max-workers=$(nproc) webmp3/Sakura-Nemotron-3.5-Bolt-74B-A9B-24GB-
 # PQ2_0 = 2-bit slots 7.21GB (Blackwell pick), PTQ1_0 = dense trits 5.95GB; stock llama.cpp rejects both (ggml types 142/143)
 # no plain Q2_0 in this repo - stock loads Q2_0 silently producing garbage without Hadamard activation runtime
 hf download --max-workers=$(nproc) prism-ml/Ternary-Bonsai-2-27B-gguf --include="*PQ2_0*" --include="*mmproj-Q8_0*"
+# Bonsai 1 not used anymore (superseded by Bonsai 2)
+hf cache rm -y model/prism-ml/Ternary-Bonsai-27B-gguf
 
 # qwen3.5 for programming
 hf download --max-workers=$(nproc) deepreinforce-ai/Ornith-1.0-35B-GGUF --include="*Q8*" --include="*Q4*"
@@ -93,7 +108,8 @@ hf download --max-workers=$(nproc) unsloth/Qwen3.6-35B-A3B-MTP-GGUF --include="*
 # block_count=41 = 40 trunk + 1 full MTP block (blk.40 own attn+MoE + nextn.* tensors) -> embedded draft-mtp works,
 # same tensor layout as unsloth/Qwen3.6-35B-A3B-MTP-GGUF, no external draft needed
 hf download --max-workers=$(nproc) empero-ai/Qwen3.8-35B-A3B-Distill-GGUF --include="*Q4_K_M*" --include="*mmproj*"
-hf download --max-workers=$(nproc) empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF --include="*MTP*Q8*" --include="*mmproj*"
+# hf download --max-workers=$(nproc) empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF --include="*MTP*Q8*" --include="*mmproj*"
+hf cache rm -y model/empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF
 
 hf cache rm -y model/MaralGPT/MaralGPT-Mythos-9B-2606-GGUF
 hf cache rm -y model/Guilherme34/Firefly-v4-BetterGGUF
@@ -101,7 +117,9 @@ hf cache rm -y model/llmfan46/Qwen3.5-35B-A3B-uncensored-heretic-v2-Native-MTP-P
 hf cache rm -y model/catlilface/Gemma-4-26B-A4B-NVFP4-GGUF
 
 # medicine
-hf download --max-workers=$(nproc) mradermacher/AntAngelMed-i1-GGUF --include="*Q4_K_M*" --include="*imatrix*"
+# not used in any serving config, cache cleaned 2026-11-09
+# hf download --max-workers=$(nproc) mradermacher/AntAngelMed-i1-GGUF --include="*Q4_K_M*" --include="*imatrix*"
+hf cache rm -y model/mradermacher/AntAngelMed-i1-GGUF
 
 # hf download --max-workers=$(nproc) CISCai/gemma-4-31B-it-NVFP4-turbo-GGUF
 hf cache rm -y model/CISCai/gemma-4-31B-it-NVFP4-turbo-GGUF
@@ -133,7 +151,8 @@ hf cache rm -y model/Biomanticus/RYS-Qwen3.5-27B-gguf
 hf cache rm -y model/unsloth/Qwen3.5-122B-A10B-GGUF
 hf cache rm -y model/Qwen/Qwen3-Coder-Next-GGUF
 
-hf download --max-workers=$(nproc) mradermacher/Strand-Rust-Coder-14B-v1-GGUF --include "*Q8_0*"
+# hf download --max-workers=$(nproc) mradermacher/Strand-Rust-Coder-14B-v1-GGUF --include "*Q8_0*"
+hf cache rm -y model/mradermacher/Strand-Rust-Coder-14B-v1-GGUF
 
 hf cache rm -y model/dinerburger/Qwen3.5-27B-GGUF
 hf cache rm -y model/lmstudio-community/Qwen3.5-27B-GGUF
@@ -158,8 +177,10 @@ hf cache rm -y model/bartowski/zai-org_GLM-4.7-GGUF
 hf cache rm -y model/AaryanK/MiniMax-M2.1-GGUF
 
 # just for fun, Russian Chat models
-hf download --max-workers=$(nproc) ai-sage/GigaChat3.1-10B-A1.8B-GGUF --include="*q8*"
-hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
+# hf download --max-workers=$(nproc) ai-sage/GigaChat3.1-10B-A1.8B-GGUF --include="*q8*"
+hf cache rm -y model/ai-sage/GigaChat3.1-10B-A1.8B-GGUF
+# hf download --max-workers=$(nproc) t-tech/T-pro-it-2.1-GGUF --include="*Q4_K_M*"
+hf cache rm -y model/t-tech/T-pro-it-2.1-GGUF
 
 ## for vllm & sglang safetensors
 # chisel-nvfp4-dflash2-replay recipe (https://github.com/yuanlin2004/chisel-spark-recipes),
@@ -174,10 +195,12 @@ hf download --max-workers=$(nproc) RecursiveSI/flint-nvfp4-gguf
 hf download --max-workers=$(nproc) RecursiveSI/flint --include "*.json" --include "*.jinja" --include "sglang/*"
 # https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark single DGX Spark recipe
 # needs patches from MiaAI-Lab repo + packed PLE table (~27GB extra, built on first launch)
-hf download --max-workers=$(nproc) Mia-AiLab/Qwen3.8-Flash-Next-NVFP4
+# hf download --max-workers=$(nproc) Mia-AiLab/Qwen3.8-Flash-Next-NVFP4
+hf cache rm -y model/Mia-AiLab/Qwen3.8-Flash-Next-NVFP4
 hf download --max-workers=$(nproc) AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-NVFP4-MTP-XS
 hf download --max-workers=$(nproc) z-lab/Qwen3.6-27B-DFlash
-hf download --max-workers=$(nproc) AEON-7/Qwen3.6-35B-A3B-heretic-NVFP4
+# hf download --max-workers=$(nproc) AEON-7/Qwen3.6-35B-A3B-heretic-NVFP4
+hf cache rm -y model/AEON-7/Qwen3.6-35B-A3B-heretic-NVFP4
 hf download --max-workers=$(nproc) z-lab/Qwen3.6-35B-A3B-DFlash
 hf cache rm -y model/nvidia/NVIDIA-Nemotron-Labs-3-Puzzle-75B-A9B-NVFP4
 
@@ -191,16 +214,21 @@ hf cache rm -y model/nvidia/NVIDIA-Nemotron-Labs-3-Puzzle-75B-A9B-NVFP4
 hf download --max-workers=$(nproc) ricursiveAI/Ripple-65B-Preview-NVFP4
 hf download --max-workers=$(nproc) ricursiveAI/Ripple-65B-Preview-DFlash2
 
-# todo 1M context
-hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-NVFP4
-hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-DFlash-NVFP4
+# todo 1M context - doesn't work (stuck/OOMKilled per .env), cache cleaned 2026-11-09
+# hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-NVFP4
+# hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-DFlash-NVFP4
+hf cache rm -y model/poolside/Laguna-S-2.1-NVFP4
+hf cache rm -y model/poolside/Laguna-S-2.1-DFlash-NVFP4
 # 256k context
 hf download --max-workers=$(nproc) nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4
 hf download --max-workers=$(nproc) nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-DSpark
-hf download --max-workers=$(nproc) nvidia/Gemma-4-31B-IT-NVFP4
+# 1-3 t/s generation, why so slow? - dead experiment, cache cleaned 2026-11-09
+# hf download --max-workers=$(nproc) nvidia/Gemma-4-31B-IT-NVFP4
+hf cache rm -y model/nvidia/Gemma-4-31B-IT-NVFP4
 
 # 131k context
-hf download --max-workers=$(nproc) Inferact/Muse-Glimmer-30B-NVFP4-W4A4 
+# hf download --max-workers=$(nproc) Inferact/Muse-Glimmer-30B-NVFP4-W4A4
+hf cache rm -y model/Inferact/Muse-Glimmer-30B-NVFP4-W4A4
 
 
 # https://github.com/Avarok-Cybersecurity/atlas/issues/106
@@ -214,7 +242,8 @@ hf cache rm -y model/Qwen/Qwen3.5-27B-FP8
 # hf download --max-workers=$(nproc) selimaktas/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-v2-NVFP4A16
 
 
-hf download --max-workers=$(nproc) LilaRest/gemma-4-31B-it-NVFP4-turbo
+# hf download --max-workers=$(nproc) LilaRest/gemma-4-31B-it-NVFP4-turbo
+hf cache rm -y model/LilaRest/gemma-4-31B-it-NVFP4-turbo
 hf cache rm -y model/sakamakismile/Huihui-Qwen3.6-27B-abliterated-NVFP4-MTP
 
 # hf download --max-workers=$(nproc) AxionML/Qwen3.5-35B-A3B-NVFP4
@@ -232,7 +261,9 @@ hf download --max-workers=$(nproc) z-lab/gemma-4-31B-it-PARO
 hf cache rm -y model/unsloth/Qwen3-Next-80B-A3B-Instruct-bnb-4bit
 # hf download --max-workers=$(nproc) nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8
 hf cache rm -y model/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8
-hf download --max-workers=$(nproc) EssentialAI/rnj-1-instruct
+# rnj-1 not used anywhere (noctrex rnj GGUF already removed), cache cleaned 2026-11-09
+# hf download --max-workers=$(nproc) EssentialAI/rnj-1-instruct
+hf cache rm -y model/EssentialAI/rnj-1-instruct
 
 # hf download --max-workers=$(nproc) ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
 hf cache rm -y model/ArliAI/GLM-4.5-Air-Derestricted-GPTQ-Int4-Int8-Mixed
@@ -265,6 +296,7 @@ hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual
 ## image models ComfyUI
 # hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Edit_ComfyUI --include "*2511_fp8*" --include "*loras*"
 # hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Layered_ComfyUI
+hf cache rm -y model/Comfy-Org/Qwen-Image-Layered_ComfyUI
 # hf download --max-workers=$(nproc) Comfy-Org/flux2-dev --exclude "*bf16*"
 # hf download --max-workers=$(nproc) lightx2v/Qwen-Image-Edit-2511-Lightning --exclude "*bf16*"
 # hf download --max-workers=$(nproc) unsloth/Qwen-Image-Edit-2511-GGUF --include="*Q4_K_M*"
@@ -277,14 +309,30 @@ hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual
 
 # animation + video
 # hf download --max-workers=$(nproc) Wan-AI/Wan2.2-Animate-14B
+hf cache rm -y model/Wan-AI/Wan2.2-Animate-14B
 # hf download --max-workers=$(nproc) lightx2v/Wan2.2-Lightning
+
+# ComfyUI media models cleanup 2026-11-09 (not used, ~495GB freed):
+hf cache rm -y model/kandinskylab/Kandinsky-5.0-T2V-Pro-distilled-5s-Diffusers
+hf cache rm -y model/kandinskylab/Kandinsky-5.0-I2V-Pro-distilled-5s-Diffusers
+hf cache rm -y model/kandinskylab/Kandinsky-5.0-T2I-Lite-sft-Diffusers
+hf cache rm -y model/kandinskylab/Kandinsky-5.0-I2I-Lite-sft-Diffusers
+hf cache rm -y model/microsoft/TRELLIS.2-4B
+hf cache rm -y model/inclusionAI/LLaDA-Image-Turbo
+hf cache rm -y model/h94/IP-Adapter
+hf cache rm -y model/ResembleAI/chatterbox
+hf cache rm -y model/ResembleAI/chatterbox-turbo
+# LLM leftovers: no active download line / ini section, vllm profile dead (sglang issue #20973)
+hf cache rm -y model/Qwen/Qwen3-Next-80B-A3B-Instruct-GGUF
+hf cache rm -y model/Kbenkhaled/Qwen3.5-35B-A3B-NVFP4
 
 # guard models to avoid inference attacks
 hf download --max-workers=$(nproc) geoffmunn/Qwen3Guard-Stream-8B --include="*Q4_K_M*"
 
 #VLM
 # long horizon text
-hf cache rm -y model/Jan-v2-VL-max-MXFP4_MOE-GGUF
+# (typo fix 2026-11-09: repo id was missing the noctrex/ prefix, rm never fired)
+hf cache rm -y model/noctrex/Jan-v2-VL-max-MXFP4_MOE-GGUF
 hf cache rm -y model/noctrex/Qwen3-VL-30B-A3B-Thinking-1M-MXFP4_MOE-GGUF
 
 # Voice
@@ -298,7 +346,8 @@ hf download --max-workers=$(nproc) PaddlePaddle/PaddleOCR-VL-1.5
 
 # small interesting LLMs
 hf cache rm -y model/LiquidAI/LFM2-2.6B-Exp-GGUF
-hf cache rm -y model/noctrex/rnj-1-instruct-GGU
+# (typo fix 2026-11-09: missing trailing F, rm never fired)
+hf cache rm -y model/noctrex/rnj-1-instruct-GGUF
 hf cache rm -y model/tiiuae/Falcon-H1R-7B-GGUF
 
 
