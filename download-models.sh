@@ -293,6 +293,26 @@ hf download --max-workers=$(nproc) endyjasmi/Qwen3-Embedding-8B-Q4_K_M-GGUF
 hf download --max-workers=$(nproc) aiteza/Qwen3-VL-Embedding-8B-GGUF
 hf download --max-workers=$(nproc) sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 
+# decision system1 models
+# native decision models (embedding-model wrappers with decision head) from llama.cpp PR #29818
+# https://github.com/ggml-org/llama.cpp/pull/29818 (merged 2026-10-02), served via POST /v1/systemone
+# classification only - NO text generation; three question types: choice / score / noul
+# needs llama.cpp with server-decision.cpp (image llama.cpp:spark-full rebuilt from b12360 2026-11-13)
+# laya = convaiinnovations/laya (BERT-like), 0.42GB Q8_0, up to 255 choice options,
+#   whole prompt evaluated in ONE ubatch -> ubatch-size must cover the full prompt
+hf download --max-workers=$(nproc) ggml-org/Laya-GGUF --include "*Q8_0*"
+# julia-1 = SupersonicLabs/Julia-1, smallest one, 0.16GB Q8_0
+# DOESN'T LOAD in stock llama.cpp (checked b12202/b12360): "metaspace prepend_scheme 'always'
+# is not supported for BPE vocab" - kept in cache, ini section commented until upstream fix
+hf download --max-workers=$(nproc) ggml-org/Julia-1-GGUF --include "*Q8_0*"
+# lev = interfaze-ai/lev (Qwen3.5-4B base), zero-shot classification, 4.17GB Q8_0
+hf download --max-workers=$(nproc) ggml-org/lev-GGUF --include "*Q8_0*"
+# openjev = openjev/openjev, MULTIMODAL decision model (vision via mmproj, CC BY-NC 4.0 - non-commercial),
+#   26.6GB Q8_0 + mmproj 0.59GB, up to 52 choice options
+hf download --max-workers=$(nproc) ggml-org/OpenJev-GGUF --include "*Q8_0*"
+# kev-4b = jaredpalmer/kev-4b (Qwen3.5-4B-Base), text classification, 4.18GB Q8_0
+hf download --max-workers=$(nproc) ggml-org/Kev-4B-GGUF --include "*Q8_0*"
+
 ## image models ComfyUI
 # hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Edit_ComfyUI --include "*2511_fp8*" --include "*loras*"
 # hf download --max-workers=$(nproc) Comfy-Org/Qwen-Image-Layered_ComfyUI
