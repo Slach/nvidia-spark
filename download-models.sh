@@ -41,6 +41,20 @@ hf download --max-workers=$(nproc) Solstice-AI/Qwopus3.8-27B-Flash-GGUF-1M --inc
 # hf download --max-workers=$(nproc) Jackrong/Qwopus3.8-27B-Flash-GGUF --include "*MTP-Q4_K_M*"
 hf cache rm -y model/Jackrong/Qwopus3.8-27B-Flash-GGUF
 
+# Qwen3.8-Flash-Next Uncensored LoRA + MTP draft add-ons (theJuice85), base = ISTA-DASLab GSQ-RCO
+# card https://huggingface.co/theJuice85/Qwen3.8-Flash-Next-Uncensored-MTP, measured end-to-end on GB10:
+#   v9-t29-lora.gguf 91MB rank-1 uncensoring LoRA (heretic-gguf ablation on quantized GGUF,
+#     hard refusals 47/90 -> 5/90, 0 collateral, first-token KL 0.0100, recommended strength 1.5)
+#   flash-next-mtp.gguf 7.8GB standalone MTP draft head (vendor mtp.1 block repacked, no training,
+#     37.7 -> 58.7 t/s long-CoT decode (+55%), acceptance 82.7% at depth 2, depth 4 = best average)
+# base ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF quants (2 shards each, llama.cpp loads split natively):
+#   Q2_0 66.4GB (fastest prefill 367 t/s) / IQ2_XS 68GB / IQ3_XXS 75.8GB (99.4% of BF16, card preset)
+#   / IQ3_S 83.6GB (best quality per ISTA card); shard 2 = shared 51.2B n-gram embedding IQ4_NL 28.8GB,
+#   keep it mmap'd on disk: load-mode = mmap + lazy-mode = on in llama.cpp.models.ini
+#   https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF
+hf download --max-workers=$(nproc) theJuice85/Qwen3.8-Flash-Next-Uncensored-MTP --include "*.gguf"
+hf download --max-workers=$(nproc) ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF --include "IQ3_XXS/*"
+
 # Recursive Flint 39.8B MoE (2.5B active), 256K ctx, Apache-2.0, strongest <50B MoE on agentic coding
 # needs llama.cpp release with flint arch support, see https://unsloth.ai/docs/models/flint
 hf download --max-workers=$(nproc) unsloth/flint-GGUF --include "*UD-Q4_K_XL*" --include "*imatrix*"
