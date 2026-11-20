@@ -14,6 +14,19 @@ hf download --max-workers=$(nproc) ornith-ai/Ornith-1.5-35B-A3B-GGUF --include "
 hf download --max-workers=$(nproc) shisa-ai/Ornith-1.5-35B-A3B-MTP-ONLY
 
 hf download --max-workers=$(nproc) unsloth/Qwen3.8-27B-GGUF --include "*UD-Q4_K_XL*" --include="*mmproj*BF16*" --include="MTP/*mtp*"
+# UD-IQ2_S (7.8GB, decoder for the disaggregated prefiller experiment) was fetched 2026-11-18
+# and stays in cache - same snapshot as UD-Q4_K_XL, harmless for stock llama.cpp
+
+# disaggregated inference (ISTA-DASLab): NVFP4 prefill blocks are streamed from SSD during
+# prefill, decode runs the low-bit IQ2_S GGUF; linear projections only (embeddings/output
+# head/norms/GDN state come from the GGUF). Needs IST-DASLab/disaggregated-llama.cpp fork
+# (image disaggregated-llama.cpp:spark-full, service disaggregated-llama.cpp:8092)
+# card https://huggingface.co/ISTA-DASLab/Qwen3.8-27B-NVFP4-prefiller
+# IQ2_S variant only: 64 shards Qwen3.8-27B-ODP-IQ2_S-00001..00064-of-00064.gguf (~13.7GB total)
+# NOT USED (experiment failed 2026-11-18: 18 t/s decode / 3-4 t/s wallclock - slower than
+# stock UD-Q4_K_XL with MTP), cache cleaned, need fork llama.cpp anyway
+# hf download --max-workers=$(nproc) ISTA-DASLab/Qwen3.8-27B-NVFP4-prefiller --include "Qwen3.8-27B-ODP-IQ2_S-*"
+hf cache rm -y model/ISTA-DASLab/Qwen3.8-27B-NVFP4-prefiller
 # hf download --max-workers=$(nproc) ggml-org/Qwen3.8-27B-GGUF --include "*Q4*" --include="*mmproj*Q8*"
 hf cache rm -y model/ggml-org/Qwen3.8-27B-GGUF
 # Signal-3.8-27B = token-efficiency fine-tune of Qwen3.8-27B (vision kept, thinking by default)

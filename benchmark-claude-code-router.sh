@@ -8,6 +8,8 @@ source "${CUR_DIR}/.env"
 
 if [[ "llama.cpp" == "${AGENT_INFERENCE_SERVER}" ]]; then
   export ANTHROPIC_BASE_URL=http://127.0.0.1:8090/
+elif [[ "disaggregated-llama.cpp" == "${AGENT_INFERENCE_SERVER}" ]]; then
+  export ANTHROPIC_BASE_URL=http://127.0.0.1:8092/
 elif [[ "sglang" == "${AGENT_INFERENCE_SERVER}" ]]; then
   export ANTHROPIC_BASE_URL=http://127.0.0.1:30000/
 elif [[ "vllm" == "${AGENT_INFERENCE_SERVER}" ]]; then

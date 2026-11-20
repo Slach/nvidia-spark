@@ -95,6 +95,15 @@ cat <<EOT > ~/.claude-code-router/config.json
       ]
     },
     {
+      "name": "disaggregated-llama.cpp",
+      "api_base_url": "http://127.0.0.1:8092/v1/chat/completions",
+      "api_key": "disaggregated-llama.cpp",
+      "models": [
+        "${AGENT_MAIN_MODEL}",
+        "${AGENT_BACKGROUND_MODEL}"
+      ]
+    },
+    {
       "name": "bonsai",
       "api_base_url": "http://127.0.0.1:8091/v1/chat/completions",
       "api_key": "bonsai",

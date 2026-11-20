@@ -455,6 +455,57 @@ services:
       retries: 3
       start_period: 10s
 
+  disaggregated-llama.cpp:
+    # IST-DASLab/disaggregated-llama.cpp fork - offloaded disaggregated prefill (--odp-blocks)
+    # card https://huggingface.co/ISTA-DASLab/Qwen3.8-27B-NVFP4-prefiller
+    # NVFP4 prefill blocks (13.7GB IQ2_S variant) stream from NVMe during prefill into a
+    # 2-slot ring buffer carved out of the output head's memory (zero extra device memory),
+    # decode runs the low-bit IQ2_S decoder GGUF; linear projections only are disaggregated
+    # image built by build-disaggregated-llama.cpp-cuda13-docker.sh (-DLLAMA_BUILD_BORINGSSL=ON)
+    # profile in llama.cpp.models.ini: [ISTA-DASLab/Qwen3.8-27B-NVFP4-prefiller]
+    # stop llama.cpp (8090) first - decoder + ring + KV do NOT fit alongside another loaded model
+    image: disaggregated-llama.cpp:spark-full
+    volumes:
+    # RW (not :ro like llama.cpp/bonsai): the fork spills the output head (donor, ~521MB)
+    # to donor_backup.bin next to the ODP blocks (hardcoded snapshot dir path) and compares
+    # it on every load - backup_donor() FAILS on a read-only mount
+    - ${HOME}/.cache/huggingface:/models/huggingface:rw
+    # dedicated ini (NOT llama.cpp.models.ini): the fork-only odp-blocks key kills
+    # stock llama.cpp / prism-bonsai router at startup (strict ini re-parse)
+    - ./llama.cpp.disaggregated.ini:/etc/llama.cpp/config.ini
+    entrypoint: /app/llama-server
+    command:
+      - --models-max
+      - "1"
+      - --models-preset
+      - /etc/llama.cpp/config.ini
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8092"
+      - "--metrics"
+    ports:
+      - "127.0.0.1:8092:8092"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    networks:
+      - spark-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8092/health" ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
   vibe-kanban:
     build:
       context: .

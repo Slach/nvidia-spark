@@ -12,8 +12,16 @@ FROM ${BASE_CUDA_DEV_CONTAINER} AS build
 # The 'a' suffix is added automatically by llama.cpp's cmake for Blackwell FP4 tensor cores.
 ARG CUDA_DOCKER_ARCH=121
 
+# Extra cmake options for fork builds, e.g. -DLLAMA_BUILD_BORINGSSL=ON for the
+# IST-DASLab/disaggregated-llama.cpp fork (TLS in cpp-httplib, see build-disaggregated-llama.cpp-cuda13-docker.sh).
+# Empty by default - the stock ggml-org build is unchanged.
+ARG CMAKE_EXTRA_ARGS=""
+# BoringSSL compiles Go generators during build - set NEED_GO=1 together with -DLLAMA_BUILD_BORINGSSL=ON
+ARG NEED_GO=0
+
 RUN apt-get update && \
     apt-get install -y build-essential cmake python3 python3-pip git libcurl4-openssl-dev libgomp1 && \
+    if [ "${NEED_GO}" = "1" ]; then apt-get install -y golang-go; fi && \
     rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/local/cuda-13.3/targets/sbsa-linux/lib/stubs/libcuda.so /usr/local/cuda-13.3/targets/sbsa-linux/lib/stubs/libcuda.so.1
@@ -28,7 +36,7 @@ COPY . .
 # Force target CUDA architecture (required in Docker where no GPU is available for native detection).
 # GGML_NATIVE=OFF prevents cmake from trying -arch=native which fails without a GPU.
 # cmake regex in ggml-cuda/CMakeLists.txt converts 121 -> 121a automatically for Blackwell.
-RUN cmake -B build -DGGML_CUDA=ON -DGGML_CUDA_GRAPHS=ON -DGGML_CUDA_FORCE_MMQ=ON -DGGML_CUDA_NCCL=OFF -DGGML_NATIVE=OFF -DLLAMA_CURL=ON -DCMAKE_CUDA_ARCHITECTURES="${CUDA_DOCKER_ARCH}" && \
+RUN cmake -B build -DGGML_CUDA=ON -DGGML_CUDA_GRAPHS=ON -DGGML_CUDA_FORCE_MMQ=ON -DGGML_CUDA_NCCL=OFF -DGGML_NATIVE=OFF -DLLAMA_CURL=ON -DCMAKE_CUDA_ARCHITECTURES="${CUDA_DOCKER_ARCH}" ${CMAKE_EXTRA_ARGS} && \
     cmake --build build --config Release -j$(nproc)
 
 
