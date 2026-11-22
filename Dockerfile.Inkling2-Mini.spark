@@ -1,0 +1,34 @@
+# Unsloth llama.cpp fork for Thinking Machines Inkling 2 Mini (looped transformer).
+# The repo-root GGUFs use Unsloth's looped-layer layout + NVFP4 per-expert scales
+# (ggml type 142) that stock llama.cpp rejects, and their build pairs the DSpark
+# drafter natively. Upstream mainline alternative: Dockerfile.llama.cpp.spark built
+# from master + PR #32704/#32218 with the Mainline_Support/*.gguf_file files.
+# Prebuilt: https://github.com/unslothai/llama.cpp/releases/tag/b12588-mix-c0c3de8
+# (252MB "portable" tarball - bundles its own binaries/libs, no compile step)
+ARG UBUNTU_VERSION=24.04
+ARG CUDA_VERSION=13.3.1
+ARG BASE_CUDA_RUN_CONTAINER=nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu${UBUNTU_VERSION}
+
+FROM ${BASE_CUDA_RUN_CONTAINER}
+
+RUN apt-get update && \
+    apt-get install -y curl ca-certificates libgomp1 && \
+    apt autoremove -y && \
+    apt clean -y && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /app
+
+# tarball pre-downloaded on the host (in-docker curl stalls on this box):
+#   curl -L -o llama-b12588-mix.tar.gz https://github.com/unslothai/llama.cpp/releases/download/b12588-mix-c0c3de8/app-b12588-mix-c0c3de8-linux-arm64-cuda13-portable.tar.gz
+# expected size 252263504 bytes
+COPY llama-b12588-mix.tar.gz /tmp/llama.tar.gz
+RUN mkdir -p llama.cpp && \
+    tar -xzf /tmp/llama.tar.gz -C llama.cpp && \
+    rm -f /tmp/llama.tar.gz && \
+    ./llama.cpp/llama-server --version && \
+    # compose entrypoint expects /app/llama-server (same layout as llama.cpp:spark-full);
+    # symlink keeps the bundled-libs RPATH ($ORIGIN resolves through symlinks)
+    ln -s /app/llama.cpp/llama-server /app/llama-server
+
+ENTRYPOINT [ "/app/llama.cpp/llama-server" ]

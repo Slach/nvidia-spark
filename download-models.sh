@@ -72,6 +72,55 @@ hf download --max-workers=$(nproc) ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF -
 # needs llama.cpp release with flint arch support, see https://unsloth.ai/docs/models/flint
 hf download --max-workers=$(nproc) unsloth/flint-GGUF --include "*UD-Q4_K_XL*" --include "*imatrix*"
 
+# Thinking Machines Inkling 2 Mini = first looped transformer (26.4B total / 5.4B effective active:
+# 24 phys layers, middle 12 looped 3x = 48 cache slots each with own KV, 128 experts top-8,
+# hybrid local/global attention + short conv, relative position bias (no rope -> 1M ctx native),
+# multimodal ViT (mmproj), released 2026-11-20, Apache-2.0
+# card https://huggingface.co/unsloth/Inkling-2-Mini-GGUF
+# root GGUFs = unsloth looped layout (need unsloth fork build b12588-mix-c0c3de8, NOT this repo);
+# Mainline_Support/*.gguf_file = SAME tensors in inkling2_loop layout for mainline llama.cpp
+# (PR #32694, merged 2026-11-20 AFTER the b12360 tag) - the .gguf_file suffix is intentional,
+# rename to .gguf after download (mv keeps the blob symlink intact; a later hf download re-check
+# may re-create the .gguf_file symlink, rerun the mv loop then)
+# needs llama.cpp PR #32704 (open 2026-11-21) until merged: without it the 2nd/3rd loop passes
+# lose per-expert NVFP4 scales -> PPL 130 instead of 7.65; draft-dspark IS in mainline already
+hf download --max-workers=$(nproc) unsloth/Inkling-2-Mini-GGUF --include "Mainline_Support/*UD-IQ4_XS.gguf_file" --include "Mainline_Support/*UD-Q4_K_XL.gguf_file" --include "dspark*" --include "mmproj-BF16*"
+for f in ${HOME}/.cache/huggingface/hub/models--unsloth--Inkling-2-Mini-GGUF/snapshots/*/Mainline_Support/*.gguf_file; do
+  [ -e "${f}" ] && mv "${f}" "${f%.gguf_file}.gguf"
+done
+# ROOT files = unsloth looped layout for the unsloth fork image llama.cpp:inkling2-spark
+# (Dockerfile.Inkling2-Mini.spark, prebuilt b12588-mix-c0c3de8) - this is the recipe from
+# https://unsloth.ai/docs/models/inkling-2-mini: UD-Q4_K_XL + mmproj-F16 + dspark Q8_0 drafter.
+# NOT loadable in stock llama.cpp (NVFP4 scales, ggml type 142); mainline alternative is the
+# Mainline_Support block above for llama.cpp:spark-full
+hf download --max-workers=$(nproc) unsloth/Inkling-2-Mini-GGUF --include "Inkling-2-Mini-UD-Q4_K_XL.gguf" --include "mmproj-F16.gguf" --include "dspark-Inkling-2-Mini-Q8_0.gguf"
+
+# ORIGINAL checkpoint thinkingmachines/Inkling-2-Mini for lmsysorg/sglang:inkling-2-mini:
+# single safetensors 19.5GB (NVFP4/MXFP8) + mtp.safetensors 636MB + tiktoken/configs.
+# REGION-BLOCKED 2026-11-22: HF CDN answers "This model is not available in your region"
+# (hf-mirror.com passes the block through too) - keep the line for when the block lifts or
+# a VPN/proxy is up.
+# hf download --max-workers=$(nproc) thinkingmachines/Inkling-2-Mini
+# hf cache rm -y model/thinkingmachines/Inkling-2-Mini
+# nativ-community mirror = the SAME tensors but MLX layout (fused w13_weight split into
+# gate/up_proj, attn_res.attn_queries dropped, model.llm.* -> language_model.model.*) -
+# UNSUITABLE for lmsysorg/sglang:inkling-2-mini (KeyError on first tensor, original names
+# required); mirror deleted from cache 2026-11-22
+# hf download --max-workers=$(nproc) nativ-community/Inkling-2-Mini-nvfp4
+# hf cache rm -y model/nativ-community/Inkling-2-Mini-nvfp4
+
+# Blackfrost-AI/Inkling-2-Mini-Derisked = "behaviorally modified derivative" (DWM direction
+# ablation on some tensors) BUT structurally the ORIGINAL inkling2_loop checkpoint: single
+# 19.5GB safetensors + mtp.safetensors + hf_quant_config.json with fused w13 and original
+# tensor names -> loads in sglang:inkling-2-mini. Not byte-identical to thinkingmachines
+# original (region-blocked) - perf comparison valid, quality slightly differs
+# benchmark DGX Spark 2026-11-22 vs llama.cpp:inkling2-spark (see llama.cpp.models.ini):
+#   sglang prefill 3005 t/s @59k (llama.cpp 510 - 5.9x), decode 28.4 t/s @59k (llama.cpp 26.9
+#   with dspark spec, sglang plain), decode short ctx 37.4 (llama.cpp 33.9-39.8),
+#   RAM 105-117GB (KV pool 1.5M tokens auto-sized; llama.cpp 81GB holds a 1M-token slot),
+#   multimodal disabled by default in sglang (--enable-multimodal); compose SGLANG_SERVE_ARGS
+hf download --max-workers=$(nproc) Blackfrost-AI/Inkling-2-Mini-Derisked --include "model*.safetensors" --include "mtp.safetensors" --include "*.json" --include "*.jinja" --include "tokenizer*"
+
 # Nanbeige4.3-33B dense agent/reasoning (Llama arch, ChatML, thinking on default, native 131k ctx)
 # quantization-sensitive model: AD-Q4_K_M (Atomic Dynamic imatrix, top-1 92.6%) >> plain Q4_K_M (89.9%)
 # card https://huggingface.co/AtomicChat/Nanbeige4.3-33B-GGUF
@@ -392,6 +441,14 @@ hf download --max-workers=$(nproc) deepseek-ai/DeepSeek-OCR-2
 hf download --max-workers=$(nproc) PaddlePaddle/PaddleOCR-VL-1.5
 
 # small interesting LLMs
+# LiquidAI LFM2.5-24B-A2B = hybrid MoE (24B total / 2.45B active, 64 experts top-4,
+# 40 layers = 30 double-gated short conv + 10 GQA, native 131k ctx), agentic post-train
+# (RL inside OpenClaw/Hermes/Pi/OpenCode), card https://huggingface.co/LiquidAI/LFM2.5-24B-A2B
+# + harness-hub claude-code LoRA (RL inside Claude Code, 37MB F16 adapter GGUF, 18.7M params),
+# applied via lora-scaled in llama.cpp.models.ini - card pairs it with Q8_0 ("good default"),
+# Q4_K_M "works but drifts further from what the adapter learned against"
+hf download --max-workers=$(nproc) LiquidAI/LFM2.5-24B-A2B-GGUF --include "LFM2.5-24B-A2B-Q4_K_M.gguf" --include "LFM2.5-24B-A2B-Q8_0.gguf"
+hf download --max-workers=$(nproc) harness-hub/LFM2.5-24B-A2B-claude-code-GGUF --include "*.gguf"
 hf cache rm -y model/LiquidAI/LFM2-2.6B-Exp-GGUF
 # (typo fix 2026-11-09: missing trailing F, rm never fired)
 hf cache rm -y model/noctrex/rnj-1-instruct-GGUF

@@ -86,6 +86,7 @@ cat <<EOT > ~/.claude-code-router/config.json
       "models": [
         "${AGENT_MAIN_MODEL}",
         "${AGENT_BACKGROUND_MODEL}",
+        "unsloth/Inkling-2-Mini-26.4B-A5.4B",
         "unsloth/Qwen3.5-120B",
         "unsloth/Qwen3.5-27B",
         "unsloth/GLM-4.7-Flash-30B",
