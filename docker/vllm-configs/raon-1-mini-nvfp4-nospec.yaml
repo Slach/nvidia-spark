@@ -1,0 +1,29 @@
+# KRAFTON/Raon-1-mini-nvfp4, no speculative decoding - baseline for the DFlash2 comparison
+# (raon-1-mini-nvfp4.yaml), same target/flags minus speculative-config
+# KRAFTON/Raon-1-mini-nvfp4
+# 28.8B MoE (4.3B active: 6 routed + 1 shared of 128 experts), 25 layers = 18 Raon Delta
+# Attention (fixed-size state, no KV) + 7 gated MLA (the only KV producers), NoPE, native 262K.
+# NVFP4 weights 17.5GB, needs the krafton-ai/vllm fork (branch raon) - VLLM_IMAGE=vllm:raon,
+# see Dockerfile.vllm.raon.spark (fork's own docker/raon-spark GB10 recipe, SM 12.1).
+# flags per fork docker/raon-spark/README.md + serve.sh (128K window) and model card
+# https://huggingface.co/KRAFTON/Raon-1-mini-nvfp4
+#   - first start JIT-compiles the model's CUDA extensions (~10 min), cached in ~/.cache/vllm
+#   - --kv-cache-memory is a fixed KV budget independent of the context window (3GiB = the
+#     fork's measured default); concurrent long requests may queue
+#   - SM 12.x: Triton MLA + FlashAttention prefill, NVFP4 dense weights dequantized per call
+#   - reasoning_effort levels none..max via steering vectors (default high), no min_p/logit_bias
+#     with speculative decoding; sampling per card: temp 1.0, top_p 0.95, top_k 20, presence 1.5
+model: KRAFTON/Raon-1-mini-nvfp4
+trust-remote-code: true
+max-model-len: 131072
+max-num-batched-tokens: 2048
+max-num-seqs: 8
+gpu-memory-utilization: 0.75
+kv-cache-dtype: fp8_e4m3
+kv-cache-memory: 3221225472
+enable-prefix-caching: true
+async-scheduling: true
+reasoning-parser: raon_1
+enable-auto-tool-choice: true
+tool-call-parser: raon_1
+default-chat-template-kwargs: '{"enable_thinking":true,"truncate_history_thinking":false}'

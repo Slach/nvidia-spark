@@ -290,6 +290,13 @@ hf cache rm -y model/nvidia/NVIDIA-Nemotron-Labs-3-Puzzle-75B-A9B-NVFP4
 hf download --max-workers=$(nproc) ricursiveAI/Ripple-65B-Preview-NVFP4
 hf download --max-workers=$(nproc) ricursiveAI/Ripple-65B-Preview-DFlash2
 
+# KRAFTON Raon-1-mini (28.8B MoE, 4.3B active = 6 routed + 1 shared of 128 experts, 25 layers =
+# 18 Raon Delta Attention + 7 gated MLA, NoPE, 262K ctx), NVFP4 checkpoint 17.5GB + DFlash2
+# draft 1.4GB, needs the krafton-ai/vllm fork (vllm:raon, Dockerfile.vllm.raon.spark)
+# config docker/vllm-configs/raon-1-mini-nvfp4.yaml
+hf download --max-workers=$(nproc) KRAFTON/Raon-1-mini-nvfp4
+hf download --max-workers=$(nproc) KRAFTON/Raon-1-mini-dflash2
+
 # todo 1M context - doesn't work (stuck/OOMKilled per .env), cache cleaned 2026-11-09
 # hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-NVFP4
 # hf download --max-workers=$(nproc) poolside/Laguna-S-2.1-DFlash-NVFP4

@@ -1,0 +1,43 @@
+# KRAFTON/Raon-1-mini-nvfp4 + DFlash2 draft (KRAFTON/Raon-1-mini-dflash2)
+# 28.8B MoE (4.3B active: 6 routed + 1 shared of 128 experts), 25 layers = 18 Raon Delta
+# Attention (fixed-size state, no KV) + 7 gated MLA (the only KV producers), NoPE, native 262K.
+# NVFP4 weights 17.5GB, needs the krafton-ai/vllm fork (branch raon) - VLLM_IMAGE=vllm:raon,
+# see Dockerfile.vllm.raon.spark (fork's own docker/raon-spark GB10 recipe, SM 12.1).
+# flags per fork docker/raon-spark/README.md + serve.sh (128K window) and model card
+# https://huggingface.co/KRAFTON/Raon-1-mini-nvfp4
+#   - first start JIT-compiles the model's CUDA extensions (~10 min), cached in ~/.cache/vllm
+#   - --kv-cache-memory is a fixed KV budget independent of the context window (3GiB = the
+#     fork's measured default); concurrent long requests may queue
+#   - SM 12.x: Triton MLA + FlashAttention prefill, NVFP4 dense weights dequantized per call
+#   - reasoning_effort levels none..max via steering vectors (default high), no min_p/logit_bias
+#     with speculative decoding; sampling per card: temp 1.0, top_p 0.95, top_k 20, presence 1.5
+#   - 3 draft tokens instead of the authors' 7: measured faster on GB10, see below
+# benchmark DGX Spark 2026-11-25 (vllm:raon = fork 7dcdc8a35f, 1024 output tokens, x3 runs):
+#   DFlash2 @7 draft tokens: 50-55 t/s decode (1 seq), acceptance 1.0-1.2 of 7 - LOSES to
+#     no speculative decoding (raon-1-mini-nvfp4-nospec.yaml): 72-73 t/s
+#   DFlash2 @3 draft tokens (this config): 70-78 t/s - parity with no-spec 1 seq,
+#     slightly ahead under load (8 seqs: 269 t/s aggregate vs 232)
+#   default presence_penalty 1.5 (generation_config.json) costs ~6 t/s with DFlash2
+#     (draft no longer matches the penalized target distribution) - set it to 0 for speed
+#   aggregate decode, no-spec / spec@7 / spec@3: 2 seqs 116/114/118, 4 seqs 172/145/195,
+#     8 seqs 232/173/269 t/s
+#   prefill cold (first request per shape, JIT): 1.5-2k t/s short, ~3.1k t/s @50k tokens;
+#     kernel-warm: ~6k t/s @25-50k tokens. Model 16.4-17.8 GiB, start ~4.5 min
+model: KRAFTON/Raon-1-mini-nvfp4
+trust-remote-code: true
+max-model-len: 131072
+max-num-batched-tokens: 2048
+max-num-seqs: 8
+gpu-memory-utilization: 0.75
+kv-cache-dtype: fp8_e4m3
+kv-cache-memory: 3221225472
+enable-prefix-caching: true
+async-scheduling: true
+reasoning-parser: raon_1
+enable-auto-tool-choice: true
+tool-call-parser: raon_1
+default-chat-template-kwargs: '{"enable_thinking":true,"truncate_history_thinking":false}'
+speculative-config:
+  method: dflash
+  model: KRAFTON/Raon-1-mini-dflash2
+  num_speculative_tokens: 3
