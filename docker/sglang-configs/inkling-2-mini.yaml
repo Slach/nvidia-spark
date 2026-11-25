@@ -1,26 +1,14 @@
-# Thinking Machines Inkling 2 Mini (looped MoE 26.4B/A5.4B, 1M ctx native, multimodal)
-# image lmsysorg/sglang:inkling-2-mini (build 0.0.0.dev1+inkling2), select via SGLANG_CONFIG in .env
-# weights = Blackfrost-AI/Inkling-2-Mini-Derisked (original inkling2_loop layout, sizes
-# byte-identical to thinkingmachines/Inkling-2-Mini which is HF-region-blocked; DWM behavioral
-# edits on a few tensors - perf valid, quality slightly differs)
-# benchmark DGX Spark GB10 2026-11-22 vs llama.cpp:inkling2-spark (see llama.cpp.models.ini):
-#   prefill 3005 t/s @59k (llama.cpp 510 - 5.9x faster), decode 28.4 t/s @59k plain / 29.1 with
-#   MTP (llama.cpp 26.9 with dspark), decode short ctx 37.4 plain / 38.8 MTP, RAM 105-117GB
-#   (KV pool ~1.5M tokens auto-sized; llama.cpp 81GB holds a full 1M slot). MTP acceptance
-#   gains are eaten by draft+verify cost at long ctx - keep DSPARK for quality parity, drop
-#   --speculative-algorithm for max free RAM
-# NOTE: multimodal disabled by default in this build, add --enable-multimodal for vision
-image: lmsysorg/sglang:inkling-2-mini
-model-path: /models/huggingface/hub/models--Blackfrost-AI--Inkling-2-Mini-Derisked/snapshots/31ec2eddecfdf93c8626d9e4dfc0a2aca6070900
+# Thinking Machines Inkling 2 Mini - NATIVE sglang server config
+# (docker-compose.yaml sglang service, selected by SGLANG_CONFIG in .env, start: `docker compose up -d sglang`)
+# Keys = sglang serve CLI flags (kebab-case), booleans as bare true.
+# model-path here is informational: compose passes SGLANG_MODEL from .env on the argv
+# (the `sglang serve` CLI pre-parser requires it there, --config is ignored for it).
+# DSpark gamma is pinned to the checkpoint block size (7/8) - not tunable.
+# benchmark GB10 2026-11-22: prefill 3005 t/s @59k (5.9x llama.cpp), decode 28.4 plain /
+# 29.1 MTP @59k, 37.4 short ctx; RAM 105-117GB. llama.cpp comparison: llama.cpp.models.ini
+model-path: Blackfrost-AI/Inkling-2-Mini-Derisked
 context-length: 262144
 speculative-algorithm: DSPARK
-# draft path = the checkpoint dir: sglang picks mtp.safetensors from it and derives the draft
-# config from mtp_config in config.json (passing the .safetensors file itself fails - it
-# tries to parse it as JSON)
-speculative-draft-model-path: /models/huggingface/hub/models--Blackfrost-AI--Inkling-2-Mini-Derisked/snapshots/31ec2eddecfdf93c8626d9e4dfc0a2aca6070900
-# default DSpark draft = gamma 7 / verify 8 (block_size 8): +2% decode @59k vs plain - the
-# long-ctx draft+verify cost eats the acceptance gains; capped to 3 draft tokens (steps 2)
-# = 31.2 t/s @59k (+10% vs gamma 7's 29.1, +10% vs plain 28.4), accept ~2.3/3, short ctx
-# unchanged ~37.9 (2026-11-22 sweep) - matches llama.cpp spec-draft-n-max 3 behavior
-speculative-num-steps: 2
-speculative-num-draft-tokens: 3
+speculative-draft-model-path: Blackfrost-AI/Inkling-2-Mini-Derisked
+# multimodal disabled by default in the inkling image - enable for vision:
+# enable-multimodal: true
